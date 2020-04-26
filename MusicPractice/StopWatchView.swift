@@ -33,33 +33,27 @@ struct StopWatchView: View {
     var stopStartState: ClockState { isRunning ? .pause : .start }
     
     var body: some View {
-        ZStack {
-            
-            Color.flatWhite
-                .edgesIgnoringSafeArea(.all)
+        VStack {
+            LapsListView(laps: stopWatch.laps)
             
             VStack {
-                LapsList(laps: stopWatch.laps)
-                    .frame(height: 300)
-
-                Group {
                 Text(time)
                     .font(.title)
                 
+                HStack {
                     Button(stopStartState.rawValue.capitalized) { // start / stop button
-                    self.stopStart()
-                }
-                .buttonStyle(TimerButtonStyle(color: colors[stopStartState]!))
-
+                        self.stopStart()
+                    }
+                    .buttonStyle(TimerButtonStyle(color: colors[stopStartState]!))
+                    
                     Button(pauseResetState.rawValue.capitalized) { // start / stop button
-                    self.lapReset()
+                        self.lapReset()
+                    }
+                    .buttonStyle(TimerButtonStyle(color: colors[pauseResetState]!))
                 }
-                .buttonStyle(TimerButtonStyle(color: colors[pauseResetState]!))
-                }
-                .padding()
             }
+            .padding()
         }
-        .statusBar(hidden: true)
     }
     
     func lapReset() {
@@ -85,18 +79,18 @@ struct StopWatchView: View {
 
 
 struct TimerButtonStyle: ButtonStyle {
-
+    
     var color: Color
     
     func makeBody(configuration: Self.Configuration) -> some View {
         Circle()
             .fill(color)
-        .overlay(
-            Circle()
-                .stroke(lineWidth: 2)
-                .foregroundColor(.white)
-                .padding(4)
-                )
+            .overlay(
+                Circle()
+                    .stroke(lineWidth: 2)
+                    .foregroundColor(.white)
+                    .padding(4)
+        )
             .overlay(configuration.label
                 .foregroundColor(.white)
         )
@@ -105,32 +99,45 @@ struct TimerButtonStyle: ButtonStyle {
 }
 
 
-struct LapsList : View {
+struct LapsListView : View {
     var laps: [Lap]
     
+    var numberOfLaps: Int { laps.count }
+    var areLapsRecorded: Bool { numberOfLaps > 0 }
+    
+    
+    let header = [ "started", "ended", "elapsed" ]
     var body: some View {
         VStack {
-            HStack {
-                Text("started")
-                Spacer()
-                Text("ended")
-                Spacer()
-                Text("elapsed")
+            if numberOfLaps > 0 {
+                TitleView(row: header)
+                    .font(.headline)
             }
-            .font(.headline)
             Section {
                 ForEach(self.laps, id: \.self.start) { lap in
-                    HStack {
-                        Text(lap.from.string)
-                        Spacer()
-                        Text(lap.to.string)
-                        Spacer()
-                        Text(lap.elapsed.string)
-                    }
+                    TitleView(row: [ lap.from.string, lap.to.string, lap.elapsed.string])
                 }
             }
         }
         .padding()
+    }
+}
+
+struct TitleView: View {
+    let row: [String]
+    var titleCount : Int { row.count }
+    
+    var body: some View {
+        HStack {
+            ForEach ( 0 ..< titleCount ) { index in
+                if index > 0 {
+                    Spacer()
+                }
+                Text(self.row[index])
+            }
+            
+        }
+        
     }
 }
 
