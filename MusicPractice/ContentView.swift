@@ -9,11 +9,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var scale: Scale = .C7
+//    @Binding var scale: Scale
     
     var body: some View {
         NavigationView {
-            PracticeScaleView(selectedScale: scale.scale)
+//            PracticeScaleView(currentScale: scale)
+            Text("hello")
             .navigationBarTitle("Scale Practice")
         }
     }
