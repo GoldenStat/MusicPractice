@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PracticeScaleView: View {
     
-//    var selectedScale: MusicScale
-    @Binding var currentScale: Scale
+    @State var selectedScale: MusicScale
+//    @Binding var currentScale: MusicScale
     
     var body: some View {
         ZStack {
@@ -23,7 +23,8 @@ struct PracticeScaleView: View {
             
             /// show a picker which scale to select
 //            Text("current Scale: D7")
-            Picker("scale", selection: $currentScale.scale) {
+//            Picker("scale", selection: $currentScale.scale) {
+            Picker("scale", selection: $selectedScale) {
                 ForEach(Scale.Practice, id: \.self) { practice in
                     Text(practice.scale.rawValue)
                 }
@@ -36,13 +37,15 @@ struct PracticeScaleView: View {
             /// upon selection, show a timer button, show time how long this scale is being practiced
 
             /// show the notes for the current selection
-            Text(currentScale.scale.rawValue)
+//            Text(currentScale.scale.rawValue)
+                Text(selectedScale.rawValue)
                 .font(.largeTitle)
                 .frame(height: 80)
             HStack {
-                ForEach(currentScale.notes, id: \.self) { note in
-                    Text(note.rawValue)
-                }
+//                ForEach(currentScale.notes, id: \.self) { note in
+//                    Text(note.rawValue)
+//                }
+                Text(selectedScale.rawValue)
             }
 
             Spacer()
@@ -62,6 +65,8 @@ struct PracticeScaleView: View {
 
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
-        PracticeScaleView(currentScale: .constant(Scale.Cis7))
+//        PracticeScaleView(currentScale: .constant(Scale.Cis7))
+        PracticeScaleView(selectedScale: .C7)
+
     }
 }
