@@ -10,16 +10,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-struct Lap {
-    let from: TimeInterval
-    let to: TimeInterval
-    var elapsed: TimeInterval { to - from }
-
-    var start: String { from.longString }
-    var end: String { to.longString }
-}
-
-/// 
 extension TimeInterval {
     var longString: String {
         let centiseconds = Int(self.truncatingRemainder(dividingBy: 100))
@@ -35,13 +25,24 @@ extension TimeInterval {
     }
 }
 
+
+struct Lap {
+    let from: TimeInterval
+    let to: TimeInterval
+    var elapsed: TimeInterval { to - from }
+
+    var start: String { from.longString }
+    var end: String { to.longString }
+}
+
+
 class StopWatch : ObservableObject {
 //    var didChange = PassthroughSubject<Void, Never>()
 
     private let queue = DispatchQueue(label: "stopwatch.timer")
 
     @Published var counter : TimeInterval = 0.0
-//    @Published var elapsed: TimeInterval = 0.0
+    var elapsed: String { counter.longString }
     
     @Published var hasStarted = false
     @Published var isPaused = false
@@ -114,10 +115,4 @@ class StopWatch : ObservableObject {
         hasStarted = false
     }
     
-}
-
-struct StopWatch_Previews: PreviewProvider {
-    static var previews: some View {
-        PracticeScaleView(session: ScalePractice.sample)
-    }
 }
