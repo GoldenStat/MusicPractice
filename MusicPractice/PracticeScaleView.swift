@@ -10,8 +10,13 @@ import SwiftUI
 
 struct PracticeScaleView: View {
     
-    @State var selectedScale: MusicScale
-//    @Binding var currentScale: MusicScale
+    var selectedScale: MusicScale { currentScale.scale }
+    var currentNotes: [Notes] { currentScale.notes }
+    @State var currentScale: Scale
+    
+    func notes(scale: MusicScale) -> [ Notes ] {
+        return Scale.notes(scale: scale)
+    }
     
     var body: some View {
         ZStack {
@@ -22,20 +27,12 @@ struct PracticeScaleView: View {
             Text("Choose a scale to practice")
             
             /// show a picker which scale to select
-//            Text("current Scale: D7")
-//            Picker("scale", selection: $currentScale.scale) {
-            Picker("currentScale", selection: $selectedScale) {
+            Picker("currentScale", selection: $currentScale.scale) {
                 ForEach(MusicScale.allCases, id: \.self) { scale in
                     Text(scale.rawValue)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-//            Picker("scale", selection: $selectedScale) {
-//                ForEach(Scale.Practice, id: \.self) { practice in
-//                    Text(practice.scale.rawValue)
-//                }
-//            }
-//            .pickerStyle(SegmentedPickerStyle())
             .padding()
 
             /// upon selection, show a summary of progress so far
@@ -48,17 +45,15 @@ struct PracticeScaleView: View {
                 .font(.largeTitle)
                 .frame(height: 80)
             HStack {
-//                ForEach(currentScale.notes, id: \.self) { note in
-//                    Text(note.rawValue)
-//                }
-                Text(selectedScale.rawValue)
+                ForEach(self.notes(scale: selectedScale), id: \.self) { note in
+                    Text(note.rawValue)
+                }
+//                Text(selectedScale.rawValue)
             }
 
             Spacer()
             
             StopWatchView()
-            
-            
             }
         }
         .statusBar(hidden: true)
@@ -71,8 +66,8 @@ struct PracticeScaleView: View {
 
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
-//        PracticeScaleView(currentScale: .constant(Scale.Cis7))
-        PracticeScaleView(selectedScale: .C7)
+        PracticeScaleView(currentScale: Scale.Cis7)
+//        PracticeScaleView(selectedScale: .C7)
 
     }
 }
