@@ -80,40 +80,42 @@ class StopWatch : ObservableObject {
         sourceTimer?.resume()
     }
 
-
+    
     func start() {
         /// if we don't have a atimer, create one
-        /// then resume operation
-
+        /// the resume operation
         isStopped = false
         hasStarted = true
         
-        // create a timer if none exists
-        if sourceTimer == nil {
+        if let _ = sourceTimer {
             sourceTimer = DispatchSource.makeTimerSource(
-                flags: DispatchSource.TimerFlags.strict,
+                flags: .strict,
                 queue: Self.queue)
         }
         
-        // give our timer an event to execute
-        sourceTimer?.setEventHandler {
-            self.counter += 1
+        resumeTimer()
+        
+    }
+    
+    private func resumeTimer() {
+        self.sourceTimer?.setEventHandler {
+            self.updateTimer()
         }
         
-        // program the timer
-        sourceTimer?.schedule(deadline: .now(),
-                              repeating: 0.01)
-
-        // start it
-        sourceTimer?.resume()
-
+        self.sourceTimer?.schedule(deadline: .now(),
+                                   repeating: 0.01)
+        self.sourceTimer?.resume()
     }
-                
+    
+    private func updateTimer() {
+        self.counter += 1
+    }
+    
     func stop() {
         isStopped = true
         hasStarted = false
-//        sourceTimer = nil
     }
+    
 }
 
 struct StopWatch_Previews: PreviewProvider {
