@@ -24,12 +24,18 @@ struct PracticeScaleView: View {
             /// show a picker which scale to select
 //            Text("current Scale: D7")
 //            Picker("scale", selection: $currentScale.scale) {
-            Picker("scale", selection: $selectedScale) {
-                ForEach(Scale.Practice, id: \.self) { practice in
-                    Text(practice.scale.rawValue)
+            Picker("currentScale", selection: $selectedScale) {
+                ForEach(MusicScale.allCases, id: \.self) { scale in
+                    Text(scale.rawValue)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
+//            Picker("scale", selection: $selectedScale) {
+//                ForEach(Scale.Practice, id: \.self) { practice in
+//                    Text(practice.scale.rawValue)
+//                }
+//            }
+//            .pickerStyle(SegmentedPickerStyle())
             .padding()
 
             /// upon selection, show a summary of progress so far
