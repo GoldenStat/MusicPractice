@@ -18,8 +18,7 @@ struct PracticeScaleView: View {
     
     @ObservedObject var stopWatch = StopWatch()
     var isRunning: Bool { stopWatch.isRunning }
-    var elapsed: TimeInterval { stopWatch.counter }
-    var time: String { String(elapsed) }
+    var time: String { stopWatch.elapsed }
     
     enum ClockState : String {
         case pause, start, lap, reset
@@ -41,20 +40,24 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
+                LapsList(laps: stopWatch.laps)
+                    .frame(height: 300)
+
+                Group {
                 Text(time)
                     .font(.title)
                 
-                Button(stopStartState.rawValue) { // start / stop button
+                    Button(stopStartState.rawValue.capitalized) { // start / stop button
                     self.stopStart()
                 }
                 .buttonStyle(TimerButtonStyle(color: colors[stopStartState]!))
 
-                Button(pauseResetState.rawValue) { // start / stop button
+                    Button(pauseResetState.rawValue.capitalized) { // start / stop button
                     self.lapReset()
                 }
                 .buttonStyle(TimerButtonStyle(color: colors[pauseResetState]!))
-
-                LapsList(laps: stopWatch.laps)
+                }
+                .padding()
             }
         }
         .statusBar(hidden: true)
@@ -107,17 +110,31 @@ struct LapsList : View {
     var laps: [Lap]
     
     var body: some View {
-        List {
-            ForEach(self.laps, id: \.self.start) { lap in
-                HStack {
-                Text("started: \(lap.start)")
-                Text("ended: \(lap.end)")
-                Text("elapsed: \(lap.elapsed)")
+        VStack {
+            HStack {
+                Text("started")
+                Spacer()
+                Text("ended")
+                Spacer()
+                Text("elapsed")
+            }
+            .font(.headline)
+            Section {
+                ForEach(self.laps, id: \.self.start) { lap in
+                    HStack {
+                        Text(lap.from.string)
+                        Spacer()
+                        Text(lap.to.string)
+                        Spacer()
+                        Text(lap.elapsed.string)
+                    }
                 }
             }
         }
+        .padding()
     }
 }
+
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
         PracticeScaleView(session: ScalePractice.sample)

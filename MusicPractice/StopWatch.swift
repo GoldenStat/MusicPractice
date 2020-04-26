@@ -11,9 +11,28 @@ import Combine
 import SwiftUI
 
 struct Lap {
-    let start: TimeInterval
-    let end: TimeInterval
-    var elapsed: TimeInterval { end - start }
+    let from: TimeInterval
+    let to: TimeInterval
+    var elapsed: TimeInterval { to - from }
+
+    var start: String { from.longString }
+    var end: String { to.longString }
+}
+
+/// 
+extension TimeInterval {
+    var longString: String {
+        let centiseconds = Int(self.truncatingRemainder(dividingBy: 100))
+        return String(format:"\(string).%02d",centiseconds)
+    }
+    
+    var string: String {
+        let seconds = Int(self) / 100
+        let minutes = seconds / 60
+        let hours = minutes / 60
+
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
 }
 
 class StopWatch : ObservableObject {
@@ -21,9 +40,11 @@ class StopWatch : ObservableObject {
 
     static private let queue = DispatchQueue(label: "stopwatch.timer")
 
-    @Published var counter : TimeInterval = 0.0
-    @Published var isPaused = false
+    @State private var counter : TimeInterval = 0.0
+    var elapsed: String { counter.longString }
+    
     @Published var hasStarted = false
+    @Published var isPaused = false
     @Published var isStopped = true
         { didSet { if isStopped { isPaused = false } } }
     @Published var laps = [Lap]()
@@ -35,19 +56,19 @@ class StopWatch : ObservableObject {
 
     
     func lap() {
-        let newLap = Lap(start: started, end: counter)
+        let newLap = Lap(from: started, to: counter)
         laps.append(newLap)
         started = counter
     }
     
     func reset() {
         sourceTimer = nil
+        started = 0.0
         counter = 0.0
+        hasStarted = false
         isPaused = false
         isStopped = true
-        hasStarted = false
         laps = []
-        started = 0.0
     }
     
     func pause() {
@@ -93,6 +114,10 @@ class StopWatch : ObservableObject {
         hasStarted = false
 //        sourceTimer = nil
     }
-    
-    
+}
+
+struct StopWatch_Previews: PreviewProvider {
+    static var previews: some View {
+        PracticeScaleView(session: ScalePractice.sample)
+    }
 }
