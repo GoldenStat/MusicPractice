@@ -18,7 +18,7 @@ struct PracticeScaleView: View {
     
     @ObservedObject var stopWatch = StopWatch()
     var isRunning: Bool { stopWatch.isRunning }
-    var time: String { stopWatch.elapsed }
+    var time: String { stopWatch.counter.longString }
     
     enum ClockState : String {
         case pause, start, lap, reset
