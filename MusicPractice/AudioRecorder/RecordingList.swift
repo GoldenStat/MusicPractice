@@ -57,7 +57,7 @@ struct RecordingRow: View {
             Text("\(audioURL.lastPathComponent)")
             Spacer()
             Button(action: {
-                self.audioPlayer.togglePlayback(audio: audioURL)
+                self.audioPlayer.togglePlayback(audio: self.audioURL)
             }) {
                 Image(systemName: symbol[startPauseButtonState]!)
             }

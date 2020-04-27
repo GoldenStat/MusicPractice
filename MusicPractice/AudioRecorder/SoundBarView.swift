@@ -20,7 +20,6 @@ struct SoundBarView: View {
                 .fill(LinearGradient(gradient: Gradient(colors: [.purple, .blue]), startPoint: .top, endPoint: .bottom))
                 .frame(height: value)
             .padding(2)
-            //                    .frame(width: ( geom.size.width - CGFloat(numberOfSamples) * 4 ) / CGFloat(numberOfSamples))
         }
     }
 }
