@@ -21,6 +21,11 @@
 		415CF39E24505DAA008D6E2A /* StopWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF39D24505DAA008D6E2A /* StopWatchView.swift */; };
 		419F5D042450D76C0006576A /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D032450D76C0006576A /* StopWatch.swift */; };
 		419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D112455A4680006576A /* PracticeScaleView.swift */; };
+		419F5D1624562D460006576A /* AudiotrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D1524562D460006576A /* AudiotrackView.swift */; };
+		419F5D18245630820006576A /* RecordingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D17245630820006576A /* RecordingList.swift */; };
+		41E1F5C72457024200183C7F /* RecordingDataMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5C62457024200183C7F /* RecordingDataMode.swift */; };
+		41E1F5C92457045500183C7F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5C82457045500183C7F /* Helper.swift */; };
+		41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CA245714FC00183C7F /* AudioPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +45,11 @@
 		415CF39D24505DAA008D6E2A /* StopWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchView.swift; sourceTree = "<group>"; };
 		419F5D032450D76C0006576A /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		419F5D112455A4680006576A /* PracticeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeScaleView.swift; sourceTree = "<group>"; };
+		419F5D1524562D460006576A /* AudiotrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiotrackView.swift; sourceTree = "<group>"; };
+		419F5D17245630820006576A /* RecordingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingList.swift; sourceTree = "<group>"; };
+		41E1F5C62457024200183C7F /* RecordingDataMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataMode.swift; sourceTree = "<group>"; };
+		41E1F5C82457045500183C7F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		41E1F5CA245714FC00183C7F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,7 @@
 		415CF36F245057FD008D6E2A = {
 			isa = PBXGroup;
 			children = (
+				41E1F5C82457045500183C7F /* Helper.swift */,
 				415CF37A245057FD008D6E2A /* MusicPractice */,
 				415CF379245057FD008D6E2A /* Products */,
 			);
@@ -78,6 +89,10 @@
 				419F5D032450D76C0006576A /* StopWatch.swift */,
 				415CF39D24505DAA008D6E2A /* StopWatchView.swift */,
 				419F5D112455A4680006576A /* PracticeScaleView.swift */,
+				419F5D1524562D460006576A /* AudiotrackView.swift */,
+				41E1F5CA245714FC00183C7F /* AudioPlayer.swift */,
+				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
+				419F5D17245630820006576A /* RecordingList.swift */,
 				415CF39624505924008D6E2A /* Data */,
 				415CF38424505809008D6E2A /* Assets.xcassets */,
 				415CF38924505809008D6E2A /* LaunchScreen.storyboard */,
@@ -180,11 +195,16 @@
 			files = (
 				415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */,
 				419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */,
+				41E1F5C92457045500183C7F /* Helper.swift in Sources */,
 				415CF39C24505BFE008D6E2A /* MusicTrack.swift in Sources */,
 				415CF398245059AF008D6E2A /* MusicScale.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
+				419F5D18245630820006576A /* RecordingList.swift in Sources */,
 				415CF39524505914008D6E2A /* ScalePractice.swift in Sources */,
+				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
+				41E1F5C72457024200183C7F /* RecordingDataMode.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,
+				41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */,
 				415CF383245057FD008D6E2A /* ContentView.swift in Sources */,
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,
 				415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */,

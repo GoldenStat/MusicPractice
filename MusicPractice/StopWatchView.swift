@@ -22,6 +22,7 @@ struct StopWatchView: View {
     enum ClockState : String {
         case pause, start, lap, reset
     }
+    
     var colors : [ClockState:Color] = [
         .pause: .red,
         .start: .green,

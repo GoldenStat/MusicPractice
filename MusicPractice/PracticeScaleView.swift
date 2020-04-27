@@ -12,7 +12,10 @@ struct PracticeScaleView: View {
     
     var selectedScale: MusicScale { currentScale.scale }
     var currentNotes: [Notes] { currentScale.notes }
-    @State var currentScale: Scale
+    @State var currentScale: Scale { willSet {
+        recordLaps()
+        }}
+    @State var recordedLaps: [ Scale: [Lap] ] = [:]
     
     func notes(scale: MusicScale) -> [ Notes ] {
         return Scale.notes(scale: scale)
@@ -35,12 +38,7 @@ struct PracticeScaleView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding()
 
-            /// upon selection, show a summary of progress so far
-            /// load History()
-            /// upon selection, show a timer button, show time how long this scale is being practiced
-
             /// show the notes for the current selection
-//            Text(currentScale.scale.rawValue)
                 Text(selectedScale.rawValue)
                 .font(.largeTitle)
                 .frame(height: 80)
@@ -48,7 +46,6 @@ struct PracticeScaleView: View {
                 ForEach(self.notes(scale: selectedScale), id: \.self) { note in
                     Text(note.rawValue)
                 }
-//                Text(selectedScale.rawValue)
             }
 
             Spacer()
@@ -57,6 +54,11 @@ struct PracticeScaleView: View {
             }
         }
         .statusBar(hidden: true)
+    }
+    
+    
+    func recordLaps() {
+        
     }
     
     func load(_ scale: MusicScale) {
