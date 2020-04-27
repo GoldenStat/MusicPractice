@@ -57,6 +57,7 @@ struct RecordingRow: View {
     }
 
     func startStopPlaying() {
+        audioPlayer.togglePlayback(audio: audioURL)
     }
     
 }
