@@ -57,22 +57,16 @@ struct RecordingRow: View {
             Text("\(audioURL.lastPathComponent)")
             Spacer()
             Button(action: {
-                self.startStopPlaying()
+                self.audioPlayer.togglePlayback(audio: audioURL)
             }) {
                 Image(systemName: symbol[startPauseButtonState]!)
             }
-//                      RecordingList(recorder: recorder)
         }
     }
-
-    func startStopPlaying() {
-        audioPlayer.togglePlayback(audio: audioURL)
-    }
-    
 }
 
 struct RecordingList_Previews: PreviewProvider {
     static var previews: some View {
-        RecordingList(recorder: AudioRecorder())
+        RecordingList(recorder: AudioRecorder(numberOfSamples: 10))
     }
 }

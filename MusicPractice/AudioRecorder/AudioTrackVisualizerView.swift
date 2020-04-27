@@ -15,6 +15,7 @@ struct AudioTrackVisualizerView: View {
     var body: some View {
         HStack {
             ForEach(recorder.soundSamples, id: \.self) { level in
+//                SoundBarView(value: self.normalizeSoundLevel(level: level))
                 SoundBarView(value: self.normalizeSoundLevel(level: level))
             }
         }
@@ -31,9 +32,7 @@ struct AudioTrackVisualizerView: View {
 struct AudioTrackVisualizerView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            AudioTrackVisualizerView(recorder: AudioRecorder())
-            
-            
+            AudioTrackVisualizerView(recorder: AudioRecorder(numberOfSamples: 10))
         }
     }
 }

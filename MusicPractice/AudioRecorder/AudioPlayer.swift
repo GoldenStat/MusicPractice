@@ -12,9 +12,7 @@ import Combine
 import AVFoundation
 
 class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
-//    let objectWillChange = PassthroughSubject<AudioPlayer,Never>()
-    
-//    var isPlaying = false { didSet { objectWillChange.send(self) } }
+
     @Published var isPlaying = false
     var audioPlayer: AVAudioPlayer!
     

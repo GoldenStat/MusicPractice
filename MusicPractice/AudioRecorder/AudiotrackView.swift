@@ -55,6 +55,6 @@ struct ToggleButton: View {
 
 struct AudiotrackView_Previews: PreviewProvider {
     static var previews: some View {
-        AudiotrackView(recorder: AudioRecorder())
+        AudiotrackView(recorder: AudioRecorder(numberOfSamples: 10))
     }
 }
