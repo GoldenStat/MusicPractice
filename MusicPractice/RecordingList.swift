@@ -17,8 +17,20 @@ struct RecordingList: View {
                 track in
                 RecordingRow(audioURL: track.fileURL)
             }
+            .onDelete(perform: delete)
         }
     }
+    
+    func delete(at offsets: IndexSet) {
+        var urlsToDelete = [URL]()
+        
+        for index in offsets {
+            urlsToDelete.append(recorder.recordings[index].fileURL)
+        }
+        
+        recorder.deleteRecording(urlsToDelete: urlsToDelete)
+    }
+
 }
 
 struct RecordingRow: View {
@@ -39,10 +51,7 @@ struct RecordingRow: View {
     var startPauseButtonState: ButtonState { audioPlayer.isPlaying ? .stop : .start }
     var startStopButtonText: String { "\(startPauseButtonState.rawValue.capitalized) playing audio"
     }
-    
 
-            
-    
     var body: some View {
         HStack {
             Text("\(audioURL.lastPathComponent)")

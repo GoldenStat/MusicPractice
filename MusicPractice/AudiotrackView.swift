@@ -75,6 +75,17 @@ class AudioRecorder: NSObject, ObservableObject {
         recordings.sort(by: { $0.created.compare($1.created)  == .orderedAscending } )
         objectWillChange.send(self)
     }
+    
+    func deleteRecording(urlsToDelete: [URL]) {
+        for url in urlsToDelete {
+            do {
+                try FileManager.default.removeItem(at: url)
+            } catch {
+                print("failed to delete recording <\(url)>")
+            }
+        }
+        fetchRecordings()
+    }
 }
 
 extension Date

@@ -16,6 +16,7 @@ struct ContentView: View {
 //            PracticeScaleView(currentScale: scale)
             Text("hello")
             .navigationBarTitle("Scale Practice")
+                .navigationBarItems(trailing: EditButton())
         }
     }
 }
