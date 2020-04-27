@@ -12,21 +12,22 @@ import Combine
 import AVFoundation
 
 class AudioRecorder: NSObject, ObservableObject {
-//    let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
+    let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
     
     var audioRecorder: AVAudioRecorder!
     var recordings = [Recording]()
-//    var isRecording: Bool = false { didSet { objectWillChange.send(self) } }
-    @Published var isRecording: Bool = false
+    var isRecording: Bool = false { didSet { objectWillChange.send(self) } }
+//    @Published var isRecording: Bool = false
 
     var timer : Timer?
     @Published var soundSamples = [Float]()
-    var numberOfSamples: Int = 64
+    var numberOfSamples: Int = 10
     var currentSample = 0
     
     override init() {
         super.init()
         fetchRecordings()
+        soundSamples = [Float].init(repeating: 0, count: numberOfSamples)
     }
     
     func toggleRecording() {
@@ -66,9 +67,9 @@ class AudioRecorder: NSObject, ObservableObject {
             audioRecorder.isMeteringEnabled = true
             audioRecorder.record()
             /// initialize timer to record sound meters
-            timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
-                self.updateSoundMeters()
-            }
+//            timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
+//                self.updateSoundMeters()
+//            }
             
             isRecording = true
         } catch {
@@ -89,7 +90,7 @@ class AudioRecorder: NSObject, ObservableObject {
         }
         
         recordings.sort(by: { $0.created.compare($1.created)  == .orderedAscending } )
-        objectWillChange.send()
+        objectWillChange.send(self)
     }
     
     func deleteRecordings(urlsToDelete: [URL]) {
@@ -108,6 +109,10 @@ class AudioRecorder: NSObject, ObservableObject {
         soundSamples[currentSample] = audioRecorder.averagePower(forChannel: 0)
         currentSample = (currentSample + 1) % numberOfSamples
     }
+    
+//    deinit {
+//        stop()
+//    }
 }
 
 extension Date

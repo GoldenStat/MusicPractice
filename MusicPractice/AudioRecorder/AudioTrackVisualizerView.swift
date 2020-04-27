@@ -9,13 +9,31 @@
 import SwiftUI
 
 struct AudioTrackVisualizerView: View {
+    
+    @ObservedObject var recorder: AudioRecorder
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            ForEach(recorder.soundSamples, id: \.self) { level in
+                SoundBarView(value: self.normalizeSoundLevel(level: level))
+            }
+        }
     }
+
+    private func normalizeSoundLevel(level: Float) -> CGFloat {
+        let level = max(0.2, CGFloat(level) + 50) / 2 // between 0.1 and 25
+        
+        return CGFloat(level * (300 / 25)) // scaled to max at 300 (our height of our bar)
+    }
+
 }
 
 struct AudioTrackVisualizerView_Previews: PreviewProvider {
     static var previews: some View {
-        AudioTrackVisualizerView()
+        VStack {
+            AudioTrackVisualizerView(recorder: AudioRecorder())
+            
+            
+        }
     }
 }

@@ -8,11 +8,31 @@
 
 import SwiftUI
 
-
-
 struct AudiotrackView: View {
     @ObservedObject var recorder: AudioRecorder
+                
+    var body: some View {
+        VStack {
+            RecordingList(recorder: recorder)
             
+            AudioTrackVisualizerView(recorder: recorder)
+                .frame(height: 300)
+            
+            ToggleButton(recorder: recorder)
+        }
+    }
+    
+}
+
+struct ToggleButton: View {
+
+    @ObservedObject var recorder: AudioRecorder
+    
+    var isRunning : Bool { recorder.isRecording }
+    func toggle() {
+        recorder.toggleRecording()
+    }
+    
     enum ButtonState : String {
         case start, stop
     }
@@ -22,21 +42,14 @@ struct AudiotrackView: View {
         .stop: .red,
     ]
     
-    var startStopButtonState: ButtonState { recorder.isRecording ? .stop : .start }
-    
+    var buttonState: ButtonState { isRunning ? .stop : .start }
+    var buttonStateColor: Color { colors[buttonState]! }
+
     var body: some View {
-        VStack {
-            RecordingList(recorder: recorder)
-            
-            Button(startStopButtonState.rawValue.capitalized) {
-                self.startStopRecording()
-            }
-            .buttonStyle(TimerButtonStyle(color: colors[startStopButtonState]!))
+        Button(buttonState.rawValue.capitalized) {
+            self.toggle()
         }
-    }
-    
-    func startStopRecording() {
-        recorder.toggleRecording()
+        .buttonStyle(TimerButtonStyle(color: buttonStateColor))
     }
 }
 
