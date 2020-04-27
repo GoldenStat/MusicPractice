@@ -27,6 +27,7 @@
 		41E1F5C92457045500183C7F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5C82457045500183C7F /* Helper.swift */; };
 		41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CA245714FC00183C7F /* AudioPlayer.swift */; };
 		41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CD2457311E00183C7F /* AudioRecorder.swift */; };
+		41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		41E1F5C82457045500183C7F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		41E1F5CA245714FC00183C7F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		41E1F5CD2457311E00183C7F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrackVisualizerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,10 +126,11 @@
 		41E1F5CC245730B400183C7F /* AudioRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
 				419F5D1524562D460006576A /* AudiotrackView.swift */,
+				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
 				41E1F5CD2457311E00183C7F /* AudioRecorder.swift */,
 				41E1F5CA245714FC00183C7F /* AudioPlayer.swift */,
-				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
 				419F5D17245630820006576A /* RecordingList.swift */,
 			);
 			path = AudioRecorder;
@@ -221,6 +224,7 @@
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,
 				415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */,
 				415CF39E24505DAA008D6E2A /* StopWatchView.swift in Sources */,
+				41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

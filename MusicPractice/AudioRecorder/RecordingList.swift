@@ -28,7 +28,7 @@ struct RecordingList: View {
             urlsToDelete.append(recorder.recordings[index].fileURL)
         }
         
-        recorder.deleteRecording(urlsToDelete: urlsToDelete)
+        recorder.deleteRecordings(urlsToDelete: urlsToDelete)
     }
 
 }

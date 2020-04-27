@@ -12,20 +12,31 @@ import Combine
 import AVFoundation
 
 class AudioRecorder: NSObject, ObservableObject {
-    let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
+//    let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
     
     var audioRecorder: AVAudioRecorder!
     var recordings = [Recording]()
-    var isRecording: Bool = false { didSet { objectWillChange.send(self) } }
-    
-    func stop() {
-        audioRecorder.stop()
-        isRecording = false
-        fetchRecordings()
-    }
+//    var isRecording: Bool = false { didSet { objectWillChange.send(self) } }
+    @Published var isRecording: Bool = false
+
+    var timer : Timer?
+    @Published var soundSamples = [Float]()
+    var numberOfSamples: Int = 64
+    var currentSample = 0
     
     override init() {
         super.init()
+        fetchRecordings()
+    }
+    
+    func toggleRecording() {
+        isRecording ? stop() : start()
+    }
+    
+    func stop() {
+        timer?.invalidate()
+        audioRecorder.stop()
+        isRecording = false
         fetchRecordings()
     }
     
@@ -52,7 +63,12 @@ class AudioRecorder: NSObject, ObservableObject {
         
         do {
             audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder.isMeteringEnabled = true
             audioRecorder.record()
+            /// initialize timer to record sound meters
+            timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
+                self.updateSoundMeters()
+            }
             
             isRecording = true
         } catch {
@@ -73,10 +89,10 @@ class AudioRecorder: NSObject, ObservableObject {
         }
         
         recordings.sort(by: { $0.created.compare($1.created)  == .orderedAscending } )
-        objectWillChange.send(self)
+        objectWillChange.send()
     }
     
-    func deleteRecording(urlsToDelete: [URL]) {
+    func deleteRecordings(urlsToDelete: [URL]) {
         for url in urlsToDelete {
             do {
                 try FileManager.default.removeItem(at: url)
@@ -85,6 +101,12 @@ class AudioRecorder: NSObject, ObservableObject {
             }
         }
         fetchRecordings()
+    }
+        
+    func updateSoundMeters() {
+        audioRecorder.updateMeters()
+        soundSamples[currentSample] = audioRecorder.averagePower(forChannel: 0)
+        currentSample = (currentSample + 1) % numberOfSamples
     }
 }
 
