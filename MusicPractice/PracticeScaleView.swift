@@ -27,7 +27,9 @@ struct PracticeScaleView: View {
             Color.flatWhite
                 .edgesIgnoringSafeArea(.all)
         VStack {
+            Group {
             Text("Choose a scale to practice")
+                .font(.title)
             
             /// show a picker which scale to select
             Picker("currentScale", selection: $currentScale.scale) {
@@ -39,18 +41,22 @@ struct PracticeScaleView: View {
             .padding()
 
             /// show the notes for the current selection
-                Text(selectedScale.rawValue)
+            Text(selectedScale.rawValue)
                 .font(.largeTitle)
                 .frame(height: 80)
+            
             HStack {
                 ForEach(self.notes(scale: selectedScale), id: \.self) { note in
                     Text(note.rawValue)
                 }
             }
+            }
 
             Spacer()
-            
+            Group {
+                AudiotrackView(recorder: AudioRecorder())
             StopWatchView()
+            }
             }
         }
         .statusBar(hidden: true)

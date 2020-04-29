@@ -33,7 +33,7 @@ struct AudioTrackVisualizerView: View {
 struct AudioTrackVisualizerView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            AudioTrackVisualizerView(recorder: AudioRecorder(numberOfSamples: 20))
+            AudioTrackVisualizerView(recorder: AudioRecorder())
         }
     }
 }

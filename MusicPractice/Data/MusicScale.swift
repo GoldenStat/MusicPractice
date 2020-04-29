@@ -29,8 +29,6 @@ struct Scale : Hashable {
             return [.e, .gis, .h, .dis]
         case .F7:
             return [.f, .a, .cis, .e]
-        default:
-            return []
         }
     }
 

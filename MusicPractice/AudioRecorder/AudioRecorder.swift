@@ -11,6 +11,8 @@ import SwiftUI
 import Combine
 import AVFoundation
 
+let numberOfSamples = 20
+
 class AudioRecorder: NSObject, ObservableObject {
     
     var audioRecorder: AVAudioRecorder!
@@ -19,13 +21,11 @@ class AudioRecorder: NSObject, ObservableObject {
 
     var timer : Timer?
     @Published var soundSamples: [Float]
-    var numberOfSamples: Int
     var currentSample: Int
     
-    init(numberOfSamples: Int) {
+    override init() {
         soundSamples = [Float](repeating: .zero, count: numberOfSamples)
         currentSample = 0
-        self.numberOfSamples = numberOfSamples
         super.init()
         fetchRecordings()
     }

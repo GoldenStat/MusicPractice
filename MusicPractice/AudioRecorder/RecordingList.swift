@@ -67,6 +67,6 @@ struct RecordingRow: View {
 
 struct RecordingList_Previews: PreviewProvider {
     static var previews: some View {
-        RecordingList(recorder: AudioRecorder(numberOfSamples: 10))
+        RecordingList(recorder: AudioRecorder())
     }
 }
