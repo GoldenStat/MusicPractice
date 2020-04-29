@@ -16,15 +16,15 @@ struct AudiotrackView: View {
             RecordingList(recorder: recorder)
             
             AudioTrackVisualizerView(recorder: recorder)
-                .frame(height: 300)
+//                .frame(height: 300)
             
-            ToggleButton(recorder: recorder)
+            AudioRecorderButton(recorder: recorder)
         }
     }
     
 }
 
-struct ToggleButton: View {
+struct AudioRecorderButton: View {
 
     @ObservedObject var recorder: AudioRecorder
     

@@ -95,7 +95,7 @@ struct TimerButtonStyle: ButtonStyle {
             .overlay(configuration.label
                 .foregroundColor(.white)
         )
-            .frame(width: 75, height: 75)
+            .frame(maxWidth: 75, maxHeight: 75)
     }
 }
 

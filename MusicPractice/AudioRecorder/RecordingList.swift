@@ -12,7 +12,7 @@ struct RecordingList: View {
     @ObservedObject var recorder: AudioRecorder
     
     var body: some View {
-        List {
+        ScrollView {
             ForEach(recorder.recordings, id: \.created) {
                 track in
                 RecordingRow(audioURL: track.fileURL)

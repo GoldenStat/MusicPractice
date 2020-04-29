@@ -26,37 +26,36 @@ struct PracticeScaleView: View {
             
             Color.flatWhite
                 .edgesIgnoringSafeArea(.all)
-        VStack {
-            Group {
-            Text("Choose a scale to practice")
-                .font(.title)
-            
-            /// show a picker which scale to select
-            Picker("currentScale", selection: $currentScale.scale) {
-                ForEach(MusicScale.allCases, id: \.self) { scale in
-                    Text(scale.rawValue)
+            VStack {
+                Group {
+                    Text("Choose a scale to practice")
+                        .font(.title)
+                    
+                    /// show a picker which scale to select
+                    Picker("currentScale", selection: $currentScale.scale) {
+                        ForEach(MusicScale.allCases, id: \.self) { scale in
+                            Text(scale.rawValue)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+                    
+                    /// show the notes for the current selection
+                    Text(selectedScale.rawValue)
+                        .font(.largeTitle)
+                    
+                    HStack {
+                        ForEach(self.notes(scale: selectedScale), id: \.self) { note in
+                            Text(note.rawValue)
+                        }
+                    }
                 }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-
-            /// show the notes for the current selection
-            Text(selectedScale.rawValue)
-                .font(.largeTitle)
-                .frame(height: 80)
-            
-            HStack {
-                ForEach(self.notes(scale: selectedScale), id: \.self) { note in
-                    Text(note.rawValue)
+                
+                Spacer()
+                Group {
+                    AudiotrackView(recorder: AudioRecorder())
+                    StopWatchView()
                 }
-            }
-            }
-
-            Spacer()
-            Group {
-                AudiotrackView(recorder: AudioRecorder())
-            StopWatchView()
-            }
             }
         }
         .statusBar(hidden: true)
@@ -75,7 +74,7 @@ struct PracticeScaleView: View {
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
         PracticeScaleView(currentScale: Scale.Cis7)
-//        PracticeScaleView(selectedScale: .C7)
-
+        //        PracticeScaleView(selectedScale: .C7)
+        
     }
 }
