@@ -62,6 +62,26 @@ class StopWatch : ObservableObject {
         started = counter
     }
     
+    func toggleLapReset() {
+        if isRunning {
+            lap()
+        } else {
+            reset()
+        }
+    }
+    
+    func toggleStopStart() {
+        if isRunning {
+            pause()
+        } else {
+            if hasStarted {
+                resume()
+            } else {
+                start()
+            }
+        }
+    }
+
     func reset() {
         sourceTimer = nil
         started = 0.0
@@ -80,7 +100,6 @@ class StopWatch : ObservableObject {
         isPaused = false
         sourceTimer?.resume()
     }
-
     
     func start() {
          /// if we don't have a atimer, create one

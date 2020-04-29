@@ -29,6 +29,7 @@
 		41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CD2457311E00183C7F /* AudioRecorder.swift */; };
 		41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */; };
 		41E1F5D224573A9E00183C7F /* SoundBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5D124573A9E00183C7F /* SoundBarView.swift */; };
+		41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		41E1F5CD2457311E00183C7F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrackVisualizerView.swift; sourceTree = "<group>"; };
 		41E1F5D124573A9E00183C7F /* SoundBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundBarView.swift; sourceTree = "<group>"; };
+		41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrackTimerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				41E1F5D124573A9E00183C7F /* SoundBarView.swift */,
 				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
 				419F5D1524562D460006576A /* AudiotrackView.swift */,
+				41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */,
 				41E1F5CD2457311E00183C7F /* AudioRecorder.swift */,
 				41E1F5CA245714FC00183C7F /* AudioPlayer.swift */,
 				419F5D17245630820006576A /* RecordingList.swift */,
@@ -217,6 +220,7 @@
 				415CF39C24505BFE008D6E2A /* MusicTrack.swift in Sources */,
 				415CF398245059AF008D6E2A /* MusicScale.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
+				41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */,
 				419F5D18245630820006576A /* RecordingList.swift in Sources */,
 				415CF39524505914008D6E2A /* ScalePractice.swift in Sources */,
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,

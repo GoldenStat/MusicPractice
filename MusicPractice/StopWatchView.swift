@@ -43,43 +43,24 @@ struct StopWatchView: View {
                 
                 HStack {
                     Button(stopStartState.rawValue.capitalized) { // start / stop button
-                        self.stopStart()
+                        self.stopWatch.toggleStopStart()
                     }
-                    .buttonStyle(TimerButtonStyle(color: colors[stopStartState]!))
+                    .buttonStyle(ScaleButtonStyle(color: colors[stopStartState]!))
                     
                     Button(pauseResetState.rawValue.capitalized) { // start / stop button
-                        self.lapReset()
+                        self.stopWatch.toggleLapReset()
                     }
-                    .buttonStyle(TimerButtonStyle(color: colors[pauseResetState]!))
+                    .buttonStyle(ScaleButtonStyle(color: colors[pauseResetState]!))
                 }
             }
             .padding()
         }
     }
     
-    func lapReset() {
-        if stopWatch.isRunning {
-            stopWatch.lap()
-        } else {
-            stopWatch.reset()
-        }
-    }
-    
-    func stopStart() {
-        if stopWatch.isRunning {
-            stopWatch.pause()
-        } else {
-            if stopWatch.hasStarted {
-                stopWatch.resume()
-            } else {
-                stopWatch.start()
-            }
-        }
-    }
 }
 
 
-struct TimerButtonStyle: ButtonStyle {
+struct ScaleButtonStyle: ButtonStyle {
     
     var color: Color
     
