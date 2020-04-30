@@ -53,7 +53,10 @@ enum MusicScale : String, CaseIterable {
     
     // Dominantseptakkorde
     case C7, Cis7, D7, Eb7, E7, F7
-    
+
+    func loadLaps() {
+        
+    }
     // Quintenzirkel
 //    case F, B, Es, As, Des, Ges // flat scales
 //    case G, D, A, E, H, Fis // sharp scales

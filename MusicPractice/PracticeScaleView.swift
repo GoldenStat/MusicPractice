@@ -13,14 +13,9 @@ struct PracticeScaleView: View {
     var selectedScale: MusicScale { currentScale.scale }
     var currentNotes: [Notes] { currentScale.notes }
     @State var currentScale: Scale { willSet {
-        recordLaps()
+        selectedScale.loadLaps()
         }}
-    @State var recordedLaps: [ Scale: [Lap] ] = [:]
-    
-    func notes(scale: MusicScale) -> [ Notes ] {
-        return Scale.notes(scale: scale)
-    }
-    
+        
     var body: some View {
         ZStack {
             
@@ -46,7 +41,7 @@ struct PracticeScaleView: View {
                             .font(.largeTitle)
                         Spacer()
                         HStack {
-                            ForEach(self.notes(scale: selectedScale), id: \.self) { note in
+                            ForEach(self.currentNotes, id: \.self) { note in
                                 Text(note.rawValue)
                             }
                         }

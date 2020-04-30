@@ -20,10 +20,12 @@ import Foundation
 struct ScalePractice {
     var scale: MusicScale
     var date: Date
-    var start: Int = 0
-    var end: Int = 0
-    var track: MusicTrack?
-    var practiceDuration: TimeInterval
+    var start: TimeInterval = 0
+    var end: TimeInterval = 0
+    var duration: TimeInterval { end - start }
     
-    static let sample = ScalePractice(scale: .E7, date: Date(), track: nil, practiceDuration: 660)
+    var track: MusicTrack?
+    var path: URL
+    
+//    static let sample = ScalePractice(scale: .E7, date: Date(), track: nil, practiceDuration: 660)
 }
