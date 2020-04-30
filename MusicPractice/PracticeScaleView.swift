@@ -28,8 +28,8 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 Group {
-                    Text("Choose a scale to practice")
-                        .font(.title)
+                    //                    Text("Choose a scale to practice")
+                    //                        .font(.title)
                     
                     /// show a picker which scale to select
                     Picker("currentScale", selection: $currentScale.scale) {
@@ -41,20 +41,23 @@ struct PracticeScaleView: View {
                     .padding()
                     
                     /// show the notes for the current selection
-                    Text(selectedScale.rawValue)
-                        .font(.largeTitle)
-                    
                     HStack {
-                        ForEach(self.notes(scale: selectedScale), id: \.self) { note in
-                            Text(note.rawValue)
+                        Text(selectedScale.rawValue)
+                            .font(.largeTitle)
+                        Spacer()
+                        HStack {
+                            ForEach(self.notes(scale: selectedScale), id: \.self) { note in
+                                Text(note.rawValue)
+                            }
                         }
                     }
+                    .padding()
                 }
                 
                 Spacer()
+                
                 Group {
-                    AudiotrackView(recorder: AudioRecorder())
-                    StopWatchView()
+                    AudioTrackTimerView(recorder: AudioRecorder())
                 }
             }
         }

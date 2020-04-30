@@ -13,8 +13,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             PracticeScaleView(currentScale: .C7)
-            .navigationBarTitle("Scale Practice")
-                .navigationBarItems(trailing: EditButton())
+                .navigationBarTitle("Scale Practice")
         }
     }
 }

@@ -130,16 +130,24 @@
 		41E1F5CC245730B400183C7F /* AudioRecorder */ = {
 			isa = PBXGroup;
 			children = (
-				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
-				41E1F5D124573A9E00183C7F /* SoundBarView.swift */,
-				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
-				419F5D1524562D460006576A /* AudiotrackView.swift */,
 				41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */,
+				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
+				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
+				41E657B5245B17AD0066AD76 /* secondary Views */,
 				41E1F5CD2457311E00183C7F /* AudioRecorder.swift */,
 				41E1F5CA245714FC00183C7F /* AudioPlayer.swift */,
 				419F5D17245630820006576A /* RecordingList.swift */,
 			);
 			path = AudioRecorder;
+			sourceTree = "<group>";
+		};
+		41E657B5245B17AD0066AD76 /* secondary Views */ = {
+			isa = PBXGroup;
+			children = (
+				41E1F5D124573A9E00183C7F /* SoundBarView.swift */,
+				419F5D1524562D460006576A /* AudiotrackView.swift */,
+			);
+			path = "secondary Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
