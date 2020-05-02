@@ -125,10 +125,10 @@
 		415CF39624505924008D6E2A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				415CF397245059AF008D6E2A /* MusicScale.swift */,
 				415CF39224505895008D6E2A /* PracticeSession.swift */,
 				415CF39424505914008D6E2A /* ScalePractice.swift */,
 				415CF39B24505BFE008D6E2A /* MusicTrack.swift */,
-				415CF397245059AF008D6E2A /* MusicScale.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";

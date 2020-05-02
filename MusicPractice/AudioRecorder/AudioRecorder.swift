@@ -86,7 +86,7 @@ class AudioRecorder: NSObject, ObservableObject {
     }
         
     func addRecording(to scale: Scale) {
-        let scaleName = scale.scale.rawValue
+        let scaleName = scale.dominant.rawValue
         let fileName = "\(Date().toString(dateFormat: "\(scaleName)_dd-MM-YY_HH:mm:ss")).m4a"
 
         let from = documentPath.appendingPathComponent(tmpFileName)
@@ -109,7 +109,7 @@ class AudioRecorder: NSObject, ObservableObject {
             
             let fileName = url.relativeString
             
-            if let scaleName = scale?.scale.rawValue {
+            if let scaleName = scale?.dominant.rawValue {
                 if fileName.starts(with: scaleName) {
                     recordings.append(recording)
                 }

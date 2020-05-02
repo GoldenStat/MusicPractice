@@ -25,8 +25,8 @@ struct PracticeScaleView: View {
                     //                        .font(.title)
                     
                     /// show a picker which scale to select
-                    Picker("currentScale", selection: $currentScale.scale) {
-                        ForEach(MusicScale.allCases, id: \.self) { scale in
+                    Picker("currentScale", selection: $currentScale.dominant) {
+                        ForEach(DominantScales.allCases, id: \.self) { scale in
                             Text(scale.rawValue)
                         }
                     }
@@ -35,7 +35,7 @@ struct PracticeScaleView: View {
                     
                     /// show the notes for the current selection
                     HStack {
-                        Text(currentScale.scale.rawValue)
+                        Text(currentScale.dominant.rawValue)
                             .font(.largeTitle)
                         Spacer()
                         HStack {
@@ -62,7 +62,7 @@ struct PracticeScaleView: View {
         
     }
     
-    func load(_ scale: MusicScale) {
+    func load(_ scale: DominantScales) {
         print("loading sessions for: ", scale.rawValue)
     }
 }

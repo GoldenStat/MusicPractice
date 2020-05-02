@@ -18,7 +18,7 @@ import Foundation
 /// - duration: time we practiced (in seconds)
 /// - track: recording of the scale (cleaned up)
 struct ScalePracticeSession {
-    var scale: MusicScale
+    var scale: DominantScales
     var date: Date
     var start: TimeInterval = 0
     var end: TimeInterval = 0
