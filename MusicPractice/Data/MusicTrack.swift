@@ -10,5 +10,5 @@ import Foundation
 
 struct MusicTrack {
     var length: TimeInterval
-    
+    var title: String
 }

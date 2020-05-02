@@ -11,13 +11,18 @@ import SwiftUI
 struct AudiotrackView: View {
     @ObservedObject var recorder: AudioRecorder
                 
+    var buttonState: PracticeState { recorder.isRecording ? .Pause : .REC}
+    
     var body: some View {
         VStack {
             RecordingList(recorder: recorder)
             
             AudioTrackVisualizerView(recorder: recorder)
             
-            AudioRecorderButton(recorder: recorder)
+            Button(buttonState.rawValue.uppercased()) {
+                self.recorder.toggleRecording()
+            }
+            .buttonStyle(PracticeButtonStyle(state: buttonState))
         }
     }
     

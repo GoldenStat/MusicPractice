@@ -9,12 +9,17 @@
 import Foundation
 
 struct Scale : Hashable {
+    static func == (lhs: Scale, rhs: Scale) -> Bool {
+        lhs.notes == rhs.notes && lhs.scale == rhs.scale
+    }
+    
 
     typealias id = MusicScale
 
     var scale : MusicScale
     var notes : [Notes]
-    
+    var sessions : PracticeSession = PracticeSession()
+
     static func notes(scale: MusicScale) -> [ Notes ] {
         switch scale {
         case .C7:

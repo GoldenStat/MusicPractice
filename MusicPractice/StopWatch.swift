@@ -26,7 +26,10 @@ extension TimeInterval {
 }
 
 
-struct Lap {
+struct Lap: Hashable {
+    let id = UUID()
+    
+    let date: Date
     let from: TimeInterval
     let to: TimeInterval
     var elapsed: TimeInterval { to - from }
@@ -56,15 +59,15 @@ class StopWatch : ObservableObject {
     private var started : TimeInterval = 0.0
 
     
-    func lap() {
-        let newLap = Lap(from: started, to: counter)
+    func addLap() {
+        let newLap = Lap(date: Date(), from: started, to: counter)
         laps.append(newLap)
         started = counter
     }
     
     func toggleLapReset() {
         if isRunning {
-            lap()
+            addLap()
         } else {
             reset()
         }
@@ -83,12 +86,12 @@ class StopWatch : ObservableObject {
     }
 
     func reset() {
-        sourceTimer = nil
+//        sourceTimer = nil
+//        hasStarted = false
+//        isPaused = false
+//        isStopped = true
         started = 0.0
         counter = 0.0
-        hasStarted = false
-        isPaused = false
-        isStopped = true
         laps = []
     }
     

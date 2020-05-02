@@ -8,14 +8,12 @@
 
 import SwiftUI
 
+
+
 struct PracticeScaleView: View {
-    
-    var selectedScale: MusicScale { currentScale.scale }
-    var currentNotes: [Notes] { currentScale.notes }
-    @State var currentScale: Scale { willSet {
-        selectedScale.loadLaps()
-        }}
         
+    @State var currentScale: Scale
+    
     var body: some View {
         ZStack {
             
@@ -37,11 +35,11 @@ struct PracticeScaleView: View {
                     
                     /// show the notes for the current selection
                     HStack {
-                        Text(selectedScale.rawValue)
+                        Text(currentScale.scale.rawValue)
                             .font(.largeTitle)
                         Spacer()
                         HStack {
-                            ForEach(self.currentNotes, id: \.self) { note in
+                            ForEach(currentScale.notes, id: \.self) { note in
                                 Text(note.rawValue)
                             }
                         }
@@ -71,8 +69,6 @@ struct PracticeScaleView: View {
 
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
-        PracticeScaleView(currentScale: Scale.Cis7)
-        //        PracticeScaleView(selectedScale: .C7)
-        
+        PracticeScaleView(currentScale: Scale.C7)
     }
 }

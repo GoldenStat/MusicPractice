@@ -17,7 +17,7 @@ import Foundation
 /// - end: time we ended the session (in seconds)
 /// - duration: time we practiced (in seconds)
 /// - track: recording of the scale (cleaned up)
-struct ScalePractice {
+struct ScalePracticeSession {
     var scale: MusicScale
     var date: Date
     var start: TimeInterval = 0
@@ -25,7 +25,14 @@ struct ScalePractice {
     var duration: TimeInterval { end - start }
     
     var track: MusicTrack?
-    var path: URL
-    
-//    static let sample = ScalePractice(scale: .E7, date: Date(), track: nil, practiceDuration: 660)
+    var trackTitle: String
+//    init(scale: MusicScale, date: Date, start: TimeInterval = 0, end: TimeInterval = 0, track: MusicTrack? = nil, trackTitle: String?) {
+//        self.scale = scale
+//        self.date = date
+//        self.start = start
+//        self.end = end
+//        self.track = track
+//    self.title = title
+//    }
 }
+

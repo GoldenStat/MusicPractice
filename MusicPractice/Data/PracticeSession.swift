@@ -8,6 +8,13 @@
 
 import Foundation
 
-struct PracticeSession {
-    var scaleSessions = [ScalePractice]()
+struct PracticeSession : Hashable {
+    
+    var recordings : [ String ] = []
+    var practiceLaps : [ Lap ] = []
 }
+
+// scale: C7
+// notes: [ .c, .e, .g, .h ]
+// recordings: [ title: C7-datestr ]
+// practiceSessions: [ (date, start, end) ]

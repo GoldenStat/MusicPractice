@@ -18,21 +18,11 @@ struct AudioTrackTimerView: View {
     var title: String = "C7"
     
     @State var practiceTime: TimeInterval = 0
-    
-    enum ClockState : String {
-        case pause, start, lap, reset
-    }
-    
-    var colors : [ClockState:Color] = [
-        .pause: .red,
-        .start: .green,
-        .lap: .yellow,
-        .reset: .orange,
-    ]
-    
-    var pauseResetState: ClockState { isRunning ? .lap : .reset }
-    var stopStartState: ClockState { isRunning ? .pause : .start }
-    
+            
+    /// the states for the buttons
+    var pauseResetState: PracticeState { isRunning ? .Lap : .Reset }
+    var stopStartState: PracticeState { isRunning ? .Pause : .Start }
+    var buttonState: PracticeState { isRunning ? .REC : .Pause }
     
     var body: some View {
         VStack {
@@ -64,17 +54,22 @@ struct AudioTrackTimerView: View {
                     Divider()
                     
                     HStack {
-                        Button(stopStartState.rawValue.capitalized) { // start / stop button
+                        Button(stopStartState.rawValue) { // start / stop button
                             self.stopWatch.toggleStopStart()
                         }
-                        .buttonStyle(ScaleButtonStyle(color: colors[stopStartState]!))
+                        .buttonStyle(PracticeButtonStyle(state: stopStartState))
                         
-                        Button(pauseResetState.rawValue.capitalized) { // start / stop button
-                            self.stopWatch.toggleLapReset()
+                        Button(PracticeState.Store.rawValue) { // start / stop button
+                            self.stopWatch.addLap()
                         }
-                        .buttonStyle(ScaleButtonStyle(color: colors[pauseResetState]!))
+                        .buttonStyle(PracticeButtonStyle(state: .Store))
+                        .disabled(isRunning)
                         
-                        AudioRecorderButton(recorder: recorder)
+                        Button(buttonState.rawValue) {
+                            self.recorder.toggleRecording()
+                        }
+                        .buttonStyle(PracticeButtonStyle(state: buttonState))
+                        .disabled(isRunning)
                     }
                     Text(time)
                         .font(.title)
@@ -85,36 +80,7 @@ struct AudioTrackTimerView: View {
         
     }
 }
-
-struct AudioRecorderButton: View {
-    
-    @ObservedObject var recorder: AudioRecorder
-    
-    var isRunning : Bool { recorder.isRecording }
-    func toggle() {
-        recorder.toggleRecording()
-    }
-    
-    enum ButtonState : String {
-        case record, pause
-    }
-    
-    var colors : [ButtonState : Color] = [
-        .record: .purple,
-        .pause: .gray,
-    ]
-    
-    var buttonState: ButtonState { isRunning ? .pause : .record }
-    var buttonStateColor: Color { colors[buttonState]! }
-    
-    var body: some View {
-        Button(buttonState.rawValue.capitalized) {
-            self.toggle()
-        }
-        .buttonStyle(ScaleButtonStyle(color: buttonStateColor))
-    }
-}
-
+        
 struct AudioTrackTimerView_Previews: PreviewProvider {
     static var previews: some View {
         AudioTrackTimerView()
