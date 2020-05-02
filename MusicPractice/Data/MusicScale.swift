@@ -10,18 +10,18 @@ import Foundation
 
 struct Scale : Hashable {
     static func == (lhs: Scale, rhs: Scale) -> Bool {
-        lhs.notes == rhs.notes && lhs.scale == rhs.scale
+        lhs.notes == rhs.notes && lhs.dominant == rhs.dominant
     }
     
 
-    typealias id = MusicScale
+    typealias id = DominantScales
 
-    var scale : MusicScale
-    var notes : [Notes]
+    var dominant : DominantScales
+    var notes : [Notes] { return Self.notes(dominant: dominant)}
     var sessions : PracticeSession = PracticeSession()
 
-    static func notes(scale: MusicScale) -> [ Notes ] {
-        switch scale {
+    static func notes(dominant: DominantScales) -> [ Notes ] {
+        switch dominant {
         case .C7:
             return [.c, .e, .g, .h]
         case .Cis7:
@@ -37,12 +37,12 @@ struct Scale : Hashable {
         }
     }
 
-    static let C7 = Scale(scale: .C7, notes: [.c, .e, .g, .h])
-    static let Cis7 = Scale(scale: .Cis7, notes: [.cis, .eis, .gis, .c])
-    static let D7 = Scale(scale: .D7, notes: [.d, .fis, .a, .c])
-    static let Eb7 = Scale(scale: .Eb7, notes: [.es, .ges, .h, .d])
-    static let E7 = Scale(scale: .E7, notes: [.e, .gis, .h, .dis])
-    static let F7 = Scale(scale: .F7, notes: [.f, .a, .cis, .e])
+    static let C7 = Scale(dominant: .C7)
+    static let Cis7 = Scale(dominant: .Cis7)
+    static let D7 = Scale(dominant: .D7)
+    static let Eb7 = Scale(dominant: .Eb7)
+    static let E7 = Scale(dominant: .E7)
+    static let F7 = Scale(dominant: .F7)
 
 //    static let Practice : [ Scale ] = [ .C7, .Cis7, .D7, .Eb7, .E7, .F7 ]
     
@@ -54,7 +54,7 @@ struct Scale : Hashable {
 }
 
 /// the scales we can choose to practice
-enum MusicScale : String, CaseIterable {
+enum DominantScales : String, CaseIterable {
     
     // Dominantseptakkorde
     case C7, Cis7, D7, Eb7, E7, F7

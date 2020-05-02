@@ -99,6 +99,7 @@ class StopWatch : ObservableObject {
         isPaused = true
         sourceTimer?.suspend()
     }
+    
     func resume() {
         isPaused = false
         sourceTimer?.resume()
