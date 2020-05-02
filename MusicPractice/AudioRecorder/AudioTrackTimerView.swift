@@ -10,19 +10,20 @@ import SwiftUI
 
 struct AudioTrackTimerView: View {
     @ObservedObject var recorder = AudioRecorder()
-    @ObservedObject var stopWatch = StopWatch()
-    
-    var isRunning: Bool { stopWatch.isRunning }
-    var time: String { stopWatch.counter.string }
+    @ObservedObject var practiceStopWatch = StopWatch()
+    @ObservedObject var recordingStopWatch = StopWatch()
+
+    var isPracticing: Bool { practiceStopWatch.isRunning }
+    var practiceTime: String { practiceStopWatch.counter.string }
+    var practiceHasStarted: Bool { practiceStopWatch.hasStarted }
     
     var title: String = "C7"
-    
-    @State var practiceTime: TimeInterval = 0
-            
+                
     /// the states for the buttons
-    var pauseResetState: PracticeState { isRunning ? .Lap : .Reset }
-    var stopStartState: PracticeState { isRunning ? .Pause : .Start }
-    var buttonState: PracticeState { isRunning ? .REC : .Pause }
+    var pauseResetState: PracticeState { isPracticing ? .Lap : .Reset }
+    var stopStartState: PracticeState { isPracticing ? .Pause : .Start }
+    var recordingButtonState: PracticeState { !recorder.isRecording ? .REC : .Pause }
+    var isRecordingEnabled: Bool { practiceHasStarted && isPracticing }
     
     var body: some View {
         VStack {
@@ -41,7 +42,7 @@ struct AudioTrackTimerView: View {
                 
                 Divider()
                 
-                LapsListView(laps: stopWatch.laps)
+                LapsListView(laps: practiceStopWatch.laps)
                     .frame(maxHeight: 200)
             }
             .padding(.horizontal)
@@ -51,27 +52,29 @@ struct AudioTrackTimerView: View {
             VStack {
                 
                 VStack {
+                    
                     Divider()
                     
                     HStack {
-                        Button(stopStartState.rawValue) { // start / stop button
-                            self.stopWatch.toggleStopStart()
+                        Button(stopStartState.rawValue) {
+                            self.practiceStopWatch.toggleStopStart()
                         }
                         .buttonStyle(PracticeButtonStyle(state: stopStartState))
                         
-                        Button(PracticeState.Store.rawValue) { // start / stop button
-                            self.stopWatch.addLap()
+                        Button(PracticeState.Store.rawValue) {
+                            self.practiceStopWatch.addLap()
                         }
-                        .buttonStyle(PracticeButtonStyle(state: .Store))
-                        .disabled(isRunning)
+                        .buttonStyle(PracticeButtonStyle(state: .Store, isActive: practiceHasStarted))
+                        .disabled(!practiceHasStarted)
                         
-                        Button(buttonState.rawValue) {
+                        Button(recordingButtonState.rawValue) {
                             self.recorder.toggleRecording()
                         }
-                        .buttonStyle(PracticeButtonStyle(state: buttonState))
-                        .disabled(isRunning)
+                        .buttonStyle(PracticeButtonStyle(state: recordingButtonState, isActive: isRecordingEnabled))
+                        .disabled(!isRecordingEnabled)
                     }
-                    Text(time)
+                    
+                    Text(practiceTime)
                         .font(.title)
                 }
                 .frame(minHeight: 140)

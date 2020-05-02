@@ -14,7 +14,6 @@ struct LapsListView : View {
     var numberOfLaps: Int { laps.count }
     var areLapsRecorded: Bool { numberOfLaps > 0 }
     
-    
     let header = [ "started", "ended", "elapsed" ]
     var body: some View {
         VStack {
