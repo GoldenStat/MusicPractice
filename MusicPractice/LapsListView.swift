@@ -31,6 +31,25 @@ struct LapsListView : View {
     }
 }
 
+struct TextRowView: View {
+    let row: [String]
+    var titleCount : Int { row.count }
+    
+    var body: some View {
+        HStack {
+            ForEach ( 0 ..< titleCount ) { index in
+                if index > 0 {
+                    Spacer()
+                }
+                Text(self.row[index])
+            }
+            
+        }
+        
+    }
+}
+
+
 struct LapsListView_Previews: PreviewProvider {
     static var previews: some View {
         LapsListView(laps: Lap.sampleLaps)
