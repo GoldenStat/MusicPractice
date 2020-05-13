@@ -10,10 +10,17 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var selectedScale = Scale.C7
+    
     var body: some View {
         NavigationView {
-            PracticeScaleView(currentScale: .C7)
-                .navigationBarTitle("Scale Practice")
+            VStack {
+                Text("Available scales")
+                ForEach(Scale.selectableScales, id: \.self) { dominant in
+                    NavigationLink(dominant.rawValue, destination: PracticeScaleView(currentScale: Scale(dominant: dominant))
+                    )
+                }
+            }
         }
     }
 }

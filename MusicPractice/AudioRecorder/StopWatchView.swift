@@ -8,14 +8,10 @@
 
 import SwiftUI
 
-extension Color {
-    static let flatWhite = Color(red: 255 / 255, green: 255 / 255, blue: 230 / 255)
-}
 
 struct StopWatchView: View {
     
     @ObservedObject var stopWatch = StopWatch()
-
     
     var pauseResetState: PracticeState { stopWatch.isRunning ? .Lap : .Reset }
     var stopStartState: PracticeState { stopWatch.isRunning ? .Pause : .Start }

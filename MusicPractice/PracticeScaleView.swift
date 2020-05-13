@@ -9,51 +9,44 @@
 import SwiftUI
 
 
+extension Color {
+    static let flatWhite = Color(red: 255/255, green: 255/255, blue:235/255)
+}
 
 struct PracticeScaleView: View {
         
     @State var currentScale: Scale
+    let recorder = AudioRecorder()
     
     var body: some View {
         ZStack {
             
             Color.flatWhite
                 .edgesIgnoringSafeArea(.all)
+            
             VStack {
                 Group {
-                    //                    Text("Choose a scale to practice")
-                    //                        .font(.title)
                     
                     /// show a picker which scale to select
-                    Picker("currentScale", selection: $currentScale.dominant) {
-                        ForEach(DominantScales.allCases, id: \.self) { scale in
-                            Text(scale.rawValue)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding()
+                    ScalePicker(selection: $currentScale)
                     
                     /// show the notes for the current selection
-                    HStack {
-                        Text(currentScale.dominant.rawValue)
-                            .font(.largeTitle)
-                        Spacer()
-                        HStack {
-                            ForEach(currentScale.notes, id: \.self) { note in
-                                Text(note.rawValue)
-                            }
-                        }
-                    }
-                    .padding()
+                    ScaleDetailRow(scale: currentScale)
                 }
                 
                 Spacer()
                 
                 Group {
-                    AudioTrackTimerView(recorder: AudioRecorder())
+                    RecordingList(recorder: recorder, scale: currentScale)
+                        .frame(maxHeight: 200)
+                    
+                    Divider()
+
+                    AudioTrackTimerView(recorder: recorder)
                 }
             }
         }
+        .padding(.horizontal)
         .statusBar(hidden: true)
     }
     
@@ -62,13 +55,42 @@ struct PracticeScaleView: View {
         
     }
     
-    func load(_ scale: DominantScales) {
-        print("loading sessions for: ", scale.rawValue)
+    func load(_ scale: Scale) {
+        print("loading sessions for: ", scale.name)
     }
 }
 
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
         PracticeScaleView(currentScale: Scale.C7)
+    }
+}
+
+struct ScalePicker: View {
+    var selection: Binding<Scale>
+    var body: some View {
+        Picker("currentScale", selection: selection.dominant) {
+            ForEach(Scale.selectableScales, id: \.self) { dominant in
+                Text(dominant.rawValue)
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+    }
+}
+
+struct ScaleDetailRow: View {
+    var scale: Scale
+    var body: some View {
+        HStack {
+            Text(scale.dominant.rawValue)
+                .font(.largeTitle)
+            Spacer()
+            HStack {
+                ForEach(scale.notes, id: \.self) { note in
+                    Text(note.rawValue)
+                }
+            }
+        }
+        .padding()
     }
 }

@@ -10,35 +10,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-extension TimeInterval {
-    var longString: String {
-        let centiseconds = Int(self.truncatingRemainder(dividingBy: 100))
-        return String(format:"\(string).%02d",centiseconds)
-    }
-    
-    var string: String {
-        let seconds = Int(self) / 100
-        let minutes = seconds / 60
-        let hours = minutes / 60
-
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-    }
-}
-
-
-struct Lap: Hashable {
-    let id = UUID()
-    
-    let date: Date
-    let from: TimeInterval
-    let to: TimeInterval
-    var elapsed: TimeInterval { to - from }
-
-    var start: String { from.longString }
-    var end: String { to.longString }
-}
-
-
 class StopWatch : ObservableObject {
 //    var didChange = PassthroughSubject<Void, Never>()
 
@@ -52,6 +23,11 @@ class StopWatch : ObservableObject {
     @Published var isStopped = true
         { didSet { if isStopped { isPaused = false } } }
     @Published var laps = [Lap]()
+    var totalLap : Lap {
+        Lap(date: Date(),
+            from: laps.first?.from ?? 0,
+            to: laps.last?.to ?? 0)
+    }
 
     public var isRunning : Bool { !(isPaused || isStopped) }
 

@@ -66,7 +66,7 @@ enum Notes: String, CaseIterable {
 }
 
 enum Octaves: String, CaseIterable {
-    case one, two, three
+    case subcontra, contra, big, small, one, two, three, four, five
 }
 
 enum Hand: String, CaseIterable {

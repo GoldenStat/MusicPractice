@@ -8,13 +8,27 @@
 
 import Foundation
 
-struct PracticeSession : Hashable {
-    
-    var recordings : [ String ] = []
-    var practiceLaps : [ Lap ] = []
+
+/// The Data we need for  one practice Instance
+/// - Parameters:
+/// - Parameter date: when did we practice
+/// - Parameter recording: the audio file we wish to keep as reference for our progress
+/// - Parameter practiceTime: how long did we practice
+/// - Parameter practiceScale: which scale did we practice
+struct PracticeInstance : Hashable {
+    var date: Date = Date()
+    var recording : [ String ] = []
+    var practiceTime : TimeInterval = 0
+    var practiceScale: Scale
 }
 
-// scale: C7
-// notes: [ .c, .e, .g, .h ]
-// recordings: [ title: C7-datestr ]
-// practiceSessions: [ (date, start, end) ]
+/// The Data we need for  one practice session
+/// - Parameters:
+/// - Parameter date: each instance has a date, but let's save another one, here
+/// - Parameter instances: all the instances we practiced today
+/// - Parameter practiceTime: how long did we practice
+/// - Parameter practiceScale: which scale did we practice
+struct PracticeSession: Hashable {
+    var date = Date()
+    var instances: [PracticeInstance]
+}

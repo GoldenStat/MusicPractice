@@ -10,24 +10,35 @@ import SwiftUI
 
 struct RecordingList: View {
     @ObservedObject var recorder: AudioRecorder
+    var scale: Scale?
     
     var body: some View {
-        ScrollView {
-            ForEach(recorder.recordings, id: \.created) {
-                track in
-                RecordingRow(audioURL: track.fileURL)
+        VStack {
+            Button(action: { self.deleteAllRecordings() })
+            { Image(systemName: "trash") }
+            ScrollView {
+                ForEach(recorder.recordings(for: scale), id: \.created) {
+                    track in
+                    RecordingRow(audioURL: track.fileURL)
+                }
+                .onDelete(perform: delete)
             }
-            .onDelete(perform: delete)
         }
     }
     
+    func deleteAllRecordings() {
+        recorder.deleteRecordings(urlsToDelete: recorder.recordings.map {$0.fileURL})
+    }
+
+    func moveRecordingsTo(scale: Scale) {
+        recorder.fetchRecordings()
+    }
+
     func delete(at offsets: IndexSet) {
         var urlsToDelete = [URL]()
-        
         for index in offsets {
             urlsToDelete.append(recorder.recordings[index].fileURL)
         }
-        
         recorder.deleteRecordings(urlsToDelete: urlsToDelete)
     }
 
@@ -67,6 +78,7 @@ struct RecordingRow: View {
 
 struct RecordingList_Previews: PreviewProvider {
     static var previews: some View {
-        RecordingList(recorder: AudioRecorder())
+        RecordingList(recorder: AudioRecorder(), scale: nil)
+            .frame(height: 400)
     }
 }

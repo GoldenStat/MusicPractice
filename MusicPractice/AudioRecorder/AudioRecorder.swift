@@ -16,14 +16,27 @@ let numberOfSamples = 20
 class AudioRecorder: NSObject, ObservableObject {
     
     var audioRecorder: AVAudioRecorder!
+    
+    /// an array that containts the URLs and creation Dates  for  all the acutal recordings retrieved from  the filesystem.
+    ///
+    /// *gets repopulated by fetchRecordings*
     var recordings = [Recording]()
-    var scaleFilter : Scale? = nil
     
     @Published var isRecording: Bool = false
 
     var timer : Timer?
     @Published var soundSamples: [Float]
     var currentSample: Int
+    
+    /// - Parameter scale: only returns the recordings that match this scale, or all if nil
+    /// - Returns: a list of Recordings that match a scale, or all, if Scale is *nil*
+    func recordings(for scale: Scale? = nil) -> [Recording] {
+        if let scale = scale {
+            return recordings.filter { $0.fileURL.relativeString.starts(with: scale.dominant.rawValue) }
+        } else {
+            return recordings
+        }
+    }
     
     override init() {
         soundSamples = [Float](repeating: .zero, count: numberOfSamples)
@@ -36,6 +49,8 @@ class AudioRecorder: NSObject, ObservableObject {
         isRecording ? stop() : start()
     }
     
+    
+    /// invalidate the timer and stop the audio Recoder
     func stop() {
         timer?.invalidate()
         audioRecorder.stop()
@@ -43,16 +58,35 @@ class AudioRecorder: NSObject, ObservableObject {
         fetchRecordings()
     }
     
-    let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    
-    var audioURL : URL {
-        return documentPath.appendingPathComponent(tmpFileName)
+    func pause() {
+        timer?.invalidate()
+        audioRecorder.pause()
+        isRecording = false
     }
     
-    var tmpFileName : String {
-        "\(Date().toString(dateFormat: "dd-MM-YY_'at'_HH:mm:ss")).m4a"
-    }
+    func resume() {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
+            self.updateSoundMeters()
+        }
         
+        isRecording = true
+        audioRecorder.record()
+    }
+    
+    let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+    /// generate a temporary filepath for new recordings
+    func generateTemporaryFilePath() -> URL {
+        documentPath.appendingPathComponent("\(Date().toString(dateFormat: "dd-MM-YY_'at'_HH:mm:ss")).m4a")
+    }
+
+    /// - gets set when a recording starts and is used to
+    /// - gets invalidated when a recording is moved
+    var audioURL: URL?
+    
+    /// start a recording session
+    /// - starts the timer for sound meter animation
+    /// - sets a temporary path for the recording
     func start() {
         let recordingSession = AVAudioSession.sharedInstance()
         
@@ -71,9 +105,11 @@ class AudioRecorder: NSObject, ObservableObject {
          ]
         
         do {
-            audioRecorder = try AVAudioRecorder(url: audioURL, settings: settings)
+            audioURL = audioURL ?? generateTemporaryFilePath()
+            audioRecorder = try AVAudioRecorder(url: audioURL!, settings: settings)
             audioRecorder.isMeteringEnabled = true
             audioRecorder.record()
+            
             /// initialize timer to record sound meters
             timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
                 self.updateSoundMeters()
@@ -85,37 +121,33 @@ class AudioRecorder: NSObject, ObservableObject {
         }
     }
         
-    func addRecording(to scale: Scale) {
-        let scaleName = scale.dominant.rawValue
-        let fileName = "\(Date().toString(dateFormat: "\(scaleName)_dd-MM-YY_HH:mm:ss")).m4a"
+    /// renames the current generic recording to a scale-specific one
+    func addRecording(to scale: Scale?) {
+        let tmpFile = audioURL!.relativeString
+        let fileName = "\(scale?.dominant.rawValue ?? "")_\(tmpFile)"
 
-        let from = documentPath.appendingPathComponent(tmpFileName)
+        let from = documentPath.appendingPathComponent(tmpFile)
         let to = documentPath.appendingPathComponent(fileName)
         
         do {
             try FileManager.default.moveItem(at: from, to: to)
+            audioURL = nil
         } catch {
-            print("Failed to add recording to scale \(scaleName)")
+            print("Failed to add recording to scale \(scale?.dominant.rawValue ?? "N/A")")
         }
+        fetchRecordings()
     }
     
-    func fetchRecordings(for scale: Scale? = nil) {
+    /// repopulates the recordings-array.
+    /// needs to be called every time the recordings are changed
+    func fetchRecordings() {
         recordings.removeAll()
         
         let directoryContents = try! FileManager.default.contentsOfDirectory(at: documentPath, includingPropertiesForKeys: nil)
         
         for url in directoryContents {
-            let recording = Recording(fileURL: url, created: getCreationDate(for: url))
-            
-            let fileName = url.relativeString
-            
-            if let scaleName = scale?.dominant.rawValue {
-                if fileName.starts(with: scaleName) {
-                    recordings.append(recording)
-                }
-            } else {
-                recordings.append(recording)
-            }
+            let recording = Recording(fileURL: url, created: FileManager.getCreationDate(for: url))
+            recordings.append(recording)
         }
         
         recordings.sort(by: { $0.created.compare($1.created)  == .orderedAscending } )
@@ -139,15 +171,4 @@ class AudioRecorder: NSObject, ObservableObject {
         currentSample = (currentSample + 1) % numberOfSamples
     }
     
-}
-
-extension Date
-{
-    func toString( dateFormat format  : String ) -> String
-    {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        return dateFormatter.string(from: self)
-    }
-
 }
