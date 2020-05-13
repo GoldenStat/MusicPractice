@@ -24,7 +24,6 @@ struct AudioTrackTimerView: View {
     func assignNewScale() {
         currentIndex += 1
         scale = testScales[currentIndex%testScales.count]
-        recorder.scale
         recorder.fetchRecordings()
     }
     

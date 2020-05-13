@@ -19,7 +19,6 @@ struct Scale : Hashable {
     var dominant : DominantScales
     var name: String { dominant.rawValue }
     var notes : [Notes] { return Self.notes(dominant: dominant)}
-    var sessions : PracticeSession = PracticeSession() // recordings, practiceLaps
 
     static var selectableScales = DominantScales.allCases // subgroup we want to allow for selection
     
