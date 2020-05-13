@@ -31,6 +31,7 @@
 		41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */; };
 		41E1F5D224573A9E00183C7F /* SoundBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5D124573A9E00183C7F /* SoundBarView.swift */; };
 		41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */; };
+		41F2E3CD246C45CC005E58F2 /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrackVisualizerView.swift; sourceTree = "<group>"; };
 		41E1F5D124573A9E00183C7F /* SoundBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundBarView.swift; sourceTree = "<group>"; };
 		41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrackTimerView.swift; sourceTree = "<group>"; };
+		41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */,
+				41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */,
 				419F5D17245630820006576A /* RecordingList.swift */,
 				41E1F5CD2457311E00183C7F /* AudioRecorder.swift */,
 				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
@@ -232,6 +235,7 @@
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
 				41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */,
+				41F2E3CD246C45CC005E58F2 /* ControlButtonsView.swift in Sources */,
 				419F5D18245630820006576A /* RecordingList.swift in Sources */,
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
 				41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */,

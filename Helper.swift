@@ -74,7 +74,7 @@ extension PictureNames {
     static var bandoneonKeysLeft = "bandoneon-keys-left"
     static var bwBandoneonKeysLeft = "bw-bandoneon-keys-left"
     static var bandoneonKeysRight = "bandoneon-keys-right"
-    static var bwBandoneonKeysRight = "bwbandoneon-keys-right"
+    static var bwBandoneonKeysRight = "bw-bandoneon-keys-right"
     static var bandoneonKeysBoth = "bandoneon-keys-both"
     static var bandoneon = "Bandoneon"
 }

@@ -17,7 +17,7 @@ import Foundation
 /// - Parameter practiceScale: which scale did we practice
 struct PracticeInstance : Hashable {
     var date: Date = Date()
-    var recording : [ String ] = []
+    var recordingURLs : [ URL ] = []
     var practiceTime : TimeInterval = 0
     var practiceScale: Scale
 }

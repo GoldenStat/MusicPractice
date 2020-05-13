@@ -13,6 +13,7 @@ import AVFoundation
 
 let numberOfSamples = 20
 
+/// TODO: re-read example to use receive(on:) on model update, instead of @Publish, as we are sending from a background thread
 class AudioRecorder: NSObject, ObservableObject {
     
     var audioRecorder: AVAudioRecorder!
@@ -123,7 +124,7 @@ class AudioRecorder: NSObject, ObservableObject {
         
     /// renames the current generic recording to a scale-specific one
     func addRecording(to scale: Scale?) {
-        let tmpFile = audioURL!.relativeString
+        let tmpFile = audioURL!.pathComponents.last!
         let fileName = "\(scale?.dominant.rawValue ?? "")_\(tmpFile)"
 
         let from = documentPath.appendingPathComponent(tmpFile)

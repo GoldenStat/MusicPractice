@@ -25,25 +25,25 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Group {
-                    
-                    /// show a picker which scale to select
-                    ScalePicker(selection: $currentScale)
-                    
-                    /// show the notes for the current selection
-                    ScaleDetailRow(scale: currentScale)
+                HStack {
+                    EmphasizedImage(name: PictureNames.bwBandoneonKeysLeft)
+
+                    Spacer()
+                        .frame(width: 100)
+
+                    EmphasizedImage(name: PictureNames.bwBandoneonKeysRight)
                 }
+                /// show a picker which scale to select
+                ScalePicker(selection: $currentScale)
+                /// show the notes for the current selection
+                ScaleDetailRow(scale: currentScale)
+                
                 
                 Spacer()
                 
-                Group {
-                    RecordingList(recorder: recorder, scale: currentScale)
-                        .frame(maxHeight: 200)
-                    
-                    Divider()
+                Divider()
 
-                    AudioTrackTimerView(recorder: recorder)
-                }
+                AudioTrackTimerView(recorder: recorder, scale: $currentScale)
             }
         }
         .padding(.horizontal)
@@ -81,10 +81,10 @@ struct ScalePicker: View {
 struct ScaleDetailRow: View {
     var scale: Scale
     var body: some View {
-        HStack {
-            Text(scale.dominant.rawValue)
+        VStack {
+            Text("Scale: \(scale.dominant.rawValue)")
                 .font(.largeTitle)
-            Spacer()
+                .fontWeight(.bold)
             HStack {
                 ForEach(scale.notes, id: \.self) { note in
                     Text(note.rawValue)
@@ -92,5 +92,26 @@ struct ScaleDetailRow: View {
             }
         }
         .padding()
+    }
+}
+
+struct EmphasizedImage : View {
+    let name: String
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color.flatWhite)
+                .blur(radius: 5)
+                .frame(width: 260, height: 140)
+            
+            Image(name)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 140)
+        }
+        .shadow(color: .black, radius: 10.0, x: 8, y: 8)
+    .padding()
+
     }
 }
