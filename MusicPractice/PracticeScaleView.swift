@@ -43,6 +43,8 @@ struct PracticeScaleView: View {
                 
                 Divider()
 
+                RecordingList(recorder: recorder, scale: $currentScale)
+
                 AudioTrackTimerView(recorder: recorder, scale: $currentScale)
             }
         }

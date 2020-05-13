@@ -21,9 +21,7 @@ struct AudioTrackTimerView: View {
         
     var body: some View {
         VStack {
-                        
-            RecordingList(recorder: recorder, scale: scale)
-
+                    
             Group {
                 
                 AudioTrackVisualizerView(recorder: recorder)
@@ -55,7 +53,10 @@ struct AudioTrackTimerView_Previews: PreviewProvider {
     static let stopWatch = StopWatch()
     static let scale : Scale = .C7
     static var previews: some View {
-        AudioTrackTimerView(recorder: recorder, scale: .constant(scale))
+        VStack {
+            Spacer()
+            AudioTrackTimerView(recorder: recorder, scale: .constant(scale))
+        }
     }
 }
 

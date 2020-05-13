@@ -11,11 +11,13 @@ import SwiftUI
 struct AudiotrackView: View {
     @ObservedObject var recorder: AudioRecorder
                 
+    @Binding var scale: Scale
+    
     var buttonState: PracticeState { recorder.isRecording ? .Pause : .REC}
     
     var body: some View {
         VStack {
-            RecordingList(recorder: recorder)
+            RecordingList(recorder: recorder, scale: $scale)
             
             AudioTrackVisualizerView(recorder: recorder)
             
@@ -30,6 +32,7 @@ struct AudiotrackView: View {
 
 struct AudiotrackView_Previews: PreviewProvider {
     static var previews: some View {
-        AudiotrackView(recorder: AudioRecorder())
+        AudiotrackView(recorder: AudioRecorder()
+            , scale: .constant(.C7))
     }
 }

@@ -10,18 +10,22 @@ import SwiftUI
 
 struct RecordingList: View {
     @ObservedObject var recorder: AudioRecorder
-    var scale: Scale?
+    @Binding var scale: Scale
     
     var body: some View {
         VStack {
-            Button(action: { self.deleteAllRecordings() })
-            { Image(systemName: "trash") }
+//            Button(action: { self.deleteAllRecordings() })
+//            { Image(systemName: "trash") }
             ScrollView {
+//                List {
                 ForEach(recorder.recordings(for: scale), id: \.created) {
                     track in
-                    RecordingRow(audioURL: track.fileURL)
+//                    RecordingRow(audioURL: track.fileURL)
+                    Text("\(track.fileURL.lastPathComponent)")
+
                 }
                 .onDelete(perform: delete)
+//                }
             }
         }
     }
@@ -78,7 +82,6 @@ struct RecordingRow: View {
 
 struct RecordingList_Previews: PreviewProvider {
     static var previews: some View {
-        RecordingList(recorder: AudioRecorder(), scale: nil)
-            .frame(height: 400)
+        RecordingList(recorder: AudioRecorder(), scale: .constant(.C7))
     }
 }
