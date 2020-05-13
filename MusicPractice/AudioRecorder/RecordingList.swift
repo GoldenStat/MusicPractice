@@ -10,22 +10,16 @@ import SwiftUI
 
 struct RecordingList: View {
     @ObservedObject var recorder: AudioRecorder
-    @Binding var scale: Scale
+    var scale: Scale
     
     var body: some View {
         VStack {
-//            Button(action: { self.deleteAllRecordings() })
-//            { Image(systemName: "trash") }
             ScrollView {
-//                List {
                 ForEach(recorder.recordings(for: scale), id: \.created) {
                     track in
-//                    RecordingRow(audioURL: track.fileURL)
-                    Text("\(track.fileURL.lastPathComponent)")
-
+                    RecordingRow(track: track)
                 }
                 .onDelete(perform: delete)
-//                }
             }
         }
     }
@@ -50,7 +44,7 @@ struct RecordingList: View {
 
 struct RecordingRow: View {
     
-    var audioURL: URL
+    var track: Recording
     @ObservedObject var audioPlayer = AudioPlayer()
   
     enum ButtonState : String {
@@ -69,10 +63,16 @@ struct RecordingRow: View {
 
     var body: some View {
         HStack {
-            Text("\(audioURL.lastPathComponent)")
+            HStack {
+                Text(track.scaleName)
+                Text(track.day)
+                Text(track.time)
+            }
+            .font(.headline)
+
             Spacer()
             Button(action: {
-                self.audioPlayer.togglePlayback(audio: self.audioURL)
+                self.audioPlayer.togglePlayback(audio: self.track.fileURL)
             }) {
                 Image(systemName: symbol[startPauseButtonState]!)
             }
@@ -82,6 +82,6 @@ struct RecordingRow: View {
 
 struct RecordingList_Previews: PreviewProvider {
     static var previews: some View {
-        RecordingList(recorder: AudioRecorder(), scale: .constant(.C7))
+        RecordingList(recorder: AudioRecorder(), scale: .D7)
     }
 }

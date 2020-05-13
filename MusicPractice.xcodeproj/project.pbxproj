@@ -24,7 +24,7 @@
 		41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B60E245D770900B650D7 /* LapsListView.swift */; };
 		41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B610245D81E000B650D7 /* ButtonStyles.swift */; };
 		41E0B613245EC76500B650D7 /* Laps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B612245EC76500B650D7 /* Laps.swift */; };
-		41E1F5C72457024200183C7F /* RecordingDataMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5C62457024200183C7F /* RecordingDataMode.swift */; };
+		41E1F5C72457024200183C7F /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5C62457024200183C7F /* Recording.swift */; };
 		41E1F5C92457045500183C7F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5C82457045500183C7F /* Helper.swift */; };
 		41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CA245714FC00183C7F /* AudioPlayer.swift */; };
 		41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1F5CD2457311E00183C7F /* AudioRecorder.swift */; };
@@ -54,7 +54,7 @@
 		41E0B60E245D770900B650D7 /* LapsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapsListView.swift; sourceTree = "<group>"; };
 		41E0B610245D81E000B650D7 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		41E0B612245EC76500B650D7 /* Laps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Laps.swift; sourceTree = "<group>"; };
-		41E1F5C62457024200183C7F /* RecordingDataMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataMode.swift; sourceTree = "<group>"; };
+		41E1F5C62457024200183C7F /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
 		41E1F5C82457045500183C7F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		41E1F5CA245714FC00183C7F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		41E1F5CD2457311E00183C7F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 				41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */,
 				419F5D17245630820006576A /* RecordingList.swift */,
 				41E1F5CD2457311E00183C7F /* AudioRecorder.swift */,
-				41E1F5C62457024200183C7F /* RecordingDataMode.swift */,
+				41E1F5C62457024200183C7F /* Recording.swift */,
 				41E1F5CA245714FC00183C7F /* AudioPlayer.swift */,
 				415CF39D24505DAA008D6E2A /* StopWatchView.swift */,
 				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
@@ -239,7 +239,7 @@
 				419F5D18245630820006576A /* RecordingList.swift in Sources */,
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
 				41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */,
-				41E1F5C72457024200183C7F /* RecordingDataMode.swift in Sources */,
+				41E1F5C72457024200183C7F /* Recording.swift in Sources */,
 				41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */,
 				41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,

@@ -17,7 +17,7 @@ struct AudiotrackView: View {
     
     var body: some View {
         VStack {
-            RecordingList(recorder: recorder, scale: $scale)
+            RecordingList(recorder: recorder, scale: scale)
             
             AudioTrackVisualizerView(recorder: recorder)
             
