@@ -93,6 +93,8 @@ struct Bandoneon {
 
     ///
     struct LeftSideKeys : KeyPositions {
+        var notes: [Octaves : [Notes : (Int, Int)]]
+        
 
         let image: Image = Image(.bandoneonKeysPositionsLeft)
         var pictureSize = CGSize(width: 1920, height: 978)
