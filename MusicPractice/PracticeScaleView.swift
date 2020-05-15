@@ -29,7 +29,7 @@ struct PracticeScaleView: View {
                     EmphasizedImage(name: PictureNames.bwBandoneonKeysLeft)
 
                     Spacer()
-                        .frame(width: 100)
+                        .frame(maxWidth: 100)
 
                     EmphasizedImage(name: PictureNames.bwBandoneonKeysRight)
                 }
@@ -105,12 +105,12 @@ struct EmphasizedImage : View {
             Rectangle()
                 .fill(Color.flatWhite)
                 .blur(radius: 5)
-                .frame(width: 260, height: 140)
+                .frame(maxWidth: 260, maxHeight: 140)
             
             Image(name)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 200, height: 140)
+                .frame(maxWidth: 200, maxHeight: 140)
         }
         .shadow(color: .black, radius: 10.0, x: 8, y: 8)
     .padding()
