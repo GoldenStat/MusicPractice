@@ -43,18 +43,34 @@ protocol KeyLayout {
     var notes: [ Octaves : [ Notes : (Int, Int) ] ] { get }
 }
 
-typealias BandoneonKeyIndex = (Int, Int) /// the position from bandoneon notation: see mapping in KeyLayout().keySequence
+protocol KeyIndex {
+    var row: Int { get }
+    var column: Int { get }
+}
 
-//typealias MarkerIndex = (Int, Int)
-
-/// the position from graphical point of view, counting from (left, bottom) to (right, top), used for accessing markerPosition / coverPosition in KeyLayout
-struct MarkerIndex {
-    let row: Int
-    let column: Int
-    
+/// the position from bandoneon notation: see mapping in KeyLayout().keySequence
+struct BandoneonKeyIndex : KeyIndex {
+    var row: Int
+    var column: Int
     init(_ row: Int, _ column: Int) {
         self.row = row
         self.column = column
+    }
+}
+
+/// the position from graphical point of view, counting from (left, bottom) to (right, top), used for accessing markerPosition / coverPosition in KeyLayout
+struct MarkerIndex : KeyIndex {
+    let row: Int
+    let column: Int
+    init(_ row: Int, _ column: Int) {
+        self.row = row
+        self.column = column
+    }
+}
+
+extension Array {
+    func isValid(index: Int) -> Bool {
+        index > 0 && index < self.count
     }
 }
 
@@ -80,13 +96,20 @@ extension KeyLayout {
         return CGPoint(x: coordinate.0, y: coordinate.1)
     }
 
+    func isValid(index: KeyIndex, forSequence sequence: [[KeyIndex]]) -> Bool {
+        keySequence.isValid(index: index.row - 1) &&
+            keySequence.isValid(index: index.column - 1)
+    }
+
     /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
     /// i.e. if the index for the marker exists
     func isValidKeyIndex(index: BandoneonKeyIndex) -> Bool {
-        let (row,column) = index
+        let row = index.row
+        let column = index.column
         return row - 1 > 0 && row - 1 <= keySequence.count &&
             column - 1 > 0 && column - 1 <= keySequence[row].count
     }
+
     
     /// - Parameters:
     ///   - index: the position of the key
