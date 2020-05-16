@@ -23,7 +23,7 @@ extension PictureNames {
 
 typealias KeyPosition = (CGFloat, CGFloat)
 
-protocol KeyPositions {
+protocol KeyLayout {
     var image: Image { get }
     var pictureSize : CGSize { get }
 
@@ -35,16 +35,20 @@ protocol KeyPositions {
     var coverPosition : [[KeyPosition]] { get }
 
     /// the key Sequence is needed because the buttons are not indexed from bottom left to upper right
-    /// but in a certain pattern
-    
-    var keySequence: [[(Int, Int)]] { get }
+    /// but in a certain pattern, maps to marker-/coverPosition
+    var keySequence: [[BandoneonKeyIndex]] { get }
 
     /// I chose a notes Dictionary to attribute an index to every note in order to find the key
     /// there will need to be a function to attribute a note to every key
     var notes: [ Octaves : [ Notes : (Int, Int) ] ] { get }
 }
 
-extension KeyPositions {
+typealias BandoneonKeyIndex = (Int, Int) /// the position from bandoneon notation: see mapping in KeyLayout().keySequence
+
+typealias MatrixIndex = (Int, Int) /// the position from graphical point of view, counting from (left, bottom) to (right, top), used for accessing markerPosition / coverPosition in KeyLayout
+
+extension KeyLayout {
+    
     func flatten(_ sequence: [[KeyPosition]]) -> [KeyPosition] {
         var flatList : [KeyPosition] = []
         for line in sequence {
@@ -53,18 +57,42 @@ extension KeyPositions {
         return flatList
     }
     
-    func keyPosition(row: Int, column: Int) -> CGPoint? {
-        guard row - 1 > 0, row - 1 <= keySequence.count else { return nil }
-        guard column - 1 > 0, column - 1 <= keySequence[row].count else { return nil }
-        
+    /// - Parameters:
+    ///   - row: the graphical row
+    ///   - column: the graphical column
+    /// - Returns: the  CGPoint for the key, derived from the markerPosition array, relative to the picture
+    func markerPosition(row: Int, column: Int) -> CGPoint? {
+        guard isValidMatrixIndex(row: row, column: column) else { return nil }
+
         let (x,y) = keySequence[row-1][column-1]
         let coordinate = markerPosition[x-1][y-1]
         return CGPoint(x: coordinate.0, y: coordinate.1)
     }
 
+    /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
+    /// i.e. if the index for the marker exists
+    func isValidKeyIndex(index: BandoneonKeyIndex) -> Bool {
+        let (row,column) = index
+        return row - 1 > 0 && row - 1 <= keySequence.count &&
+            column - 1 > 0 && column - 1 <= keySequence[row].count
+    }
+    
+    /// - Parameters:
+    ///   - index: the position of the key
+    /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
+    /// i.e. if the index for the marker exists
+    func isValidMarkerIndex(index: MatrixIndex) -> Bool {
+        let (row,column) = index
+        return row - 1 > 0 && row - 1 <= markerPosition.count &&
+            column - 1 > 0 && column - 1 <= markerPosition[row].count
+    }
+    
+    /// - Parameters:
+    ///   - row: <#row description#>
+    ///   - column: <#column description#>
+    /// - Returns: returns the Index of the key in a diatonic scale?
     func keyNumber(row: Int, column: Int) -> Int? {
-        guard row - 1 > 0, row - 1 <= keySequence.count else { return nil }
-        guard column - 1 > 0, column - 1 <= keySequence[row].count else { return nil }
+        guard isValidMatrixIndex(row: row, column: column) else { return nil }
 
         var flatSequence : [ (Int, Int) ] = []
         let _ = keySequence.map { flatSequence.append(contentsOf: $0) }
@@ -92,8 +120,8 @@ struct Bandoneon {
     static var coverSize = CGSize(width: 172, height: 172)
 
     ///
-    struct LeftSideKeys : KeyPositions {
-        var notes: [Octaves : [Notes : (Int, Int)]]
+    struct LeftSideKeys : KeyLayout {
+        var notes: [Octaves : [Notes : (Int, Int)]] = [:]
         
 
         let image: Image = Image(.bandoneonKeysPositionsLeft)
@@ -133,7 +161,7 @@ struct Bandoneon {
     }
 
 
-    struct RightSideKeys : KeyPositions {
+    struct RightSideKeys : KeyLayout {
         
         let image: Image = Image(.bandoneonKeysPositionsRight)
         let pictureSize = CGSize(width: 1920, height: 981)

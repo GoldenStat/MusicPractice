@@ -27,8 +27,10 @@ struct PracticeInstance : Hashable {
 /// - Parameter date: each instance has a date, but let's save another one, here
 /// - Parameter instances: all the instances we practiced today
 /// - Parameter practiceTime: how long did we practice
-/// - Parameter practiceScale: which scale did we practice
+/// - Parameter practiceScales: which scale did we practice
 struct PracticeSession: Hashable {
     var date = Date()
     var instances: [PracticeInstance]
+    var practiceTime: TimeInterval { instances.reduce(0) {$0 + $1.practiceTime} }
+    var practiceScales: [Scale] = []
 }

@@ -14,7 +14,6 @@ struct BandoneonView: View {
     
     var picture : Image { keys.image }
     var size : CGSize { keys.pictureSize }
-    
     var samplePoints : [KeyPosition] { keys.flatten(keys.markerPosition) }
     
     func position(for point: (CGFloat,CGFloat), with relativeSize: CGSize? = nil) -> CGPoint {
@@ -22,6 +21,9 @@ struct BandoneonView: View {
         return CGPoint(x: width(for: point.0, to: size),
                        y: height(for: point.1, to: size))
     }
+    
+    var markedNotes: [Notes] = []
+    var markedKeys: [BandoneonKeyIndex] = []
     
     var buttonPosition = CGPoint(x: 0, y: 0)
     

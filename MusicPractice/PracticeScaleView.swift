@@ -25,13 +25,16 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                HStack {
-                    EmphasizedImage(name: PictureNames.bwBandoneonKeysLeft)
-
-                    Spacer()
-                        .frame(maxWidth: 100)
-
-                    EmphasizedImage(name: PictureNames.bwBandoneonKeysRight)
+                ZStack {
+                    EmphasizedImage()
+                    //                        VStack {
+                    //                            BandoneonView(keys: Bandoneon.RightSideKeys())
+                    //                            BandoneonView(keys: Bandoneon.LeftSideKeys())
+                    //                        }
+                    VStack {
+                        Image(PictureNames.bwBandoneonKeysLeft)
+                        Image(PictureNames.bwBandoneonKeysRight)
+                    }
                 }
                 /// show a picker which scale to select
                 ScalePicker(selection: $currentScale)
@@ -98,22 +101,14 @@ struct ScaleDetailRow: View {
 }
 
 struct EmphasizedImage : View {
-    let name: String
     
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(Color.flatWhite)
                 .blur(radius: 5)
-                .frame(maxWidth: 260, maxHeight: 140)
-            
-            Image(name)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 200, maxHeight: 140)
+                .frame(maxHeight: 140)
+                .shadow(color: .black, radius: 10.0, x: 8, y: 8)
         }
-        .shadow(color: .black, radius: 10.0, x: 8, y: 8)
-    .padding()
-
     }
 }
