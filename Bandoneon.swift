@@ -40,7 +40,7 @@ protocol KeyLayout {
 
     /// I chose a notes Dictionary to attribute an index to every note in order to find the key
     /// there will need to be a function to attribute a note to every key
-    var notes: [ Octaves : [ Notes : (Int, Int) ] ] { get }
+    var notes: [ Octaves : [ Notes : BandoneonKeyIndex ] ] { get }
 }
 
 protocol KeyIndex {
@@ -154,7 +154,7 @@ struct Bandoneon {
 
     ///
     struct LeftSideKeys : KeyLayout {
-        var notes: [Octaves : [Notes : (Int, Int)]] = [:]
+        var notes: [Octaves : [Notes : BandoneonKeyIndex]] = [:]
         
 
         let image: Image = Image(.bandoneonKeysPositionsLeft)
@@ -193,15 +193,15 @@ struct Bandoneon {
         
     }
     
-//    func convertToKeyPosition(_ lol: [[(CGFloat,CGFloat)]]) -> [[KeyPosition]] {
-//        return lol.map { ($0 as [(CGFloat,CGFloat)]).map{KeyPosition($0.0,$0.1)} }
-//    }
-
+    //    func convertToKeyPosition(_ lol: [[(CGFloat,CGFloat)]]) -> [[KeyPosition]] {
+    //        return lol.map { ($0 as [(CGFloat,CGFloat)]).map{KeyPosition($0.0,$0.1)} }
+    //    }
+    
     struct RightSideKeys : KeyLayout {
         
         let image: Image = Image(.bandoneonKeysPositionsRight)
         let pictureSize = CGSize(width: 1920, height: 981)
-
+        
         let coverPosition: [[(KeyPosition)]] = [[]]
         
         let markerPosition: [[(KeyPosition)]] = [
@@ -213,6 +213,44 @@ struct Bandoneon {
             [ (515, 42), (763, 16), (1016, 16), (1216, 12) ]
         ]
         
+        
+        /// return all indexes that match note and octave
+        /// filter all corresponding indexes if octave is nil or note is nil
+        func indexesFor(note: Notes?, inOctave oct: Octaves?) -> [BandoneonKeyIndex] {
+            var indexes = [BandoneonKeyIndex]()
+            
+            for octave in self.notes.keys {
+                if let selectedOctave = oct {
+                    if selectedOctave == octave {
+                        if let notesDictionary = self.notes[octave] {
+                            for entry in notesDictionary {
+                                if let note = note {
+                                    if entry.key == note {
+                                        indexes.append(entry.value)
+                                    }
+                                } else {
+                                    indexes.append(entry.value)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if let notesDictionary = self.notes[octave] {
+                        for entry in notesDictionary {
+                            if let note = note {
+                                if entry.key == note {
+                                    indexes.append(entry.value)
+                                }
+                            } else {
+                                indexes.append(entry.value)
+                            }
+                        }
+                    }
+                }
+            }
+            return indexes
+        }
+        
         let keySequence: [[MarkerIndex]] = [
             [(1,1), (2,1)],
             [(1,2), (2,2), (3,1)],
@@ -222,30 +260,54 @@ struct Bandoneon {
             [(1,6), (2,6), (3,5), (4,5), (5,3), (6,2)],
             [(1,7), (2,7), (3,6), (4,6), (5,4), (6,3)],
             [(1,8), (2,8), (3,7), (4,7), (5,5), (6,4)],
-        ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
+            ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
-        let notes: [ Octaves : [ Notes : (Int, Int) ] ] = [
-            .big : [
-                .a: (1,2),
-                .ais: (1,1),
-                .h: (2,3),
-                ],
-            .small: [
-                .c: (3,4),
-                .cis: (4,5),
-                .d: (4,4),
-                .dis: (2,1),
-                .e: (3,3),
-                .f: (2,2),
-                .fis: (5,3),
-                .g: (5,4),
-                .gis: (4,2),
-                .a: (6,3),
-                .ais: (3,2),
-                .h: (5,2),
+        let notes: [ Octaves : [ Notes : BandoneonKeyIndex ] ] = [
+            .small : [
+                .a: BandoneonKeyIndex(1,2),
+                .ais: BandoneonKeyIndex(1,1),
+                .h: BandoneonKeyIndex(2,3),
             ],
             .one: [
-                .c: (7,3)
+                .c: BandoneonKeyIndex(3,4),
+                .cis: BandoneonKeyIndex(4,5),
+                .d: BandoneonKeyIndex(4,4),
+                .dis: BandoneonKeyIndex(2,1),
+                .e: BandoneonKeyIndex(3,3),
+                .f: BandoneonKeyIndex(2,2),
+                .fis: BandoneonKeyIndex(5,3),
+                .g: BandoneonKeyIndex(5,4),
+                .gis: BandoneonKeyIndex(4,2),
+                .a: BandoneonKeyIndex(6,3),
+                .ais: BandoneonKeyIndex(3,2),
+                .h: BandoneonKeyIndex(5,2),
+            ],
+            .two: [
+                .c: BandoneonKeyIndex(7,3),
+                .cis: BandoneonKeyIndex(4,3),
+                .d: BandoneonKeyIndex(6,2),
+                .dis: BandoneonKeyIndex(4,1),
+                .e: BandoneonKeyIndex(8,3),
+                .f: BandoneonKeyIndex(3,1),
+                .fis: BandoneonKeyIndex(5,1),
+                .g: BandoneonKeyIndex(8,1),
+                .gis: BandoneonKeyIndex(7,2),
+                .a: BandoneonKeyIndex(6,1),
+                .ais: BandoneonKeyIndex(6,4),
+                .h: BandoneonKeyIndex(8,2),
+            ],
+            .three: [
+                .c: BandoneonKeyIndex(7,5),
+                .cis: BandoneonKeyIndex(7,1),
+                .d: BandoneonKeyIndex(8,4),
+                .dis: BandoneonKeyIndex(8,5),
+                .e: BandoneonKeyIndex(7,5),
+                .f: BandoneonKeyIndex(8,6),
+                .fis: BandoneonKeyIndex(6,5),
+                .g: BandoneonKeyIndex(7,6),
+                .gis: BandoneonKeyIndex(6,6),
+                .a: BandoneonKeyIndex(5,5),
+                .h: BandoneonKeyIndex(5,6),
             ]
         ]
     }
