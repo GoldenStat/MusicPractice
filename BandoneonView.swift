@@ -10,7 +10,7 @@ import SwiftUI
 
 struct BandoneonView: View {
     
-    let keys : KeyPositions
+    let keys : KeyLayout
     
     var picture : Image { keys.image }
     var size : CGSize { keys.pictureSize }

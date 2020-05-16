@@ -36,7 +36,7 @@ protocol KeyLayout {
 
     /// the key Sequence is needed because the buttons are not indexed from bottom left to upper right
     /// but in a certain pattern, maps to marker-/coverPosition
-    var keySequence: [[BandoneonKeyIndex]] { get }
+    var keySequence: [[MarkerIndex]] { get }
 
     /// I chose a notes Dictionary to attribute an index to every note in order to find the key
     /// there will need to be a function to attribute a note to every key
@@ -45,7 +45,18 @@ protocol KeyLayout {
 
 typealias BandoneonKeyIndex = (Int, Int) /// the position from bandoneon notation: see mapping in KeyLayout().keySequence
 
-typealias MatrixIndex = (Int, Int) /// the position from graphical point of view, counting from (left, bottom) to (right, top), used for accessing markerPosition / coverPosition in KeyLayout
+//typealias MarkerIndex = (Int, Int)
+
+/// the position from graphical point of view, counting from (left, bottom) to (right, top), used for accessing markerPosition / coverPosition in KeyLayout
+struct MarkerIndex {
+    let row: Int
+    let column: Int
+    
+    init(_ row: Int, _ column: Int) {
+        self.row = row
+        self.column = column
+    }
+}
 
 extension KeyLayout {
     
@@ -61,11 +72,11 @@ extension KeyLayout {
     ///   - row: the graphical row
     ///   - column: the graphical column
     /// - Returns: the  CGPoint for the key, derived from the markerPosition array, relative to the picture
-    func markerPosition(row: Int, column: Int) -> CGPoint? {
-        guard isValidMatrixIndex(row: row, column: column) else { return nil }
+    func markerPosition(index: MarkerIndex) -> CGPoint? {
+        guard isValidMarkerIndex(index: index) else { return nil }
 
-        let (x,y) = keySequence[row-1][column-1]
-        let coordinate = markerPosition[x-1][y-1]
+        let position = keySequence[index.row-1][index.column-1]
+        let coordinate = markerPosition[position.row-1][position.column-1]
         return CGPoint(x: coordinate.0, y: coordinate.1)
     }
 
@@ -81,8 +92,10 @@ extension KeyLayout {
     ///   - index: the position of the key
     /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
     /// i.e. if the index for the marker exists
-    func isValidMarkerIndex(index: MatrixIndex) -> Bool {
-        let (row,column) = index
+    func isValidMarkerIndex(index: MarkerIndex) -> Bool {
+        let row = index.row
+        let column = index.column
+        
         return row - 1 > 0 && row - 1 <= markerPosition.count &&
             column - 1 > 0 && column - 1 <= markerPosition[row].count
     }
@@ -91,11 +104,8 @@ extension KeyLayout {
     ///   - row: <#row description#>
     ///   - column: <#column description#>
     /// - Returns: returns the Index of the key in a diatonic scale?
-    func keyNumber(row: Int, column: Int) -> Int? {
-        guard isValidMatrixIndex(row: row, column: column) else { return nil }
-
-        var flatSequence : [ (Int, Int) ] = []
-        let _ = keySequence.map { flatSequence.append(contentsOf: $0) }
+    func keyNumber(index: BandoneonKeyIndex) -> Int? {
+        guard isValidKeyIndex(index: index) else { return nil }
         
         return nil
     }
@@ -146,7 +156,7 @@ struct Bandoneon {
             [ (506, 40), (771, 27), (1019, 14), (1263, 23), (1507, 19) ]
         ]
         
-        let keySequence: [ [(Int, Int)] ] = [
+        let keySequence: [ [MarkerIndex] ] = [
             [(1,1)],
             [(1,2), (2,1)],
             [(1,3), (2,2), (3,1), (4,1)],
@@ -156,10 +166,13 @@ struct Bandoneon {
             [(1,7), (2,6), (3,5), (4,5), (5,3)],
             [(1,8), (2,7), (3,6), (4,6), (5,4)],
             [(4,7), (5,5)]
-        ]
+            ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
     }
-
+    
+//    func convertToKeyPosition(_ lol: [[(CGFloat,CGFloat)]]) -> [[KeyPosition]] {
+//        return lol.map { ($0 as [(CGFloat,CGFloat)]).map{KeyPosition($0.0,$0.1)} }
+//    }
 
     struct RightSideKeys : KeyLayout {
         
@@ -177,7 +190,7 @@ struct Bandoneon {
             [ (515, 42), (763, 16), (1016, 16), (1216, 12) ]
         ]
         
-        let keySequence: [[(Int, Int)]] = [
+        let keySequence: [[MarkerIndex]] = [
             [(1,1), (2,1)],
             [(1,2), (2,2), (3,1)],
             [(1,3), (2,3), (3,2), (4,1)],
@@ -186,7 +199,7 @@ struct Bandoneon {
             [(1,6), (2,6), (3,5), (4,5), (5,3), (6,2)],
             [(1,7), (2,7), (3,6), (4,6), (5,4), (6,3)],
             [(1,8), (2,8), (3,7), (4,7), (5,5), (6,4)],
-        ]
+        ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
         let notes: [ Octaves : [ Notes : (Int, Int) ] ] = [
             .big : [
