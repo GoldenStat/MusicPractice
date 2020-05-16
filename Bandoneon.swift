@@ -21,8 +21,6 @@ extension PictureNames {
     static var bandoneon = "Bandoneon"
 }
 
-typealias KeyPosition = (CGFloat, CGFloat)
-
 protocol KeyLayout {
     var image: Image { get }
     var pictureSize : CGSize { get }
@@ -40,8 +38,11 @@ protocol KeyLayout {
 
     /// I chose a notes Dictionary to attribute an index to every note in order to find the key
     /// there will need to be a function to attribute a note to every key
-    var notes: [ Octaves : [ Notes : BandoneonKeyIndex ] ] { get }
+    var notes: [ OctaveKeyIndex ] { get }
+
 }
+
+typealias KeyPosition = CGPoint
 
 protocol KeyIndex {
     var row: Int { get }
@@ -70,8 +71,18 @@ struct MarkerIndex : KeyIndex {
 
 extension Array {
     func isValid(index: Int) -> Bool {
-        index > 0 && index < self.count
+        index >= 0 && index < self.count
     }
+}
+
+struct OctaveKeyIndex {
+    let octave: Octaves
+    let keyIndexes: [ NoteIndex ]
+    
+}
+struct NoteIndex {
+    let note: Notes
+    let index: BandoneonKeyIndex
 }
 
 extension KeyLayout {
@@ -93,21 +104,26 @@ extension KeyLayout {
 
         let position = keySequence[index.row-1][index.column-1]
         let coordinate = markerPosition[position.row-1][position.column-1]
-        return CGPoint(x: coordinate.0, y: coordinate.1)
+        return CGPoint(x: coordinate.x, y: coordinate.y)
+    }
+    
+    func markerPosition(index: BandoneonKeyIndex) -> CGPoint? {
+        guard isValidKeyIndex(index: index) else { return nil }
+
+        let position = keySequence[index.row-1][index.column-1]
+        let coordinate = markerPosition[position.row-1][position.column-1]
+        return CGPoint(x: coordinate.x, y: coordinate.y)
     }
 
-    func isValid(index: KeyIndex, forSequence sequence: [[KeyIndex]]) -> Bool {
-        keySequence.isValid(index: index.row - 1) &&
-            keySequence.isValid(index: index.column - 1)
+    func isValidKey(index: KeyIndex, forSequence sequence: [[Any]]) -> Bool {
+        sequence.isValid(index: index.row - 1) &&
+            sequence.isValid(index: index.column - 1)
     }
 
     /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
     /// i.e. if the index for the marker exists
     func isValidKeyIndex(index: BandoneonKeyIndex) -> Bool {
-        let row = index.row
-        let column = index.column
-        return row - 1 > 0 && row - 1 <= keySequence.count &&
-            column - 1 > 0 && column - 1 <= keySequence[row].count
+        isValidKey(index: index, forSequence: keySequence)
     }
 
     
@@ -116,16 +132,14 @@ extension KeyLayout {
     /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
     /// i.e. if the index for the marker exists
     func isValidMarkerIndex(index: MarkerIndex) -> Bool {
-        let row = index.row
-        let column = index.column
-        
-        return row - 1 > 0 && row - 1 <= markerPosition.count &&
-            column - 1 > 0 && column - 1 <= markerPosition[row].count
+        isValidKey(index: index, forSequence: markerPosition)
     }
     
+    /// Description TODO: not sure what this does, yet. What is KeyNumber supposed to be? Makes only sense in order, or something
+    ///  which means the keyboard needs an order
+    ///   but this could also be implicit by the notes.map being ordered
     /// - Parameters:
-    ///   - row: <#row description#>
-    ///   - column: <#column description#>
+    ///   - index: Bandoneon Index for the selected key
     /// - Returns: returns the Index of the key in a diatonic scale?
     func keyNumber(index: BandoneonKeyIndex) -> Int? {
         guard isValidKeyIndex(index: index) else { return nil }
@@ -133,6 +147,46 @@ extension KeyLayout {
         return nil
     }
 
+    /// return all indexes that match note and octave
+    /// filter all corresponding indexes if octave is nil or note is nil
+    func indexesFor(note: Notes?, inOctave oct: Octaves?) -> [BandoneonKeyIndex] {
+        var indexes = [BandoneonKeyIndex]()
+        
+        for octaveIndex in self.notes {
+            if let selectedOctave = oct { // an octave was selected, return only notes from this octave
+                if selectedOctave == octaveIndex.octave {
+                    for notesIndex in octaveIndex.keyIndexes {
+                        if let note = note { // if note was selected return only this notes value
+                            if notesIndex.note == note {
+                                indexes.append(notesIndex.index)
+                            }
+                        } else {
+                            indexes.append(notesIndex.index)
+                        }
+                    }
+                }
+            } else {
+                for notesIndex in octaveIndex.keyIndexes {
+                    if let note = note { // if note was selected return only this notes value
+                        if notesIndex.note == note {
+                            indexes.append(notesIndex.index)
+                        }
+                    } else {
+                        indexes.append(notesIndex.index)
+                    }
+                }
+            }
+        }
+        return indexes
+    }
+    
+    func indexesFor(notes: [Notes], inOctave oct: Octaves?) -> [ BandoneonKeyIndex ] {
+        var indexes = [BandoneonKeyIndex]()
+        
+        _ = notes.map { indexes.append(contentsOf: indexesFor(note: $0, inOctave: oct)) }
+
+        return indexes
+    }
 }
 
 protocol KeyNotes {
@@ -154,8 +208,7 @@ struct Bandoneon {
 
     ///
     struct LeftSideKeys : KeyLayout {
-        var notes: [Octaves : [Notes : BandoneonKeyIndex]] = [:]
-        
+        var notes: [OctaveKeyIndex] = []
 
         let image: Image = Image(.bandoneonKeysPositionsLeft)
         var pictureSize = CGSize(width: 1920, height: 978)
@@ -168,7 +221,7 @@ struct Bandoneon {
             [(310, 399), (580, 364), (788, 342), (1024, 325), (1267, 338), (1533, 364)],
             [(175, 260), (410, 221), (667, 195), (919, 186), (1155, 179), (1399, 209), (1656, 213)],
             [(533, 61), (803, 52), (1046, 44), (1308, 52), (1560, 48)]
-        ]
+            ].map { $0.map { CGPoint(x: $0.0, y: $0.1) } }
         
         /// the covers for the buttons are a little offset from the markers, as they cover the whole keys
         let coverPosition : [[KeyPosition]] = [
@@ -177,7 +230,7 @@ struct Bandoneon {
             [ (280, 354), (541, 232), (764, 302), (990, 284), (1221, 297), (1482, 328) ],
             [ (150, 241), (380, 197), (646, 171), (890, 149), (1107, 149), (1355, 180), (1607, 180) ],
             [ (506, 40), (771, 27), (1019, 14), (1263, 23), (1507, 19) ]
-        ]
+        ].map { $0.map { CGPoint(x: $0.0, y: $0.1) } }
         
         let keySequence: [ [MarkerIndex] ] = [
             [(1,1)],
@@ -211,45 +264,8 @@ struct Bandoneon {
             [ (328, 282), (519, 234), (754, 217), (994, 217), (1216, 251), (1429, 256) ],
             [ (411, 156), (641, 121), (868, 112), (1129, 130), (1325, 143) ],
             [ (515, 42), (763, 16), (1016, 16), (1216, 12) ]
-        ]
+        ].map { $0.map { CGPoint(x: $0.0, y: $0.1) } }
         
-        
-        /// return all indexes that match note and octave
-        /// filter all corresponding indexes if octave is nil or note is nil
-        func indexesFor(note: Notes?, inOctave oct: Octaves?) -> [BandoneonKeyIndex] {
-            var indexes = [BandoneonKeyIndex]()
-            
-            for octave in self.notes.keys {
-                if let selectedOctave = oct {
-                    if selectedOctave == octave {
-                        if let notesDictionary = self.notes[octave] {
-                            for entry in notesDictionary {
-                                if let note = note {
-                                    if entry.key == note {
-                                        indexes.append(entry.value)
-                                    }
-                                } else {
-                                    indexes.append(entry.value)
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if let notesDictionary = self.notes[octave] {
-                        for entry in notesDictionary {
-                            if let note = note {
-                                if entry.key == note {
-                                    indexes.append(entry.value)
-                                }
-                            } else {
-                                indexes.append(entry.value)
-                            }
-                        }
-                    }
-                }
-            }
-            return indexes
-        }
         
         let keySequence: [[MarkerIndex]] = [
             [(1,1), (2,1)],
@@ -262,53 +278,53 @@ struct Bandoneon {
             [(1,8), (2,8), (3,7), (4,7), (5,5), (6,4)],
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
-        let notes: [ Octaves : [ Notes : BandoneonKeyIndex ] ] = [
-            .small : [
-                .a: BandoneonKeyIndex(1,2),
-                .ais: BandoneonKeyIndex(1,1),
-                .h: BandoneonKeyIndex(2,3),
-            ],
-            .one: [
-                .c: BandoneonKeyIndex(3,4),
-                .cis: BandoneonKeyIndex(4,5),
-                .d: BandoneonKeyIndex(4,4),
-                .dis: BandoneonKeyIndex(2,1),
-                .e: BandoneonKeyIndex(3,3),
-                .f: BandoneonKeyIndex(2,2),
-                .fis: BandoneonKeyIndex(5,3),
-                .g: BandoneonKeyIndex(5,4),
-                .gis: BandoneonKeyIndex(4,2),
-                .a: BandoneonKeyIndex(6,3),
-                .ais: BandoneonKeyIndex(3,2),
-                .h: BandoneonKeyIndex(5,2),
-            ],
-            .two: [
-                .c: BandoneonKeyIndex(7,3),
-                .cis: BandoneonKeyIndex(4,3),
-                .d: BandoneonKeyIndex(6,2),
-                .dis: BandoneonKeyIndex(4,1),
-                .e: BandoneonKeyIndex(8,3),
-                .f: BandoneonKeyIndex(3,1),
-                .fis: BandoneonKeyIndex(5,1),
-                .g: BandoneonKeyIndex(8,1),
-                .gis: BandoneonKeyIndex(7,2),
-                .a: BandoneonKeyIndex(6,1),
-                .ais: BandoneonKeyIndex(6,4),
-                .h: BandoneonKeyIndex(8,2),
-            ],
-            .three: [
-                .c: BandoneonKeyIndex(7,5),
-                .cis: BandoneonKeyIndex(7,1),
-                .d: BandoneonKeyIndex(8,4),
-                .dis: BandoneonKeyIndex(8,5),
-                .e: BandoneonKeyIndex(7,5),
-                .f: BandoneonKeyIndex(8,6),
-                .fis: BandoneonKeyIndex(6,5),
-                .g: BandoneonKeyIndex(7,6),
-                .gis: BandoneonKeyIndex(6,6),
-                .a: BandoneonKeyIndex(5,5),
-                .h: BandoneonKeyIndex(5,6),
-            ]
+        let notes: [ OctaveKeyIndex ] = [
+            OctaveKeyIndex(octave: .small, keyIndexes: [
+                NoteIndex(note: .a, index: BandoneonKeyIndex(1,2)),
+                NoteIndex(note: .ais, index: BandoneonKeyIndex(1,1)),
+                NoteIndex(note: .h, index: BandoneonKeyIndex(2,3)),
+            ]),
+            OctaveKeyIndex(octave: .one, keyIndexes: [
+                NoteIndex(note: .c, index: BandoneonKeyIndex(3,4)),
+                NoteIndex(note: .cis, index: BandoneonKeyIndex(4,5)),
+                NoteIndex(note: .d, index: BandoneonKeyIndex(4,4)),
+                NoteIndex(note: .dis, index: BandoneonKeyIndex(2,1)),
+                NoteIndex(note: .e, index: BandoneonKeyIndex(3,3)),
+                NoteIndex(note: .f, index: BandoneonKeyIndex(2,2)),
+                NoteIndex(note: .fis, index: BandoneonKeyIndex(5,3)),
+                NoteIndex(note: .g, index: BandoneonKeyIndex(5,4)),
+                NoteIndex(note: .gis, index: BandoneonKeyIndex(4,2)),
+                NoteIndex(note: .a, index: BandoneonKeyIndex(6,3)),
+                NoteIndex(note: .ais, index: BandoneonKeyIndex(3,2)),
+                NoteIndex(note: .h, index: BandoneonKeyIndex(5,2)),
+            ]),
+            OctaveKeyIndex(octave: .two, keyIndexes: [
+                NoteIndex(note: .c, index: BandoneonKeyIndex(7,3)),
+                NoteIndex(note: .cis, index: BandoneonKeyIndex(4,3)),
+                NoteIndex(note: .d, index: BandoneonKeyIndex(6,2)),
+                NoteIndex(note: .dis, index: BandoneonKeyIndex(4,1)),
+                NoteIndex(note: .e, index: BandoneonKeyIndex(8,3)),
+                NoteIndex(note: .f, index: BandoneonKeyIndex(3,1)),
+                NoteIndex(note: .fis, index: BandoneonKeyIndex(5,1)),
+                NoteIndex(note: .g, index: BandoneonKeyIndex(8,1)),
+                NoteIndex(note: .gis, index: BandoneonKeyIndex(7,2)),
+                NoteIndex(note: .a, index: BandoneonKeyIndex(6,1)),
+                NoteIndex(note: .ais, index: BandoneonKeyIndex(6,4)),
+                NoteIndex(note: .h, index: BandoneonKeyIndex(8,2)),
+            ]),
+            OctaveKeyIndex(octave: .three, keyIndexes: [
+                NoteIndex(note: .c, index: BandoneonKeyIndex(7,5)),
+                NoteIndex(note: .cis, index: BandoneonKeyIndex(7,1)),
+                NoteIndex(note: .d, index: BandoneonKeyIndex(8,4)),
+                NoteIndex(note: .dis, index: BandoneonKeyIndex(8,5)),
+                NoteIndex(note: .e, index: BandoneonKeyIndex(7,5)),
+                NoteIndex(note: .f, index: BandoneonKeyIndex(8,6)),
+                NoteIndex(note: .fis, index: BandoneonKeyIndex(6,5)),
+                NoteIndex(note: .g, index: BandoneonKeyIndex(7,6)),
+                NoteIndex(note: .gis, index: BandoneonKeyIndex(6,6)),
+                NoteIndex(note: .a, index: BandoneonKeyIndex(5,5)),
+                NoteIndex(note: .h, index: BandoneonKeyIndex(5,6)),
+            ])
         ]
     }
 

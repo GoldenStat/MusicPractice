@@ -10,11 +10,11 @@ import SwiftUI
 
 struct BandoneonView: View {
     
-    let keys : KeyLayout
+    let layout : KeyLayout
     
-    var picture : Image { keys.image }
-    var size : CGSize { keys.pictureSize }
-    var samplePoints : [KeyPosition] { keys.flatten(keys.markerPosition) }
+    var picture : Image { layout.image }
+    var size : CGSize { layout.pictureSize }
+    var samplePoints : [KeyPosition] { layout.flatten(layout.markerPosition) }
     
     func position(for point: (CGFloat,CGFloat), with relativeSize: CGSize? = nil) -> CGPoint {
         let size = relativeSize ?? self.size
@@ -22,8 +22,13 @@ struct BandoneonView: View {
                        y: height(for: point.1, to: size))
     }
     
+    func position(for index: BandoneonKeyIndex) -> CGPoint {
+        let position = layout.markerPosition(index: index)!
+        return position
+    }
+    
     var markedNotes: [Notes] = []
-    var markedKeys: [BandoneonKeyIndex] = []
+    var markedKeys: [BandoneonKeyIndex] = [BandoneonKeyIndex(1, 1)]
     
     var buttonPosition = CGPoint(x: 0, y: 0)
     
@@ -42,19 +47,21 @@ struct BandoneonView: View {
             picture
                 .resizable()
                 .frame(width: size.width, height: size.height)
-            ForEach(0 ..< self.samplePoints.count) { index in
+            ForEach(0 ..< self.markedKeys.count) { index in
                 Circle()
-                    .fill(Color.green)
+                    .fill(Color.marked)
+                    .overlay(Text("\(index+1)")
+                        .font(.largeTitle))
                     .frame(
                         width: self.buttonSize.width,
                         height: self.buttonSize.height
                 )
-                    .position(self.position(for: self.samplePoints[index]))
+                    .position(self.position(for: self.markedKeys[index]))
                     .offset(x: self.buttonSize.width/2, y: self.buttonSize.height/2)
             }
             
         }
-        .scaledToFit()
+//        .scaledToFit()
     }
 }
 
@@ -62,10 +69,12 @@ struct BandoneonView_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            BandoneonView(keys: Bandoneon.RightSideKeys())
-            BandoneonView(keys: Bandoneon.LeftSideKeys())
+            BandoneonView(layout: Bandoneon.RightSideKeys(), markedKeys: Bandoneon.RightSideKeys().indexesFor(notes: Scale.C7.notes, inOctave: .three))
+            .rotationEffect(Angle(degrees: 90))
+//            BandoneonView(layout: Bandoneon.LeftSideKeys())
         }
-        .scaleEffect(0.2)
+//    .scaledToFill()
+        .scaleEffect(0.4)
         
     }
 }
