@@ -76,12 +76,12 @@ extension Array {
 }
 
 struct OctaveKeyIndex {
-    let octave: Octaves
+    let octave: Octave
     let keyIndexes: [ NoteIndex ]
     
 }
 struct NoteIndex {
-    let note: Notes
+    let note: Note
     let index: BandoneonKeyIndex
 }
 
@@ -143,13 +143,12 @@ extension KeyLayout {
     /// - Returns: returns the Index of the key in a diatonic scale?
     func keyNumber(index: BandoneonKeyIndex) -> Int? {
         guard isValidKeyIndex(index: index) else { return nil }
-        
-        return nil
+        fatalError("implement Function")
     }
 
     /// return all indexes that match note and octave
     /// filter all corresponding indexes if octave is nil or note is nil
-    func indexesFor(note: Notes?, inOctave oct: Octaves?) -> [BandoneonKeyIndex] {
+    func indexesFor(note: Note?, inOctave oct: Octave?) -> [BandoneonKeyIndex] {
         var indexes = [BandoneonKeyIndex]()
         
         for octaveIndex in self.notes {
@@ -180,7 +179,7 @@ extension KeyLayout {
         return indexes
     }
     
-    func indexesFor(notes: [Notes], inOctave oct: Octaves?) -> [ BandoneonKeyIndex ] {
+    func indexesFor(notes: [Note], inOctave oct: Octave?) -> [ BandoneonKeyIndex ] {
         var indexes = [BandoneonKeyIndex]()
         
         _ = notes.map { indexes.append(contentsOf: indexesFor(note: $0, inOctave: oct)) }
@@ -192,7 +191,7 @@ extension KeyLayout {
 protocol KeyNotes {
     var direction: Bandoneon.PlayingDirection { get }
     var hand: Bandoneon.Hand { get }
-    func notes(row: Int, column: Int) -> Notes
+    func notes(row: Int, column: Int) -> Note
 }
 
 struct Bandoneon {
@@ -245,19 +244,15 @@ struct Bandoneon {
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
     }
-    
-    //    func convertToKeyPosition(_ lol: [[(CGFloat,CGFloat)]]) -> [[KeyPosition]] {
-    //        return lol.map { ($0 as [(CGFloat,CGFloat)]).map{KeyPosition($0.0,$0.1)} }
-    //    }
-    
+        
     struct RightSideKeys : KeyLayout {
         
         let image: Image = Image(.bandoneonKeysPositionsRight)
         let pictureSize = CGSize(width: 1920, height: 981)
         
-        let coverPosition: [[(KeyPosition)]] = [[]]
+        let coverPosition: [[KeyPosition]] = [[]]
         
-        let markerPosition: [[(KeyPosition)]] = [
+        let markerPosition: [[KeyPosition]] = [
             [ (150, 801), (370, 746), (561, 721), (818, 678), (1050, 672), (1271, 666), (1503, 697), (1735, 721) ],
             [ (84, 591), (290, 586), (524, 547), (733, 513), (968, 495), (1172, 508), (1399, 526), (1643, 565) ],
             [ (210, 426), (455, 391), (659, 360), (868, 343), (1094, 365), (1320, 378), (1534, 391) ],
@@ -273,9 +268,9 @@ struct Bandoneon {
             [(1,3), (2,3), (3,2), (4,1)],
             [(1,4), (2,4), (3,3), (4,2), (5,1)],
             [(1,5), (2,5), (3,4), (4,3), (5,2), (6,1)],
-            [(1,6), (2,6), (3,5), (4,5), (5,3), (6,2)],
-            [(1,7), (2,7), (3,6), (4,6), (5,4), (6,3)],
-            [(1,8), (2,8), (3,7), (4,7), (5,5), (6,4)],
+            [(1,6), (2,6), (3,5), (4,4), (5,3), (6,2)],
+            [(1,7), (2,7), (3,6), (4,5), (5,4), (6,3)],
+            [(1,8), (2,8), (3,7), (4,6), (5,5), (6,4)],
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
         let notes: [ OctaveKeyIndex ] = [
@@ -313,7 +308,7 @@ struct Bandoneon {
                 NoteIndex(note: .h, index: BandoneonKeyIndex(8,2)),
             ]),
             OctaveKeyIndex(octave: .three, keyIndexes: [
-                NoteIndex(note: .c, index: BandoneonKeyIndex(7,5)),
+                NoteIndex(note: .c, index: BandoneonKeyIndex(7,4)),
                 NoteIndex(note: .cis, index: BandoneonKeyIndex(7,1)),
                 NoteIndex(note: .d, index: BandoneonKeyIndex(8,4)),
                 NoteIndex(note: .dis, index: BandoneonKeyIndex(8,5)),

@@ -18,11 +18,11 @@ struct Scale : Hashable {
 
     var dominant : DominantScales
     var name: String { dominant.rawValue }
-    var notes : [Notes] { return Self.notes(dominant: dominant)}
+    var notes : [Note] { return Self.notes(dominant: dominant)}
 
     static var selectableScales = DominantScales.allCases // subgroup we want to allow for selection
     
-    static func notes(dominant: DominantScales) -> [ Notes ] {
+    static func notes(dominant: DominantScales) -> [ Note ] {
         switch dominant {
         case .C7: return [.c, .e, .g, .hes]
         case .Cis7: return [.cis, .eis, .gis, .h]
@@ -58,20 +58,20 @@ struct Scale : Hashable {
     }
 }
 
-enum Notes: String, CaseIterable {
+enum Note: String, CaseIterable {
     case c, d, e, f, g, a, h
     case cis, dis, eis = "e-is", fis, gis, ais
     case ces, des, es, ges, aes = "as", hes = "b"
 }
 
-enum Octaves: String, CaseIterable {
+enum Modfier: String, CaseIterable {
+    case sharp, flat
+}
+
+enum Octave: String, CaseIterable {
     case subcontra, contra, big, small, one, two, three, four, five
 }
 
 enum Hand: String, CaseIterable {
     case left, right
-}
-
-enum Key: String, CaseIterable {
-    case G, F
 }
