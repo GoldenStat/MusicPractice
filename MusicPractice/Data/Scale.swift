@@ -59,17 +59,84 @@ struct Scale : Hashable {
 }
 
 enum Note: String, CaseIterable {
-    case c, d, e, f, g, a, h
-    case cis, dis, eis = "e-is", fis, gis, ais
-    case ces, des, es, ges, aes = "as", hes = "b"
+    case ces, c, cis = "c#"
+    case des, d, dis
+    case es, e, eis
+    case f, fis
+    case ges, g, gis
+    case aes = "as", a, ais
+    case hes = "b", h
 }
 
-enum Modfier: String, CaseIterable {
+enum Modifier: String, CaseIterable {
     case sharp, flat
+}
+
+extension Note {
+    func string(modifiedBy modifier: Modifier) -> String {
+        switch modifier {
+        case .sharp:
+            switch self {
+            case .c, .d, .f, .g, .a:
+                return "\(self.rawValue)♯"
+            case .e:
+                return Note.f.rawValue
+            case .h:
+                return Note.c.rawValue
+            default: /// no strings provided for modifying twice
+                return ""
+            }
+        case .flat:
+            switch self {
+            case .d, .e, .g, .a:
+                return "\(self.rawValue)♭"
+            case .h:
+                return Note.hes.rawValue
+            case .c:
+                return Note.h.rawValue
+            case .f:
+                return Note.e.rawValue
+            default: /// no strings provided for modifying twice
+                return ""
+            }
+        }
+    }
+}
+
+enum LatinNote: String, CaseIterable {
+    case do_, re, mi, fa, sol, la, si
 }
 
 enum Octave: String, CaseIterable {
     case subcontra, contra, big, small, one, two, three, four, five
+    
+    func string(for index: NoteIndex) -> String {
+        let noteString = index.string
+        let modifiedString: String
+        switch self {
+        case .subcontra:
+            modifiedString = ",,\(noteString.uppercased())"
+        case .contra:
+            modifiedString = ",\(noteString.uppercased())"
+        case .big:
+            modifiedString = "\(noteString.uppercased())"
+        case .small:
+            modifiedString = "\(noteString.lowercased())"
+        case .one:
+            modifiedString = "\(noteString.lowercased())'"
+        case .two:
+            modifiedString = "\(noteString.lowercased())''"
+        case .three:
+            modifiedString = "\(noteString.lowercased())'''"
+        case .four:
+            modifiedString = "\(noteString.lowercased())''''"
+        case .five:
+            modifiedString = "\(noteString.lowercased())'''''"
+
+        }
+        return modifiedString
+    }
+
 }
 
 enum Hand: String, CaseIterable {
