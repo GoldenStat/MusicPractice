@@ -200,8 +200,43 @@ struct Bandoneon {
 
     ///
     struct LeftSideKeys : KeyLayout {
-        var notes: [ NoteIndex ] = []
-
+            let notes: [ NoteIndex ] = [
+                    NoteIndex(note: .c, index: BandoneonKeyIndex(8,1), octave: .big),
+                    NoteIndex(note: .d, index: BandoneonKeyIndex(1,1), octave: .big),
+                    NoteIndex(note: .dis, index: BandoneonKeyIndex(7,1), octave: .big),
+                    NoteIndex(note: .e, index: BandoneonKeyIndex(3,4), octave: .big),
+                    NoteIndex(note: .f, index: BandoneonKeyIndex(9,1), octave: .big),
+                    NoteIndex(note: .fis, index: BandoneonKeyIndex(8,2), octave: .big),
+                    NoteIndex(note: .g, index: BandoneonKeyIndex(8,3), octave: .big),
+                    NoteIndex(note: .gis, index: BandoneonKeyIndex(5,5), octave: .big),
+                    NoteIndex(note: .a, index: BandoneonKeyIndex(4,4), octave: .big),
+                    NoteIndex(note: .ais, index: BandoneonKeyIndex(6,5), octave: .big),
+                    NoteIndex(note: .h, index: BandoneonKeyIndex(2,1), octave: .big),
+                    NoteIndex(note: .c, index: BandoneonKeyIndex(7,3), octave: .small),
+                    NoteIndex(note: .cis, index: BandoneonKeyIndex(7,5), octave: .big),
+                    NoteIndex(note: .d, index: BandoneonKeyIndex(3,3), octave: .big),
+                    NoteIndex(note: .dis, index: BandoneonKeyIndex(6,4), octave: .big),
+                    NoteIndex(note: .e, index: BandoneonKeyIndex(2,2), octave: .big),
+                    NoteIndex(note: .f, index: BandoneonKeyIndex(8,5), octave: .big),
+                    NoteIndex(note: .fis, index: BandoneonKeyIndex(6,1), octave: .big),
+                    NoteIndex(note: .g, index: BandoneonKeyIndex(5,4), octave: .big),
+                    NoteIndex(note: .gis, index: BandoneonKeyIndex(3,2), octave: .big),
+                    NoteIndex(note: .a, index: BandoneonKeyIndex(4,3), octave: .big),
+                    NoteIndex(note: .ais, index: BandoneonKeyIndex(8,4), octave: .big),
+                    NoteIndex(note: .h, index: BandoneonKeyIndex(4,2), octave: .big),
+                    NoteIndex(note: .c, index: BandoneonKeyIndex(5,3), octave: .small),
+                    NoteIndex(note: .cis, index: BandoneonKeyIndex(7,2), octave: .small),
+                    NoteIndex(note: .d, index: BandoneonKeyIndex(5,2), octave: .small),
+                    NoteIndex(note: .dis, index: BandoneonKeyIndex(5,1), octave: .small),
+                    NoteIndex(note: .e, index: BandoneonKeyIndex(6,3), octave: .small),
+                    NoteIndex(note: .f, index: BandoneonKeyIndex(7,4), octave: .small),
+                    NoteIndex(note: .fis, index: BandoneonKeyIndex(6,2), octave: .small),
+                    NoteIndex(note: .g, index: BandoneonKeyIndex(3,1), octave: .small),
+                    NoteIndex(note: .gis, index: BandoneonKeyIndex(9,2), octave: .small),
+                    NoteIndex(note: .a, index: BandoneonKeyIndex(4,1), octave: .small),
+                    NoteIndex(note: .h, index: BandoneonKeyIndex(5,1), octave: .small)
+        ]
+    
         let image: Image = Image(.bandoneonKeysPositionsLeft)
         var pictureSize = CGSize(width: 1920, height: 978)
 

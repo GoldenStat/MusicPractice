@@ -15,8 +15,10 @@ extension Color {
 
     static func bandoneonKeyColor(for octave: Octave) -> Color {
         switch octave {
-        case .subcontra, .contra, .big, .four, .five:
+        case .subcontra, .contra, .four, .five:
             return Self.inactive
+        case .big:
+            return Color(red: 100/255, green: 140 / 255, blue: 110 / 266, opacity: 0.9)
         case .small:
             return Color(red: 140/255, green: 140 / 255, blue: 110 / 266, opacity: 0.9)
         case .one:
@@ -91,7 +93,7 @@ struct BandoneonView_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.RightSideKeys(), highlightedNotes: [], octaves: [])
+            BandoneonView(layout: Bandoneon.LeftSideKeys(), highlightedNotes: [], octaves: [])
             .rotationEffect(Angle(degrees: 90))
         }
         .scaleEffect(0.4)

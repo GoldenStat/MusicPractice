@@ -58,12 +58,12 @@ struct Scale : Hashable {
 }
 
 enum Note: String, CaseIterable {
-    case ces, c, cis = "c#"
-    case des, d, dis
+    case ces, c, cis = "c♯"
+    case des, d, dis = "d♯"
     case es, e, eis
-    case f, fis
-    case ges, g, gis
-    case aes = "as", a, ais
+    case f, fis = "f♯"
+    case ges, g, gis = "g♯"
+    case aes = "as", a, ais = "a♯"
     case hes = "b", h
 }
 
