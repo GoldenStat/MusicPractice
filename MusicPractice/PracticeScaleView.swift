@@ -27,10 +27,6 @@ struct PracticeScaleView: View {
             VStack {
                 ZStack {
                     EmphasizedImage()
-                    //                        VStack {
-                    //                            BandoneonView(keys: Bandoneon.RightSideKeys())
-                    //                            BandoneonView(keys: Bandoneon.LeftSideKeys())
-                    //                        }
                     VStack {
                         Image(PictureNames.bwBandoneonKeysLeft)
                         Image(PictureNames.bwBandoneonKeysRight)

@@ -155,43 +155,30 @@ extension KeyLayout {
     }
 
     /// return all indexes that match note and octave
-    /// filter all corresponding indexes if octave is nil or note is nil
-    func indexesFor(note searchedNote: Note?, inOctave oct: Octave?) -> [BandoneonKeyIndex] {
-        var indexes = [BandoneonKeyIndex]()
+    /// filter all corresponding indexes if `octaves` is empty or `notes` is empty
+    func orderedIndexSet(for notes: [Note], inOctaves octaves: [Octave]) -> [NoteIndex] {
+        let allOctavesInLayout = self.octaves
+        let matchOctaves = (octaves.isEmpty ? allOctavesInLayout : octaves)
+        let matchNotes = (notes.isEmpty ? Note.allCases : notes)
         
-        for noteIndex in self.notes {
-            if let selectedOctave = oct { // an octave was selected, return only notes from this octave
-                if selectedOctave == noteIndex.octave {
-                    if let searchedNote = searchedNote { // if note was selected return only this notes value
-                        if noteIndex.note == searchedNote {
-                            indexes.append(noteIndex.index)
-                        }
-                    } else {
-                        indexes.append(noteIndex.index)
-                    }
-                }
-            } else { // return all octaves from layout that match the note
-                for noteIndex in self.notes {
-                    if let searchedNote = searchedNote { // if note was selected return only this notes value
-                        if noteIndex.note == searchedNote {
-                            indexes.append(noteIndex.index)
-                        }
-                    } else {
-                        indexes.append(noteIndex.index)
-                    }
-                }
-            }
+        let indexSet = self.notes.filter { noteIndex in
+            matchOctaves.contains(noteIndex.octave!) && matchNotes.contains(noteIndex.note)
         }
-        return indexes
+        
+        return indexSet
     }
     
-    func indexesFor(notes: [Note], inOctave oct: Octave?) -> [ BandoneonKeyIndex ] {
-        var indexes = [BandoneonKeyIndex]()
+    func orderedIndexSet(for notes: [Note], inOctaves octaves: [Octave]) -> [BandoneonKeyIndex] {
         
-        _ = notes.map { indexes.append(contentsOf: indexesFor(note: $0, inOctave: oct)) }
-
-        return indexes
+        // extract keypositions
+        return orderedIndexSet(for: notes, inOctaves: octaves).map {$0.index}
     }
+
+    /// the octaves this layout comprises
+    var octaves: [Octave] {
+        Array(Set(notes.compactMap {$0.octave})).sorted()
+    }
+
 }
 
 protocol KeyNotes {
@@ -278,7 +265,7 @@ struct Bandoneon {
             [(1,7), (2,7), (3,6), (4,5), (5,4), (6,3)],
             [(1,8), (2,8), (3,7), (4,6), (5,5), (6,4)],
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
-        
+                
         let notes: [ NoteIndex ] = [
                 NoteIndex(note: .a, index: BandoneonKeyIndex(1,2), octave: .small),
                 NoteIndex(note: .ais, index: BandoneonKeyIndex(1,1), octave: .small),

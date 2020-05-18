@@ -18,13 +18,13 @@ extension Color {
         case .subcontra, .contra, .big, .four, .five:
             return Self.inactive
         case .small:
-            return Color(red: 160/255, green: 80 / 255, blue: 109 / 266, opacity: 0.7)
+            return Color(red: 140/255, green: 140 / 255, blue: 110 / 266, opacity: 0.9)
         case .one:
-            return Color(red: 180/255, green: 100 / 255, blue: 109 / 266, opacity: 0.7)
+            return Color(red: 180/255, green: 140 / 255, blue: 100 / 266, opacity: 0.6)
         case .two:
-            return Color(red: 200/255, green: 120 / 255, blue: 109 / 266, opacity: 0.7)
+            return Color(red: 200/255, green: 140 / 255, blue: 50 / 266, opacity: 0.6)
         case .three:
-            return Color(red: 255/255, green: 140 / 255, blue: 109 / 266, opacity: 0.7)
+            return Color(red: 220/255, green: 140 / 255, blue: 100 / 266, opacity: 0.6)
         }
         
     }
@@ -48,27 +48,10 @@ struct BandoneonView: View {
         return layout.markerPosition(index: bandoneonIndex)!
     }
 
-    /// "holds" all the NoteIndexes that are held in `highlightedNotes`
+    /// searches for notes in `highlightedNotes`that match `octaves` in layout and
+    /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
     var markedKeys: [NoteIndex] {
-        var keys = [NoteIndex]()
-        if octaves.isEmpty {
-            for note in highlightedNotes {
-                let indexes : [BandoneonKeyIndex] = layout.indexesFor(note: note, inOctave: nil)
-                for index in indexes {
-                    keys.append(NoteIndex(note: note, index: index, octave: nil))
-                }
-            }
-        } else {
-            for octave in octaves {
-                for note in highlightedNotes {
-                    let indexes = layout.indexesFor(note: note, inOctave: octave)
-                    for index in indexes {
-                        keys.append(NoteIndex(note: note, index: index, octave: octave))
-                    }
-                }
-            }
-        }
-        return keys
+        return layout.orderedIndexSet(for: highlightedNotes, inOctaves: octaves)
     }
             
     let buttonSize = Bandoneon.markerSize
@@ -89,7 +72,6 @@ struct BandoneonView: View {
             ForEach(0 ..< self.markedKeys.count) { index in
                 Circle()
                     .fill(self.color(for: self.markedKeys[index]))
-//                    .fill(Color.inactive)
                     .overlay(
                         Text(self.markedKeys[index].string)
                             .font(.largeTitle)
@@ -109,7 +91,7 @@ struct BandoneonView_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.RightSideKeys(), highlightedNotes: [Note.c], octaves: [])
+            BandoneonView(layout: Bandoneon.RightSideKeys(), highlightedNotes: [], octaves: [])
             .rotationEffect(Angle(degrees: 90))
         }
         .scaleEffect(0.4)

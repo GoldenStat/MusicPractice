@@ -12,7 +12,6 @@ struct Scale : Hashable {
     static func == (lhs: Scale, rhs: Scale) -> Bool {
         lhs.notes == rhs.notes && lhs.dominant == rhs.dominant
     }
-    
 
     typealias id = DominantScales
 
@@ -108,11 +107,41 @@ enum LatinNote: String, CaseIterable {
     case do_, re, mi, fa, sol, la, si
 }
 
-enum Octave: String, CaseIterable {
+enum Octave: String, CaseIterable, Comparable {
+
     case subcontra, contra, big, small, one, two, three, four, five
-    
-    func string(for index: NoteIndex) -> String {
-        let noteString = index.string
+
+    static func < (lhs: Octave, rhs: Octave) -> Bool {
+        var notSmaller : [Octave]
+        
+        switch lhs {
+        case .subcontra:
+            notSmaller = [.subcontra]
+        case .contra:
+            notSmaller = [.subcontra, .contra]
+        case .big:
+            notSmaller = [.subcontra, .contra, .big]
+            case .small:
+                notSmaller = [.subcontra, .contra, .big, .small]
+            case .one:
+                notSmaller = [.subcontra, .contra, .big, .small, .one]
+            case .two:
+                notSmaller = [.subcontra, .contra, .big, .small, .one, .two]
+            case .three:
+                notSmaller = [.subcontra, .contra, .big, .small, .one, .two, .three]
+            case .four:
+                notSmaller = [.subcontra, .contra, .big, .small, .one, .two, .three, .four]
+        default:
+                return false
+        }
+
+        return !notSmaller.contains(rhs)
+    }
+        
+    func string(for noteIndex: NoteIndex) -> String {
+        let note = noteIndex.note
+        let noteString = note.rawValue
+        
         let modifiedString: String
         switch self {
         case .subcontra:
