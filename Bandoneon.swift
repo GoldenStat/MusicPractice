@@ -85,7 +85,11 @@ struct NoteIndex {
     let index: BandoneonKeyIndex
     let octave: Octave?
     var string: String {
-        note.rawValue
+        if let octave = octave {
+            return octave.string(for: self)
+        } else {
+            return note.rawValue
+        }
     }
 }
 

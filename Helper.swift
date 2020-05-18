@@ -68,9 +68,3 @@ extension Date
     }
 
 }
-
-
-extension Color {
-    static let inactive = Color(red: 0, green: 0, blue: 0, opacity: 0.4)
-    static let marked = Color(red: 255 / 255, green: 228 / 255, blue: 109 / 255, opacity: 0.8)
-}

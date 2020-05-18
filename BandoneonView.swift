@@ -8,6 +8,28 @@
 
 import SwiftUI
 
+extension Color {
+//    static let inactive = Color(red: 0, green: 0, blue: 0, opacity: 0.4)
+    static let inactive = Color.secondary
+    static let marked = Color(red: 255 / 255, green: 228 / 255, blue: 109 / 255, opacity: 0.8)
+
+    static func bandoneonKeyColor(for octave: Octave) -> Color {
+        switch octave {
+        case .subcontra, .contra, .big, .four, .five:
+            return Self.inactive
+        case .small:
+            return Color(red: 160/255, green: 80 / 255, blue: 109 / 266, opacity: 0.7)
+        case .one:
+            return Color(red: 180/255, green: 100 / 255, blue: 109 / 266, opacity: 0.7)
+        case .two:
+            return Color(red: 200/255, green: 120 / 255, blue: 109 / 266, opacity: 0.7)
+        case .three:
+            return Color(red: 255/255, green: 140 / 255, blue: 109 / 266, opacity: 0.7)
+        }
+        
+    }
+}
+
 struct BandoneonView: View {
     
     let layout : KeyLayout
@@ -31,7 +53,7 @@ struct BandoneonView: View {
         var keys = [NoteIndex]()
         if octaves.isEmpty {
             for note in highlightedNotes {
-                let indexes = layout.indexesFor(note: note, inOctave: nil)
+                let indexes : [BandoneonKeyIndex] = layout.indexesFor(note: note, inOctave: nil)
                 for index in indexes {
                     keys.append(NoteIndex(note: note, index: index, octave: nil))
                 }
@@ -51,6 +73,14 @@ struct BandoneonView: View {
             
     let buttonSize = Bandoneon.markerSize
     
+    func color(for key: NoteIndex) -> Color {
+        if let octave = key.octave {
+            return Color.bandoneonKeyColor(for: octave)
+        } else {
+            return Color.inactive
+        }
+    }
+    
     var body: some View {
         ZStack {
             picture
@@ -58,7 +88,8 @@ struct BandoneonView: View {
                 .frame(width: size.width, height: size.height)
             ForEach(0 ..< self.markedKeys.count) { index in
                 Circle()
-                    .fill(Color.secondary)
+                    .fill(self.color(for: self.markedKeys[index]))
+//                    .fill(Color.inactive)
                     .overlay(
                         Text(self.markedKeys[index].string)
                             .font(.largeTitle)
@@ -78,7 +109,7 @@ struct BandoneonView_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.RightSideKeys(), highlightedNotes: Note.allCases, octaves: Octave.allCases)
+            BandoneonView(layout: Bandoneon.RightSideKeys(), highlightedNotes: [Note.c], octaves: [])
             .rotationEffect(Angle(degrees: 90))
         }
         .scaleEffect(0.4)

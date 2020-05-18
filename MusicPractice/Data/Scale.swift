@@ -101,6 +101,7 @@ extension Note {
             }
         }
     }
+    
 }
 
 enum LatinNote: String, CaseIterable {
