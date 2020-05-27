@@ -22,16 +22,8 @@ struct AudioTrackTimerView: View {
     var body: some View {
         VStack {
                     
-            Group {
-                
-                AudioTrackVisualizerView(recorder: recorder)
-                    .frame(maxHeight: 200)
-                
-                Divider()
-                
-            }
-            .padding(.horizontal)
-                        
+            RecordingView(recorder: recorder)
+            
             VStack {
                 
                 VStack {
@@ -46,6 +38,17 @@ struct AudioTrackTimerView: View {
         }
     }
     
+}
+
+/// this will be a visual representation of the recording, as in AudioRecorder
+struct RecordingView: View {
+    var recorder: AudioRecorder
+    var body : some View {
+        VStack {
+            Rectangle()
+            .stroke()
+        }
+    }
 }
         
 struct AudioTrackTimerView_Previews: PreviewProvider {

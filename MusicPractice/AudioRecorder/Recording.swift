@@ -24,5 +24,6 @@ struct Recording: Hashable {
     
     var scaleName: String { components[0] }
     var day: String { components[1] }
-    var time: String { components[3]}
+    var time: String { components[3] }
+    
 }

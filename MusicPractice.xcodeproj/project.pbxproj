@@ -21,6 +21,9 @@
 		4193FD86246D918200542511 /* BandoneonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193FD85246D918200542511 /* BandoneonView.swift */; };
 		4193FD88246D92D300542511 /* Bandoneon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193FD87246D92D300542511 /* Bandoneon.swift */; };
 		4193FD8A246FE04900542511 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193FD89246FE04900542511 /* SessionListView.swift */; };
+		41984C03247E41C200A87D86 /* CloudTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C02247E41C200A87D86 /* CloudTrack.swift */; };
+		41984C05247E46B800A87D86 /* PracticeSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C04247E46B800A87D86 /* PracticeSessionView.swift */; };
+		41984C07247E544600A87D86 /* CloudTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C06247E544600A87D86 /* CloudTrackView.swift */; };
 		419F5D042450D76C0006576A /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D032450D76C0006576A /* StopWatch.swift */; };
 		419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D112455A4680006576A /* PracticeScaleView.swift */; };
 		419F5D1624562D460006576A /* AudiotrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D1524562D460006576A /* AudiotrackView.swift */; };
@@ -55,6 +58,9 @@
 		4193FD85246D918200542511 /* BandoneonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonView.swift; sourceTree = "<group>"; };
 		4193FD87246D92D300542511 /* Bandoneon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bandoneon.swift; sourceTree = "<group>"; };
 		4193FD89246FE04900542511 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
+		41984C02247E41C200A87D86 /* CloudTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTrack.swift; sourceTree = "<group>"; };
+		41984C04247E46B800A87D86 /* PracticeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionView.swift; sourceTree = "<group>"; };
+		41984C06247E544600A87D86 /* CloudTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTrackView.swift; sourceTree = "<group>"; };
 		419F5D032450D76C0006576A /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		419F5D112455A4680006576A /* PracticeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeScaleView.swift; sourceTree = "<group>"; };
 		419F5D1524562D460006576A /* AudiotrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiotrackView.swift; sourceTree = "<group>"; };
@@ -86,8 +92,6 @@
 		415CF36F245057FD008D6E2A = {
 			isa = PBXGroup;
 			children = (
-				4193FD87246D92D300542511 /* Bandoneon.swift */,
-				4193FD85246D918200542511 /* BandoneonView.swift */,
 				41E1F5C82457045500183C7F /* Helper.swift */,
 				415CF37A245057FD008D6E2A /* MusicPractice */,
 				415CF379245057FD008D6E2A /* Products */,
@@ -105,6 +109,7 @@
 		415CF37A245057FD008D6E2A /* MusicPractice */ = {
 			isa = PBXGroup;
 			children = (
+				41984C0B247ECF3300A87D86 /* Instrument */,
 				415CF37B245057FD008D6E2A /* AppDelegate.swift */,
 				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
 				415CF382245057FD008D6E2A /* ContentView.swift */,
@@ -136,24 +141,36 @@
 			isa = PBXGroup;
 			children = (
 				415CF397245059AF008D6E2A /* Scale.swift */,
-				415CF39224505895008D6E2A /* PracticeSession.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		41984C0B247ECF3300A87D86 /* Instrument */ = {
+			isa = PBXGroup;
+			children = (
+				4193FD87246D92D300542511 /* Bandoneon.swift */,
+				4193FD85246D918200542511 /* BandoneonView.swift */,
+			);
+			path = Instrument;
 			sourceTree = "<group>";
 		};
 		41E1F5CC245730B400183C7F /* AudioRecorder */ = {
 			isa = PBXGroup;
 			children = (
 				41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */,
+				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
 				41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */,
+				415CF39224505895008D6E2A /* PracticeSession.swift */,
 				4193FD89246FE04900542511 /* SessionListView.swift */,
+				41984C04247E46B800A87D86 /* PracticeSessionView.swift */,
 				419F5D17245630820006576A /* RecordingList.swift */,
 				41E1F5CD2457311E00183C7F /* AudioRecorder.swift */,
 				41E1F5C62457024200183C7F /* Recording.swift */,
+				41984C02247E41C200A87D86 /* CloudTrack.swift */,
+				41984C06247E544600A87D86 /* CloudTrackView.swift */,
 				41E1F5CA245714FC00183C7F /* AudioPlayer.swift */,
 				4193FD81246D5ADB00542511 /* MusicPlayer.swift */,
 				415CF39D24505DAA008D6E2A /* StopWatchView.swift */,
-				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
 				41E657B5245B17AD0066AD76 /* secondary Views */,
 			);
 			path = AudioRecorder;
@@ -249,7 +266,9 @@
 				4193FD86246D918200542511 /* BandoneonView.swift in Sources */,
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
+				41984C05247E46B800A87D86 /* PracticeSessionView.swift in Sources */,
 				41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */,
+				41984C03247E41C200A87D86 /* CloudTrack.swift in Sources */,
 				41F2E3CD246C45CC005E58F2 /* ControlButtonsView.swift in Sources */,
 				419F5D18245630820006576A /* RecordingList.swift in Sources */,
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
@@ -264,6 +283,7 @@
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,
 				415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */,
 				415CF39E24505DAA008D6E2A /* StopWatchView.swift in Sources */,
+				41984C07247E544600A87D86 /* CloudTrackView.swift in Sources */,
 				41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

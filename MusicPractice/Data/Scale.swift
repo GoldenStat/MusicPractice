@@ -168,7 +168,3 @@ enum Octave: String, CaseIterable, Comparable {
     }
 
 }
-
-enum Hand: String, CaseIterable {
-    case left, right
-}

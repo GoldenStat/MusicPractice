@@ -33,7 +33,7 @@ extension Color {
 }
 
 struct BandoneonView: View {
-    
+        
     let layout : KeyLayout
     var highlightedNotes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
     
@@ -89,14 +89,32 @@ struct BandoneonView: View {
     }
 }
 
-struct BandoneonView_Previews: PreviewProvider {
+struct BandoneonBothSides: View {
     
-    static var previews: some View {
+    @State var direction: PlayingDirection
+    var directionName : String { direction == .open ? "Open" :  "Close" }
+    
+    var body: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.LeftSideKeys(), highlightedNotes: [], octaves: [])
-            .rotationEffect(Angle(degrees: 90))
+            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: direction), highlightedNotes: [], octaves: [])
+            BandoneonView(layout: Bandoneon.RightSideKeys(direction: direction), highlightedNotes: [], octaves: [])
+            Button(action: {
+                self.toggleDirection()
+            }) {
+                Text(directionName)
+                    .font(.largeTitle)
+            }
         }
         .scaleEffect(0.4)
-        
+    }
+    
+    func toggleDirection() {
+        direction = (direction == .open) ? .close : .open
+    }
+}
+
+struct BandoneonView_Previews: PreviewProvider {
+    static var previews: some View {
+        BandoneonBothSides(direction: .close)
     }
 }

@@ -11,9 +11,6 @@ import SwiftUI
 import Combine
 import AVFoundation
 
-let numberOfSamples = 20
-
-/// TODO: re-read example to use receive(on:) on model update, instead of @Publish, as we are sending from a background thread
 class AudioRecorder: NSObject, ObservableObject {
     
     var audioRecorder: AVAudioRecorder!
@@ -24,10 +21,9 @@ class AudioRecorder: NSObject, ObservableObject {
     var recordings = [Recording]()
     
     @Published var isRecording: Bool = false
+    @Published var soundSamples: [Float]
 
     var timer : Timer?
-    @Published var soundSamples: [Float]
-    var currentSample: Int
     
     /// - Parameter scale: only returns the recordings that match this scale, or all if nil
     /// - Returns: a list of Recordings that match a scale, or all, if Scale is *nil*
@@ -40,8 +36,7 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     override init() {
-        soundSamples = [Float](repeating: .zero, count: numberOfSamples)
-        currentSample = 0
+        soundSamples = [Float]()
         super.init()
         fetchRecordings()
     }
@@ -166,10 +161,10 @@ class AudioRecorder: NSObject, ObservableObject {
         fetchRecordings()
     }
         
+    /// remember all the sound samples for this recording, can become quite long
     func updateSoundMeters() {
         audioRecorder.updateMeters()
-        soundSamples[currentSample] = audioRecorder.averagePower(forChannel: 0)
-        currentSample = (currentSample + 1) % numberOfSamples
+        soundSamples.append(audioRecorder.averagePower(forChannel: 0))
     }
     
 }
