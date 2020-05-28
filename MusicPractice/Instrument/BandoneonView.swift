@@ -37,22 +37,25 @@ struct BandoneonView: View {
     let layout : KeyLayout
     var highlightedNotes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
     var octaves: [Octave] = [] // if no octave is given, mark all octaves
-    
-    //    var samplePoints : [KeyPosition] { layout.flatten(layout.markerPosition) }
+        
+    func width(ofSize: CGSize) -> CGFloat { ofSize.width }
+    func height(ofSize: CGSize) -> CGFloat { ofSize.height }
+
+    var sampleSize : CGSize { layout.pictureSize }
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                
-                /// Picture of the Bandoneon Image
-                Image(self.layout.imageName)
-                    .resizable()
-                    .scaledToFit()
-                //                    .frame(width: size.width, height: size.height)
-                
-                /// the labels for the keys
-                self.keyLabels(for: self.highlightedNotes, mappedTo: geometry.size)
+        ZStack {
+            GeometryReader { geometry in
+            /// Picture of the Bandoneon Image
+            Image(self.layout.imageName)
+                .resizable()
+                .coordinateSpace(name: "KeyLayout")
+
+                    /// the labels for the keys
+                self.keyLabels(for: self.highlightedNotes, mappedTo: geometry.frame(in: .named("KeyLayout")).size)
             }
+            .scaledToFit()
+
         }
     }
     
@@ -60,11 +63,12 @@ struct BandoneonView: View {
     func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
         
         let originalSize: CGSize = layout.pictureSize
-        let scaleFactor = CGPoint(x: newSize.height / originalSize.height,
-                                  y: newSize.width / originalSize.width)
+        let scaleFactor = CGPoint(x: newSize.width / originalSize.width,
+                                  y: newSize.height / originalSize.height)
         
         let newButtonSize = CGSize(width: Bandoneon.markerSize.width * scaleFactor.x,
                                    height: Bandoneon.markerSize.height * scaleFactor.y)
+        var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
         
         /// searches for notes in `highlightedNotes`that match `octaves` in layout and
         /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
@@ -73,42 +77,48 @@ struct BandoneonView: View {
         }
         
         /// get the Position for the index of a key
-        func position(for index: Int) -> CGPoint {
-            guard markedKeys.isValid(index: index) else { fatalError("Index out of bounds") }
-            let bandoneonIndex = markedKeys[index].index
-            
+        func position(forKey key: NoteIndex) -> CGPoint {
+            let bandoneonIndex = key.index
+
             let oldPosition = layout.markerPosition(index: bandoneonIndex)!
             let newPosition = CGPoint(x: oldPosition.x * scaleFactor.x, y: oldPosition.y*scaleFactor.y)
+
             return newPosition
         }
-        
-        /// determine the color for a key based on its pitch and if the key had an octave assigned
-        func color(for key: NoteIndex) -> Color {
-            if let octave = key.octave {
-                return Color.bandoneonKeyColor(for: octave)
-            } else {
-                return Color.inactive
-            }
-        }
-        
-        return ForEach(0 ..< markedKeys.count) { index in
-            Circle()
-                .fill(color(for: markedKeys[index]))
+
+        func mark(indexKey index: Int) -> some View {
+            return Circle()
+                .fill(markedKeys[index].color)
                 .overlay(
                     Text(markedKeys[index].string)
-                        .font(.largeTitle)
+                        .font(.system(size: fontSize))
+                        .fixedSize(horizontal: true, vertical: false)
+                    
                     
             )
                 .frame(
                     width: newButtonSize.width,
                     height: newButtonSize.height
             )
-                .position(position(for: index))
-            //                    .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
+                .position(position(forKey: markedKeys[index]))
+                .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
         }
         
+        return ForEach(0 ..< markedKeys.count) { index in
+            mark(indexKey: index)
+        }
     }
-    
+}
+
+extension NoteIndex {
+    /// determine the color for a key based on its pitch and if the key had an octave assigned
+    var color: Color {
+        if let octave = self.octave {
+            return Color.bandoneonKeyColor(for: octave)
+        } else {
+            return Color.inactive
+        }
+    }
 }
 
 struct BandoneonBothSides: View {
@@ -119,9 +129,6 @@ struct BandoneonBothSides: View {
     var body: some View {
         VStack {
             BandoneonView(layout: Bandoneon.LeftSideKeys(direction: direction), highlightedNotes: [], octaves: [])
-            BandoneonView(layout: Bandoneon.RightSideKeys(direction: direction), highlightedNotes: [], octaves: [])
-            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: direction), highlightedNotes: [], octaves: [])
-            BandoneonView(layout: Bandoneon.RightSideKeys(direction: direction), highlightedNotes: [], octaves: [])
             Button(action: {
                 self.toggleDirection()
             })
@@ -139,10 +146,11 @@ struct BandoneonBothSides: View {
 
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
-        BandoneonView(layout: Bandoneon.LeftSideKeys(direction: .open))
-//        HStack {
+        VStack {
+            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: .open))
+            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: .close))
 //            BandoneonBothSides(direction: .close)
 //            BandoneonBothSides(direction: .open)
-//        }
+        }
     }
 }
