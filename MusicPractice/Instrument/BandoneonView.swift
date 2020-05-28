@@ -100,7 +100,8 @@ struct BandoneonBothSides: View {
             BandoneonView(layout: Bandoneon.RightSideKeys(direction: direction), highlightedNotes: [], octaves: [])
             Button(action: {
                 self.toggleDirection()
-            }) {
+                })
+            {
                 Text(directionName)
                     .font(.largeTitle)
             }

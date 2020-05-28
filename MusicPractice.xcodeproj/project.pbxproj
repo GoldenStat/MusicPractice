@@ -24,6 +24,8 @@
 		41984C03247E41C200A87D86 /* CloudTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C02247E41C200A87D86 /* CloudTrack.swift */; };
 		41984C05247E46B800A87D86 /* PracticeSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C04247E46B800A87D86 /* PracticeSessionView.swift */; };
 		41984C07247E544600A87D86 /* CloudTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C06247E544600A87D86 /* CloudTrackView.swift */; };
+		41984C0D247FE9B100A87D86 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C0C247FE9B100A87D86 /* StudyView.swift */; };
+		41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C0E247FF3F700A87D86 /* KeyLayout.swift */; };
 		419F5D042450D76C0006576A /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D032450D76C0006576A /* StopWatch.swift */; };
 		419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D112455A4680006576A /* PracticeScaleView.swift */; };
 		419F5D1624562D460006576A /* AudiotrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D1524562D460006576A /* AudiotrackView.swift */; };
@@ -61,6 +63,8 @@
 		41984C02247E41C200A87D86 /* CloudTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTrack.swift; sourceTree = "<group>"; };
 		41984C04247E46B800A87D86 /* PracticeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionView.swift; sourceTree = "<group>"; };
 		41984C06247E544600A87D86 /* CloudTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTrackView.swift; sourceTree = "<group>"; };
+		41984C0C247FE9B100A87D86 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
+		41984C0E247FF3F700A87D86 /* KeyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLayout.swift; sourceTree = "<group>"; };
 		419F5D032450D76C0006576A /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		419F5D112455A4680006576A /* PracticeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeScaleView.swift; sourceTree = "<group>"; };
 		419F5D1524562D460006576A /* AudiotrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiotrackView.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 		415CF37A245057FD008D6E2A /* MusicPractice */ = {
 			isa = PBXGroup;
 			children = (
+				41984C0C247FE9B100A87D86 /* StudyView.swift */,
 				41984C0B247ECF3300A87D86 /* Instrument */,
 				415CF37B245057FD008D6E2A /* AppDelegate.swift */,
 				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
@@ -149,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				4193FD87246D92D300542511 /* Bandoneon.swift */,
+				41984C0E247FF3F700A87D86 /* KeyLayout.swift */,
 				4193FD85246D918200542511 /* BandoneonView.swift */,
 			);
 			path = Instrument;
@@ -260,12 +266,14 @@
 				415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */,
 				419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */,
 				41E1F5C92457045500183C7F /* Helper.swift in Sources */,
+				41984C0D247FE9B100A87D86 /* StudyView.swift in Sources */,
 				41E1F5D224573A9E00183C7F /* SoundBarView.swift in Sources */,
 				415CF398245059AF008D6E2A /* Scale.swift in Sources */,
 				4193FD82246D5ADB00542511 /* MusicPlayer.swift in Sources */,
 				4193FD86246D918200542511 /* BandoneonView.swift in Sources */,
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
+				41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */,
 				41984C05247E46B800A87D86 /* PracticeSessionView.swift in Sources */,
 				41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */,
 				41984C03247E41C200A87D86 /* CloudTrack.swift in Sources */,
