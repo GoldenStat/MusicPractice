@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Scale : Hashable {
     static func == (lhs: Scale, rhs: Scale) -> Bool {
@@ -37,7 +38,6 @@ struct Scale : Hashable {
         case .B7: return [.h, .dis, .fis, .a,]
         }
     }
-    
 
     static let C7 = Scale(dominant: .C7)
     static let Cis7 = Scale(dominant: .Cis7)
@@ -111,6 +111,8 @@ enum Octave: String, CaseIterable, Comparable {
 
     case subcontra, contra, big, small, one, two, three, four, five
 
+    var color: Color { .bandoneonKeyColor(for: self) }
+
     static func < (lhs: Octave, rhs: Octave) -> Bool {
         var notSmaller : [Octave]
         
@@ -138,30 +140,27 @@ enum Octave: String, CaseIterable, Comparable {
         return !notSmaller.contains(rhs)
     }
         
-    func string(for noteIndex: NoteIndex) -> String {
-        let note = noteIndex.note
-        let noteString = note.rawValue
-        
+    func string(with string: String) -> String {
         let modifiedString: String
         switch self {
         case .subcontra:
-            modifiedString = ",,\(noteString.uppercased())"
+            modifiedString = ",,\(string.uppercased())"
         case .contra:
-            modifiedString = ",\(noteString.uppercased())"
+            modifiedString = ",\(string.uppercased())"
         case .big:
-            modifiedString = "\(noteString.uppercased())"
+            modifiedString = "\(string.uppercased())"
         case .small:
-            modifiedString = "\(noteString.lowercased())"
+            modifiedString = "\(string.lowercased())"
         case .one:
-            modifiedString = "\(noteString.lowercased())'"
+            modifiedString = "\(string.lowercased())'"
         case .two:
-            modifiedString = "\(noteString.lowercased())''"
+            modifiedString = "\(string.lowercased())''"
         case .three:
-            modifiedString = "\(noteString.lowercased())'''"
+            modifiedString = "\(string.lowercased())'''"
         case .four:
-            modifiedString = "\(noteString.lowercased())''''"
+            modifiedString = "\(string.lowercased())''''"
         case .five:
-            modifiedString = "\(noteString.lowercased())'''''"
+            modifiedString = "\(string.lowercased())'''''"
 
         }
         return modifiedString

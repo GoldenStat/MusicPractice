@@ -68,3 +68,10 @@ extension Date
     }
 
 }
+
+
+extension Array {
+    func isValid(index: Int) -> Bool {
+        index >= 0 && index < self.count
+    }
+}

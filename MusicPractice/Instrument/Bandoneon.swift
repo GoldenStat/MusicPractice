@@ -22,33 +22,6 @@ extension PictureNames {
 }
 
 
-// NOTE: rewrite the code
-// The keylayout (where is which key) should be decoulped from the instruments mechanics (what note does the key play opening / closing)
-
-// NOTE: for future use:
-/// the positions from the bandoneon
-struct FingerPosition {
-    
-}
-
-struct InstrumentKey {
-    static let coverCircleRadius: Double = 100.0
-    static let markerCircleRadius: Double = 172.0
-    let pos: FingerPosition // e.g. (1/2)
-    let markerPosition: CGPoint
-    let coverPosition: CGPoint
-}
-
-struct InstrumentNote {
-    let movement: PlayingDirection
-    let hand: Hand
-    let key: InstrumentKey
-    let note: Note
-    let octave: Octave
-}
-/// e.g. note(movement: .open, hand: .left, key: InstrumentKey(pos: (3,4))) -> Note(.a, .big)
-// NOTE: integrate the above into the keyLayout
-
 typealias KeyPosition = CGPoint
 
 protocol KeyIndex {
@@ -76,30 +49,21 @@ struct MarkerIndex : KeyIndex {
     }
 }
 
-extension Array {
-    func isValid(index: Int) -> Bool {
-        index >= 0 && index < self.count
-    }
-}
+/// for lack of a better naime: the layout uses this to match a note to a bandoneon Key
 
-struct OctaveKeyIndex {
-    let octave: Octave
-    let keyIndexes: [ NoteIndex ]
+struct NoteWithOctave {
+    let note: Note
+    let octave: Octave?
+    var string: String { octave?.string(with: note.rawValue) ?? note.rawValue }
+    /// determine the color for a key based on its pitch and if the key had an octave assigned
+    var color: Color { octave?.color ?? .inactive }
 }
 
 struct NoteIndex {
-    let note: Note
     let index: BandoneonKeyIndex
-    let octave: Octave?
-    var string: String {
-        if let octave = octave {
-            return octave.string(for: self)
-        } else {
-            return note.rawValue
-        }
-    }
+    let note: NoteWithOctave
+    var color: Color { note.color }
 }
-
 
 protocol KeyNotes {
     var direction: PlayingDirection { get }
@@ -107,8 +71,21 @@ protocol KeyNotes {
     func notes(row: Int, column: Int) -> Note
 }
 
-enum PlayingDirection { case open, close }
-enum Hand { case left, right }
+protocol EnumToggle : CaseIterable {
+    var string: String { get }
+    /// switches the enum Type
+    mutating func toggle()
+}
+
+enum PlayingDirection : EnumToggle { case open, close
+    var string: String { self == .open ? "abriendo" : "cerrando" }
+    mutating func toggle() { self = (self == .open ? .close : .open) }
+}
+
+enum Hand : EnumToggle { case left, right
+    var string: String { self == .left ? "Left Hand" : "Right Hand" }
+    mutating func toggle() { self = (self == .left ? .right : .left) }
+}
 
 struct Bandoneon {
     
@@ -118,83 +95,83 @@ struct Bandoneon {
     static var markerSize = CGSize(width: 100, height: 100)
     static var coverSize = CGSize(width: 172, height: 172)
     
-    ///
-    struct LeftSideKeys : KeyLayout {
+    /// the layouts for both sides
+    struct LeftKeyLayOut : KeyLayout  {
         let direction: PlayingDirection
+        
         var notes : [NoteIndex] { direction == .open ? _notesOpening : _notesClosing }
         let _notesOpening: [ NoteIndex ] = [
-            NoteIndex(note: .c, index: BandoneonKeyIndex(8,1), octave: .big),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(1,1), octave: .big),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(7,1), octave: .big),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(3,4), octave: .big),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(9,1), octave: .big),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(8,2), octave: .big),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(8,3), octave: .big),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(5,5), octave: .big),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(4,4), octave: .big),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(6,5), octave: .big),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(2,1), octave: .big),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(7,3), octave: .small),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(7,5), octave: .small),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(3,3), octave: .small),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(6,4), octave: .small),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(2,2), octave: .small),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(8,5), octave: .small),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(6,1), octave: .small),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(5,4), octave: .small),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(3,2), octave: .small),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(4,3), octave: .small),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(8,4), octave: .small),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(4,2), octave: .small),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(5,3), octave: .one),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(7,2), octave: .one),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(5,2), octave: .one),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(5,1), octave: .one),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(6,3), octave: .one),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(7,4), octave: .one),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(6,2), octave: .one),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(3,1), octave: .one),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(9,2), octave: .one),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(4,1), octave: .one),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(5,1), octave: .one)
+            NoteIndex(index: BandoneonKeyIndex(8,1), note: NoteWithOctave(note: .c, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .d, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(7,1), note: NoteWithOctave(note: .dis, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(3,4), note: NoteWithOctave(note: .e, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(9,1), note: NoteWithOctave(note: .f, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(8,2), note: NoteWithOctave(note: .fis, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(8,3), note: NoteWithOctave(note: .g, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(5,5), note: NoteWithOctave(note: .gis, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(4,4), note: NoteWithOctave(note: .a, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(6,5), note: NoteWithOctave(note: .ais, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(2,1), note: NoteWithOctave(note: .h, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(7,3), note: NoteWithOctave(note: .c, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(7,5), note: NoteWithOctave(note: .cis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(3,3), note: NoteWithOctave(note: .d, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(6,4), note: NoteWithOctave(note: .dis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(2,2), note: NoteWithOctave(note: .e, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(8,5), note: NoteWithOctave(note: .f, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(6,1), note: NoteWithOctave(note: .fis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(5,4), note: NoteWithOctave(note: .g, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(3,2), note: NoteWithOctave(note: .gis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(4,3), note: NoteWithOctave(note: .a, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(8,4), note: NoteWithOctave(note: .ais, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(4,2), note: NoteWithOctave(note: .h, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(5,3), note: NoteWithOctave(note: .c, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(7,2), note: NoteWithOctave(note: .cis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,2), note: NoteWithOctave(note: .d, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,1), note: NoteWithOctave(note: .dis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,3), note: NoteWithOctave(note: .e, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(7,4), note: NoteWithOctave(note: .f, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,2), note: NoteWithOctave(note: .fis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,1), note: NoteWithOctave(note: .g, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(9,2), note: NoteWithOctave(note: .gis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,1), note: NoteWithOctave(note: .a, octave: .one)),
         ]
         
         let _notesClosing: [ NoteIndex ] = [
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(7,1), octave: .big),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(3,4), octave: .big),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(1,1), octave: .big),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(8,1), octave: .big),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(9,1), octave: .big),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(3,3), octave: .big),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(5,5), octave: .big),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(2,2), octave: .big),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(6,5), octave: .big),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(8,2), octave: .big),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(8,4), octave: .small),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(7,4), octave: .small),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(4,4), octave: .small),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(7,5), octave: .small),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(2,1), octave: .small), // Note: also (3,2)!
-            NoteIndex(note: .e, index: BandoneonKeyIndex(3,2), octave: .small), // Note: also (2,1)!
-            NoteIndex(note: .f, index: BandoneonKeyIndex(6,1), octave: .small),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(8,3), octave: .small),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(4,3), octave: .small),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(7,2), octave: .small),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(4,2), octave: .small),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(5,4), octave: .small),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(5,3), octave: .small),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(6,4), octave: .one),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(5,2), octave: .one),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(6,3), octave: .one),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(8,5), octave: .one),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(6,2), octave: .one),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(7,3), octave: .one),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(3,1), octave: .one),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(9,2), octave: .one),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(4,1), octave: .one),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(5,1), octave: .one)
+            NoteIndex(index: BandoneonKeyIndex(7,1), note: NoteWithOctave(note: .cis, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(3,4), note: NoteWithOctave(note: .d, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .e, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(8,1), note: NoteWithOctave(note: .f, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(9,1), note: NoteWithOctave(note: .fis, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(3,3), note: NoteWithOctave(note: .g, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(5,5), note: NoteWithOctave(note: .gis, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(2,2), note: NoteWithOctave(note: .a, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(6,5), note: NoteWithOctave(note: .ais, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(8,2), note: NoteWithOctave(note: .h, octave: .big)),
+            NoteIndex(index: BandoneonKeyIndex(8,4), note: NoteWithOctave(note: .c, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(7,4), note: NoteWithOctave(note: .cis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(4,4), note: NoteWithOctave(note: .d, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(7,5), note: NoteWithOctave(note: .dis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(2,1), note: NoteWithOctave(note: .e, octave: .small)), // also (3,2)
+            NoteIndex(index: BandoneonKeyIndex(3,2), note: NoteWithOctave(note: .e, octave: .small)), // also (2,1)
+            NoteIndex(index: BandoneonKeyIndex(6,1), note: NoteWithOctave(note: .f, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(8,3), note: NoteWithOctave(note: .fis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(4,3), note: NoteWithOctave(note: .g, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(7,2), note: NoteWithOctave(note: .gis, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(4,2), note: NoteWithOctave(note: .a, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(5,4), note: NoteWithOctave(note: .ais, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(5,3), note: NoteWithOctave(note: .h, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(6,4), note: NoteWithOctave(note: .c, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,2), note: NoteWithOctave(note: .cis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,3), note: NoteWithOctave(note: .d, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(8,5), note: NoteWithOctave(note: .dis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,2), note: NoteWithOctave(note: .e, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(7,3), note: NoteWithOctave(note: .f, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,1), note: NoteWithOctave(note: .fis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(9,2), note: NoteWithOctave(note: .g, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,1), note: NoteWithOctave(note: .gis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,1), note: NoteWithOctave(note: .h, octave: .one)),
         ]
-
+        
         let imageName = PictureNames.bandoneonKeysPositionsLeft
         var pictureSize = CGSize(width: 1920, height: 978)
         
@@ -231,7 +208,7 @@ struct Bandoneon {
         
     }
     
-    struct RightSideKeys : KeyLayout {
+    struct RightKeyLayout : KeyLayout {
         
         let imageName = PictureNames.bandoneonKeysPositionsRight
         let pictureSize = CGSize(width: 1920, height: 981)
@@ -248,7 +225,6 @@ struct Bandoneon {
             [ (515, 42), (763, 16), (1016, 16), (1216, 12) ]
             ].map { $0.map { CGPoint(x: $0.0, y: $0.1) } }
         
-        
         let keySequence: [[MarkerIndex]] = [
             [(1,1), (2,1)],
             [(1,2), (2,2), (3,1)],
@@ -259,88 +235,87 @@ struct Bandoneon {
             [(1,7), (2,7), (3,6), (4,5), (5,4), (6,3)],
             [(1,8), (2,8), (3,7), (4,6), (5,5), (6,4)],
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
- 
+        
         var notes : [NoteIndex] { direction == .open ? _notesOpening : _notesClosing }
         let _notesClosing: [ NoteIndex ] = [
-            NoteIndex(note: .a, index: BandoneonKeyIndex(1,2), octave: .small),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(1,1), octave: .small),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(2,3), octave: .small),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(4,5), octave: .one),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(4,4), octave: .one),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(3,4), octave: .one),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(2,1), octave: .one),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(3,2), octave: .one),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(2,2), octave: .one),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(3,3), octave: .one),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(5,3), octave: .one),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(5,4), octave: .one),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(4,2), octave: .one),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(6,4), octave: .one),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(6,3), octave: .one),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(7,4), octave: .two),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(5,2), octave: .two),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(7,3), octave: .two),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(8,1), octave: .two),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(4,1), octave: .two), // NOTE: also (4,1)!
-            NoteIndex(note: .e, index: BandoneonKeyIndex(6,2), octave: .two), // NOTE: also (6,2)!
-            NoteIndex(note: .f, index: BandoneonKeyIndex(3,1), octave: .two),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(4,3), octave: .two),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(8,3), octave: .two),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(5,1), octave: .two),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(7,2), octave: .two),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(6,5), octave: .two),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(6,1), octave: .two),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(7,5), octave: .three),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(8,2), octave: .three),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(8,4), octave: .three),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(8,5), octave: .three),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(7,1), octave: .three),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(8,6), octave: .three),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(7,6), octave: .three),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(5,5), octave: .three),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(6,6), octave: .three),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(5,6), octave: .three),
+            NoteIndex(index: BandoneonKeyIndex(1,2), note: NoteWithOctave(note: .a, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .ais, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(2,3), note: NoteWithOctave(note: .h, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(4,5), note: NoteWithOctave(note: .c, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,4), note: NoteWithOctave(note: .cis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,4), note: NoteWithOctave(note: .d, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(2,1), note: NoteWithOctave(note: .dis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,2), note: NoteWithOctave(note: .e, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(2,2), note: NoteWithOctave(note: .f, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,3), note: NoteWithOctave(note: .fis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,3), note: NoteWithOctave(note: .g, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,4), note: NoteWithOctave(note: .gis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,2), note: NoteWithOctave(note: .a, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,4), note: NoteWithOctave(note: .ais, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,3), note: NoteWithOctave(note: .h, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(7,4), note: NoteWithOctave(note: .c, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(5,2), note: NoteWithOctave(note: .cis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(7,3), note: NoteWithOctave(note: .d, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(8,1), note: NoteWithOctave(note: .dis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(4,1), note: NoteWithOctave(note: .e, octave: .two)), // also (4,1)
+            NoteIndex(index: BandoneonKeyIndex(6,2), note: NoteWithOctave(note: .e, octave: .two )), //also (6,2))
+            NoteIndex(index: BandoneonKeyIndex(3,1), note: NoteWithOctave(note: .f, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(4,3), note: NoteWithOctave(note: .fis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(8,3), note: NoteWithOctave(note: .g, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(5,1), note: NoteWithOctave(note: .gis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(7,2), note: NoteWithOctave(note: .a, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(6,5), note: NoteWithOctave(note: .ais, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(6,1), note: NoteWithOctave(note: .h, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(7,5), note: NoteWithOctave(note: .c, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,2), note: NoteWithOctave(note: .cis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,4), note: NoteWithOctave(note: .d, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,5), note: NoteWithOctave(note: .dis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(7,1), note: NoteWithOctave(note: .e, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,6), note: NoteWithOctave(note: .f, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(7,6), note: NoteWithOctave(note: .fis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(5,5), note: NoteWithOctave(note: .g, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(6,6), note: NoteWithOctave(note: .gis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(5,6), note: NoteWithOctave(note: .a, octave: .three)),
         ]
         let _notesOpening: [ NoteIndex ] = [
-            NoteIndex(note: .a, index: BandoneonKeyIndex(1,2), octave: .small),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(1,1), octave: .small),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(2,3), octave: .small),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(3,4), octave: .one),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(4,5), octave: .one),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(4,4), octave: .one),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(2,1), octave: .one),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(3,3), octave: .one),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(2,2), octave: .one),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(5,3), octave: .one),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(5,4), octave: .one),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(4,2), octave: .one),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(6,3), octave: .one),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(3,2), octave: .one),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(5,2), octave: .one),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(7,3), octave: .two),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(4,3), octave: .two),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(6,2), octave: .two),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(4,1), octave: .two),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(8,3), octave: .two),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(3,1), octave: .two),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(5,1), octave: .two),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(8,1), octave: .two),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(7,2), octave: .two),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(6,1), octave: .two),
-            NoteIndex(note: .ais, index: BandoneonKeyIndex(6,4), octave: .two),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(8,2), octave: .two),
-            NoteIndex(note: .c, index: BandoneonKeyIndex(7,4), octave: .three),
-            NoteIndex(note: .cis, index: BandoneonKeyIndex(7,1), octave: .three),
-            NoteIndex(note: .d, index: BandoneonKeyIndex(8,4), octave: .three),
-            NoteIndex(note: .dis, index: BandoneonKeyIndex(8,5), octave: .three),
-            NoteIndex(note: .e, index: BandoneonKeyIndex(7,5), octave: .three),
-            NoteIndex(note: .f, index: BandoneonKeyIndex(8,6), octave: .three),
-            NoteIndex(note: .fis, index: BandoneonKeyIndex(6,5), octave: .three),
-            NoteIndex(note: .g, index: BandoneonKeyIndex(7,6), octave: .three),
-            NoteIndex(note: .gis, index: BandoneonKeyIndex(6,6), octave: .three),
-            NoteIndex(note: .a, index: BandoneonKeyIndex(5,5), octave: .three),
-            NoteIndex(note: .h, index: BandoneonKeyIndex(5,6), octave: .three)
+            NoteIndex(index: BandoneonKeyIndex(1,2), note: NoteWithOctave(note: .a, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .ais, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(2,3), note: NoteWithOctave(note: .h, octave: .small)),
+            NoteIndex(index: BandoneonKeyIndex(3,4), note: NoteWithOctave(note: .c, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,5), note: NoteWithOctave(note: .cis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,4), note: NoteWithOctave(note: .d, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(2,1), note: NoteWithOctave(note: .dis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,3), note: NoteWithOctave(note: .e, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(2,2), note: NoteWithOctave(note: .f, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,3), note: NoteWithOctave(note: .fis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,4), note: NoteWithOctave(note: .g, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(4,2), note: NoteWithOctave(note: .gis, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(6,3), note: NoteWithOctave(note: .a, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(3,2), note: NoteWithOctave(note: .ais, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(5,2), note: NoteWithOctave(note: .h, octave: .one)),
+            NoteIndex(index: BandoneonKeyIndex(7,3), note: NoteWithOctave(note: .c, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(4,3), note: NoteWithOctave(note: .cis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(6,2), note: NoteWithOctave(note: .d, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(4,1), note: NoteWithOctave(note: .dis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(8,3), note: NoteWithOctave(note: .e, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(3,1), note: NoteWithOctave(note: .f, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(5,1), note: NoteWithOctave(note: .fis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(8,1), note: NoteWithOctave(note: .g, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(7,2), note: NoteWithOctave(note: .gis, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(6,1), note: NoteWithOctave(note: .a, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(6,4), note: NoteWithOctave(note: .ais, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(8,2), note: NoteWithOctave(note: .h, octave: .two)),
+            NoteIndex(index: BandoneonKeyIndex(7,4), note: NoteWithOctave(note: .c, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(7,1), note: NoteWithOctave(note: .cis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,4), note: NoteWithOctave(note: .d, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,5), note: NoteWithOctave(note: .dis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(7,5), note: NoteWithOctave(note: .e, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(8,6), note: NoteWithOctave(note: .f, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(6,5), note: NoteWithOctave(note: .fis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(7,6), note: NoteWithOctave(note: .g, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(6,6), note: NoteWithOctave(note: .gis, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(5,5), note: NoteWithOctave(note: .a, octave: .three)),
+            NoteIndex(index: BandoneonKeyIndex(5,6), note: NoteWithOctave(note: .h, octave: .three)),
         ]
     }
-    
 }

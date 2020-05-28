@@ -97,25 +97,22 @@ extension KeyLayout {
     /// filter all corresponding indexes if `octaves` is empty or `notes` is empty
     func orderedIndexSet(for notes: [Note], inOctaves octaves: [Octave]) -> [NoteIndex] {
         let allOctavesInLayout = self.octaves
-        let matchOctaves = (octaves.isEmpty ? allOctavesInLayout : octaves)
-        let matchNotes = (notes.isEmpty ? Note.allCases : notes)
+        let matchOctaves = octaves.isEmpty ? allOctavesInLayout : octaves
+        let matchNotes = notes.isEmpty ? Note.allCases : notes
         
-        let indexSet = self.notes.filter { noteIndex in
-            matchOctaves.contains(noteIndex.octave!) && matchNotes.contains(noteIndex.note)
-        }
+        let indexSet = self.notes.filter { matchOctaves.contains($0.note.octave!) && matchNotes.contains($0.note.note) }
         
         return indexSet
     }
     
     func orderedIndexSet(for notes: [Note], inOctaves octaves: [Octave]) -> [BandoneonKeyIndex] {
-        
         // extract keypositions
         return orderedIndexSet(for: notes, inOctaves: octaves).map {$0.index}
     }
     
     /// the octaves this layout comprises
     var octaves: [Octave] {
-        Array(Set(notes.compactMap {$0.octave})).sorted()
+        Array(Set(notes.compactMap {$0.note.octave})).sorted()
     }
     
 }

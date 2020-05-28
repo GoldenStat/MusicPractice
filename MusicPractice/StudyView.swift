@@ -10,65 +10,90 @@ import SwiftUI
 
 struct StudyView: View {
     var scale: Scale
-    var scaleTitle: String { scale.name }
-    var scaleNotes: [Note] { scale.notes }
-    var noteNames: [String] { scaleNotes.map {$0.rawValue} }
     
     @State var playingDirection: PlayingDirection = .open
+    
     var body: some View {
         VStack {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Scale: \(scaleTitle)")
-                        .font(.largeTitle)
-                    Text("Notes: \(noteNames.joined(separator: "-"))")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }
-                Spacer()
-            }
+            ScaleDescriptionView(scale: scale)
             Divider()
-            HStack {
-                HStack {
-                    VStack {
-                        Text("Left Hand")
-                            .font(.largeTitle)
-                        Text(playingDirection == .open ? "opening" : "closing")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                    }
-                    BandoneonView(layout:
-                        Bandoneon.LeftSideKeys(direction: playingDirection),
-                                  highlightedNotes: scaleNotes,
-                                  octaves: [])
-                }
-                HStack {
-                    BandoneonView(layout:
-                        Bandoneon.RightSideKeys(direction: playingDirection),
-                                  highlightedNotes: scaleNotes,
-                                  octaves: [])
-
-                    VStack {
-                        Text("Right Hand")
-                            .font(.largeTitle)
-                        Text(playingDirection == .open ? "opening" : "closing")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                    }
-                }
-            }
+            
+            BandoneonHSlide(playingDirection: playingDirection,
+                            hightlightedNotes: scale.notes,
+                            octaves: [])
+            
             Divider()
-            Picker("", selection: $playingDirection) {
-                Text(self.playingDirection == .open ? "abriendo" : "cerrando")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-        
+            PlayDirectionButton(direction: $playingDirection)
         }
     }
 }
 
+struct BandoneonHSlide: View {
+    
+    var playingDirection: PlayingDirection
+    var hightlightedNotes: [Note]
+    var octaves: [Octave]
+    
+    var body: some View {
+        HStack {
+            VStack {
+                PlayingStatus(hand: .left, playingDirection: playingDirection)
+                BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: playingDirection),
+                              highlightedNotes: hightlightedNotes,
+                              octaves: octaves)
+            }
+            VStack {
+                PlayingStatus(hand: .right, playingDirection: playingDirection)
+                BandoneonView(layout: Bandoneon.RightKeyLayout(direction: playingDirection),
+                              highlightedNotes: hightlightedNotes,
+                              octaves: octaves)
+            }
+        }
+    }
+}
+
+struct PlayingStatus: View {
+    var hand: Hand
+    var playingDirection: PlayingDirection
+        
+    var body: some View {
+        VStack {
+            Text(hand.string)
+                .font(.largeTitle)
+            Text(playingDirection.string)
+                .font(.subheadline)
+                .fontWeight(.bold)
+        }
+    }
+}
+
+struct ScaleDescriptionView : View {
+    var scale: Scale
+    var noteNames: [String] { scale.notes.map {$0.rawValue} }
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Scale: \(scale.name)")
+                    .font(.largeTitle)
+                Text("Notes: \(noteNames.joined(separator: "-"))")
+                    .font(.title)
+                    .fontWeight(.bold)
+            }
+            Spacer()
+        }
+    }
+}
+
+struct PlayDirectionButton : View {
+    @Binding var direction: PlayingDirection
+    
+    var body: some View {
+        Button(direction.string) {
+            self.direction.toggle()
+        }
+    }
+}
 
 
 struct StudyView_Previews: PreviewProvider {

@@ -88,13 +88,11 @@ struct BandoneonView: View {
 
         func mark(indexKey index: Int) -> some View {
             return Circle()
-                .fill(markedKeys[index].color)
+                .fill(markedKeys[index].note.color)
                 .overlay(
-                    Text(markedKeys[index].string)
+                    Text(markedKeys[index].note.string)
                         .font(.system(size: fontSize))
                         .fixedSize(horizontal: true, vertical: false)
-                    
-                    
             )
                 .frame(
                     width: newButtonSize.width,
@@ -110,17 +108,6 @@ struct BandoneonView: View {
     }
 }
 
-extension NoteIndex {
-    /// determine the color for a key based on its pitch and if the key had an octave assigned
-    var color: Color {
-        if let octave = self.octave {
-            return Color.bandoneonKeyColor(for: octave)
-        } else {
-            return Color.inactive
-        }
-    }
-}
-
 struct BandoneonBothSides: View {
     
     @State var direction: PlayingDirection
@@ -128,7 +115,7 @@ struct BandoneonBothSides: View {
     
     var body: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: direction), highlightedNotes: [], octaves: [])
+            BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: direction), highlightedNotes: [], octaves: [])
             Button(action: {
                 self.toggleDirection()
             })
@@ -147,8 +134,8 @@ struct BandoneonBothSides: View {
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: .open))
-            BandoneonView(layout: Bandoneon.LeftSideKeys(direction: .close))
+            BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: .open))
+            BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: .close))
 //            BandoneonBothSides(direction: .close)
 //            BandoneonBothSides(direction: .open)
         }
