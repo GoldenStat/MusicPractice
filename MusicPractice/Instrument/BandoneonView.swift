@@ -46,102 +46,14 @@ struct BandoneonView: View {
                 .resizable()
 
                     /// the labels for the keys
-                self.keyLabels(for: self.highlightedNotes, mappedTo: geometry.size)
+                self.layout.keyLabels(for: self.highlightedNotes, mappedTo: geometry.size)
             }
             .aspectRatio(self.layout.pictureRatio, contentMode: .fit)
 
         }
     }
-    
-    /// re-calculate key Positions base on frame Size
-    func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
-        
-        let originalSize: CGSize = layout.pictureSize
-        let scaleFactor = CGPoint(x: newSize.width / originalSize.width,
-                                  y: newSize.height / originalSize.height)
-        
-        let newButtonSize = CGSize(width: Bandoneon.markerSize.width * scaleFactor.x,
-                                   height: Bandoneon.markerSize.height * scaleFactor.y)
-        var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
-        
-        /// searches for notes in `highlightedNotes`that match `octaves` in layout and
-        /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
-        var markedKeys: [NoteIndex] {
-            return layout.orderedIndexSet(for: notes, inOctaves: octaves)
-        }
-        
-        /// get the Position for the index of a key
-        func position(forKey key: NoteIndex) -> CGPoint {
-            let bandoneonIndex = key.index
-
-            let oldPosition = layout.markerPosition(index: bandoneonIndex)!
-            let newPosition = CGPoint(x: oldPosition.x * scaleFactor.x, y: oldPosition.y*scaleFactor.y)
-
-            return newPosition
-        }
-
-        func mark(indexKey index: Int) -> some View {
-            return Circle()
-                .fill(markedKeys[index].note.color)
-                .overlay(
-                    Text(markedKeys[index].note.string)
-                        .font(.system(size: fontSize))
-                        .fixedSize(horizontal: true, vertical: false)
-            )
-                .frame(
-                    width: newButtonSize.width,
-                    height: newButtonSize.height
-            )
-                .position(position(forKey: markedKeys[index]))
-                .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
-        }
-        
-        return ForEach(0 ..< markedKeys.count) { index in
-            mark(indexKey: index)
-        }
-    }
 }
 
-struct AllBandoneonViews: View {
-    @State var index: Int = 0
-
-    static var layout : [KeyLayout] = [ Bandoneon.LeftKeyLayout(direction: .open),
-                    Bandoneon.LeftKeyLayout(direction: .close),
-                    Bandoneon.RightKeyLayout(direction: .open),
-                    Bandoneon.RightKeyLayout(direction: .close)
-    ]
-                    
-    var body: some View {
-        VStack {
-            BandoneonView(layout: Self.layout[index])
-                .padding()
-            VStack {
-                HStack {
-                    MarkedBandoneonView(marked: index == 0, layout: Self.layout[0])
-                        .onTapGesture {
-                            self.index = 0
-                    }
-                    MarkedBandoneonView(marked: index == 2, layout: Self.layout[2])
-                        .onTapGesture {
-                            self.index = 2
-                    }
-                }
-                HStack {
-                    MarkedBandoneonView(marked: index == 1, layout: Self.layout[1])
-                        .onTapGesture {
-                            self.index = 1
-                    }
-
-                    MarkedBandoneonView(marked: index == 3, layout: Self.layout[3])
-                        .onTapGesture {
-                            self.index = 3
-                    }
-
-                }
-            }
-        }
-    }
-}
 
 struct MarkedBandoneonView : View {
     var marked : Bool
@@ -163,7 +75,7 @@ struct MarkedBandoneonView : View {
 
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
-        AllBandoneonViews()
+        BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: .open))
         .padding()
     }
 }

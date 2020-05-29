@@ -114,5 +114,67 @@ extension KeyLayout {
     var octaves: [Octave] {
         Array(Set(notes.compactMap {$0.note.octave})).sorted()
     }
-    
+        
+    /// re-calculate key Positions base on frame Size
+    func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
+        
+
+        let newButtonSize = Bandoneon.markerSize.mapped(from: pictureSize,
+                                                        to: newSize)
+        
+        var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
+        
+        /// searches for notes in `highlightedNotes`that match `octaves` in layout and
+        /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
+        var markedKeys: [NoteIndex] {
+            return orderedIndexSet(for: notes, inOctaves: octaves)
+        }
+        
+        /// get the Position for the index of a key
+        func position(forKey key: NoteIndex) -> CGPoint {
+            let bandoneonIndex = key.index
+
+            return markerPosition(index: bandoneonIndex)!.mapped(from: pictureSize, to: newSize)
+        }
+
+        func highlight(indexKey index: Int) -> some View {
+            return Circle()
+                .fill(markedKeys[index].note.color)
+                .overlay(
+                    Text(markedKeys[index].note.string)
+                        .font(.system(size: fontSize))
+                        .fixedSize(horizontal: true, vertical: false)
+            )
+                .frame(
+                    width: newButtonSize.width,
+                    height: newButtonSize.height
+            )
+                .position(position(forKey: markedKeys[index]))
+                .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
+        }
+        
+        return ForEach(0 ..< markedKeys.count) { index in
+            highlight(indexKey: index)
+        }
+    }
+
+}
+
+extension CGSize {
+    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGSize {
+        let ratio = CGSize(width: resultingSize.width / originalSize.width,
+                           height: resultingSize.height / originalSize.height)
+        
+        return CGSize(width: self.width * ratio.width,
+                      height: self.height * ratio.height)
+    }
+}
+
+extension CGPoint {
+    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGPoint {
+        let ratio = CGPoint(x: resultingSize.width / originalSize.width,
+                            y: resultingSize.height / originalSize.height)
+        return CGPoint(x: self.x * ratio.x,
+                       y: self.y * ratio.y)
+    }
 }

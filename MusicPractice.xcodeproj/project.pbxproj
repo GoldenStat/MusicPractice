@@ -26,6 +26,7 @@
 		41984C07247E544600A87D86 /* CloudTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C06247E544600A87D86 /* CloudTrackView.swift */; };
 		41984C0D247FE9B100A87D86 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C0C247FE9B100A87D86 /* StudyView.swift */; };
 		41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C0E247FF3F700A87D86 /* KeyLayout.swift */; };
+		41984C112481809E00A87D86 /* AllBandoneonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C102481809D00A87D86 /* AllBandoneonViews.swift */; };
 		419F5D042450D76C0006576A /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D032450D76C0006576A /* StopWatch.swift */; };
 		419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D112455A4680006576A /* PracticeScaleView.swift */; };
 		419F5D1624562D460006576A /* AudiotrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D1524562D460006576A /* AudiotrackView.swift */; };
@@ -65,6 +66,7 @@
 		41984C06247E544600A87D86 /* CloudTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTrackView.swift; sourceTree = "<group>"; };
 		41984C0C247FE9B100A87D86 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		41984C0E247FF3F700A87D86 /* KeyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLayout.swift; sourceTree = "<group>"; };
+		41984C102481809D00A87D86 /* AllBandoneonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBandoneonViews.swift; sourceTree = "<group>"; };
 		419F5D032450D76C0006576A /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		419F5D112455A4680006576A /* PracticeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeScaleView.swift; sourceTree = "<group>"; };
 		419F5D1524562D460006576A /* AudiotrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiotrackView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				4193FD87246D92D300542511 /* Bandoneon.swift */,
 				41984C0E247FF3F700A87D86 /* KeyLayout.swift */,
 				4193FD85246D918200542511 /* BandoneonView.swift */,
+				41984C102481809D00A87D86 /* AllBandoneonViews.swift */,
 			);
 			path = Instrument;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,
 				41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */,
+				41984C112481809E00A87D86 /* AllBandoneonViews.swift in Sources */,
 				415CF383245057FD008D6E2A /* ContentView.swift in Sources */,
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,
 				415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */,
