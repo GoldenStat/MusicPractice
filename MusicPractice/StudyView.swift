@@ -38,7 +38,7 @@ struct BandoneonHSlide: View {
         HStack {
             VStack {
                 PlayingStatus(hand: .left, playingDirection: playingDirection)
-                BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: playingDirection),
+                BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: playingDirection),
                               highlightedNotes: hightlightedNotes,
                               octaves: octaves)
             }

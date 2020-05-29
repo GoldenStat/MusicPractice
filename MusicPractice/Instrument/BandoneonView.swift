@@ -37,24 +37,18 @@ struct BandoneonView: View {
     let layout : KeyLayout
     var highlightedNotes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
     var octaves: [Octave] = [] // if no octave is given, mark all octaves
-        
-    func width(ofSize: CGSize) -> CGFloat { ofSize.width }
-    func height(ofSize: CGSize) -> CGFloat { ofSize.height }
-
-    var sampleSize : CGSize { layout.pictureSize }
-    
+            
     var body: some View {
         ZStack {
             GeometryReader { geometry in
             /// Picture of the Bandoneon Image
             Image(self.layout.imageName)
                 .resizable()
-                .coordinateSpace(name: "KeyLayout")
 
                     /// the labels for the keys
-                self.keyLabels(for: self.highlightedNotes, mappedTo: geometry.frame(in: .named("KeyLayout")).size)
+                self.keyLabels(for: self.highlightedNotes, mappedTo: geometry.size)
             }
-            .scaledToFit()
+            .aspectRatio(self.layout.pictureRatio, contentMode: .fit)
 
         }
     }
@@ -115,7 +109,7 @@ struct BandoneonBothSides: View {
     
     var body: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: direction), highlightedNotes: [], octaves: [])
+            BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: direction), highlightedNotes: [], octaves: [])
             Button(action: {
                 self.toggleDirection()
             })
@@ -134,8 +128,10 @@ struct BandoneonBothSides: View {
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: .open))
-            BandoneonView(layout: Bandoneon.LeftKeyLayOut(direction: .close))
+            BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: .open))
+            BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: .close))
+            BandoneonView(layout: Bandoneon.RightKeyLayout(direction: .open))
+            BandoneonView(layout: Bandoneon.RightKeyLayout(direction: .close))
 //            BandoneonBothSides(direction: .close)
 //            BandoneonBothSides(direction: .open)
         }

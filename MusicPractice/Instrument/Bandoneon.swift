@@ -96,7 +96,7 @@ struct Bandoneon {
     static var coverSize = CGSize(width: 172, height: 172)
     
     /// the layouts for both sides
-    struct LeftKeyLayOut : KeyLayout  {
+    struct LeftKeyLayout : KeyLayout  {
         let direction: PlayingDirection
         
         var notes : [NoteIndex] { direction == .open ? _notesOpening : _notesClosing }
