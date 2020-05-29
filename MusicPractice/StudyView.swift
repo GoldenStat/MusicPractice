@@ -8,25 +8,47 @@
 
 import SwiftUI
 
+struct NavigationStudyView: View {
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(Scale.DominantScales.allCases, id: \.self) { dominant in
+                    NavigationLink(destination:
+                        StudyView(scale: Scale(dominant: dominant))
+                    ) {
+                        Text(dominant.rawValue)
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct StudyView: View {
     var scale: Scale
     
     @State var playingDirection: PlayingDirection = .open
     
     var body: some View {
+        
         VStack {
             ScaleDescriptionView(scale: scale)
             Divider()
             
-            BandoneonHSlide(playingDirection: playingDirection,
+            BandoneonHSlide(playingDirection: .open,
                             hightlightedNotes: scale.notes,
                             octaves: [])
             
             Divider()
-            PlayDirectionButton(direction: $playingDirection)
+            
+            BandoneonHSlide(playingDirection: .close,
+                            hightlightedNotes: scale.notes,
+                            octaves: [])
+            Spacer()
         }
     }
 }
+
 
 struct BandoneonHSlide: View {
     
@@ -85,19 +107,9 @@ struct ScaleDescriptionView : View {
     }
 }
 
-struct PlayDirectionButton : View {
-    @Binding var direction: PlayingDirection
-    
-    var body: some View {
-        Button(direction.string) {
-            self.direction.toggle()
-        }
-    }
-}
-
 
 struct StudyView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyView(scale: Scale.D7)
+        NavigationStudyView()
     }
 }
