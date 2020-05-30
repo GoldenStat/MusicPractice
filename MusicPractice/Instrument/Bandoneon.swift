@@ -66,28 +66,6 @@ struct NoteIndex {
     var string: String { note.string }
 }
 
-protocol KeyNotes {
-    var direction: PlayingDirection { get }
-    var hand: Hand { get }
-    func notes(row: Int, column: Int) -> Note
-}
-
-protocol EnumToggle : CaseIterable {
-    var string: String { get }
-    /// switches the enum Type
-    mutating func toggle()
-}
-
-enum PlayingDirection : EnumToggle { case open, close
-    var string: String { self == .open ? "abriendo" : "cerrando" }
-    mutating func toggle() { self = (self == .open ? .close : .open) }
-}
-
-enum Hand : EnumToggle { case left, right
-    var string: String { self == .left ? "Left Hand" : "Right Hand" }
-    mutating func toggle() { self = (self == .left ? .right : .left) }
-}
-
 struct Bandoneon {
     
     enum MarkAction { case mark, cover }

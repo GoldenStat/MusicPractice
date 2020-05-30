@@ -22,8 +22,8 @@ struct Scale : Hashable {
 
     static var selectableScales = DominantScales.allCases // subgroup we want to allow for selection
     
-    static func notes(dominant: DominantScales) -> [ Note ] {
-        switch dominant {
+    static func notes(dominant scale: DominantScales) -> [ Note ] {
+        switch scale {
         case .C7: return [.c, .e, .g, .hes]
         case .Cis7: return [.cis, .eis, .gis, .h]
         case .D7: return [.d, .fis, .a, .c]
@@ -38,7 +38,32 @@ struct Scale : Hashable {
         case .B7: return [.h, .dis, .fis, .a,]
         }
     }
+    
+    static func notes(scale: HalfDiminishedScales) -> [ Note ] {
+        switch scale {
+        case .Cm7b5: return [ .c, .es, .ges, .hes]
+        case .Cism7b5: return [ .cis, .e, .g, .h]
+        case .Dm7b5: return [ .d, .f, .aes, .c]
+        case .Ebm7b5: return [ .es, .ges, .a, .des]
+        case .Em7b5: return [ .e, .g, .hes, .d]
+        case .Fm7b5: return [ .f, .aes, .ces, .es ]
+        case .Fism7b5: return [ .fis, .a, .c, .e ]
+        case .Gm7b5: return [ .g, .hes, .des, .f]
+        case .Abm7b5: return [ .aes, .ces, .d, .ges]
+        case .Am7b5: return [ .a, .c, .es, .g]
+        case .Bbm7b5: return [ .hes, .des, .e, .aes]
+        case .Bm7b5: return [ .h, .d, .f, .a]
+        }
+    }
 
+    static func notes(scale: DiminishedScales) -> [ Note ] {
+        switch scale {
+        case .Cdim, .Ebdim, .Gesdim, .Adim: return [ .c, .es, .ges, .a]
+        case .Cisdim, .Edim, .Gdim, .Bbdim: return [ .cis, .e, .g, .hes]
+        case .Ddim, .Fdim, .Abdim, .Bdim: return [ .d, .f, .aes, .h ]
+        }
+    }
+    
     static let C7 = Scale(dominant: .C7)
     static let Cis7 = Scale(dominant: .Cis7)
     static let D7 = Scale(dominant: .D7)
@@ -55,15 +80,25 @@ struct Scale : Hashable {
         case C7, Cis7, D7, Eb7, E7, F7
         case Fis7, G7, Ab7, A7, Bb7, B7
     }
+    enum HalfDiminishedScales: String, CaseIterable {
+        case Cm7b5, Cism7b5, Dm7b5, Ebm7b5, Em7b5, Fm7b5
+        case Fism7b5, Gm7b5, Abm7b5, Am7b5, Bbm7b5, Bm7b5
+    }
+    
+    enum DiminishedScales: String, CaseIterable {
+        case Cdim, Ebdim, Gesdim, Adim
+        case Cisdim, Edim, Gdim, Bbdim
+        case Ddim, Fdim, Abdim, Bdim
+    }
 }
 
 enum Note: String, CaseIterable {
-    case ces, c, cis = "c♯"
-    case des, d, dis = "d♯"
-    case es, e, eis
-    case f, fis = "f♯"
-    case ges, g, gis = "g♯"
-    case aes = "as", a, ais = "a♯"
+    case ces = "c♭", c, cis = "c♯"
+    case des = "d♭", d, dis = "d♯"
+    case es = "e♭", e, eis
+    case fes = "f♭", f, fis = "f♯"
+    case ges = "g♭", g, gis = "g♯"
+    case aes = "a♭", a, ais = "a♯"
     case hes = "b", h
 }
 

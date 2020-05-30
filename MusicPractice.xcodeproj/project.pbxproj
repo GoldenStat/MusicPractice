@@ -27,6 +27,8 @@
 		41984C0D247FE9B100A87D86 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C0C247FE9B100A87D86 /* StudyView.swift */; };
 		41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C0E247FF3F700A87D86 /* KeyLayout.swift */; };
 		41984C112481809E00A87D86 /* AllBandoneonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C102481809D00A87D86 /* AllBandoneonViews.swift */; };
+		41984C1324828AA000A87D86 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C1224828A9E00A87D86 /* MainMenuView.swift */; };
+		41984C1524828C4400A87D86 /* EnumToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41984C1424828C4400A87D86 /* EnumToggle.swift */; };
 		419F5D042450D76C0006576A /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D032450D76C0006576A /* StopWatch.swift */; };
 		419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D112455A4680006576A /* PracticeScaleView.swift */; };
 		419F5D1624562D460006576A /* AudiotrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D1524562D460006576A /* AudiotrackView.swift */; };
@@ -67,6 +69,8 @@
 		41984C0C247FE9B100A87D86 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		41984C0E247FF3F700A87D86 /* KeyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLayout.swift; sourceTree = "<group>"; };
 		41984C102481809D00A87D86 /* AllBandoneonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBandoneonViews.swift; sourceTree = "<group>"; };
+		41984C1224828A9E00A87D86 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		41984C1424828C4400A87D86 /* EnumToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumToggle.swift; sourceTree = "<group>"; };
 		419F5D032450D76C0006576A /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		419F5D112455A4680006576A /* PracticeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeScaleView.swift; sourceTree = "<group>"; };
 		419F5D1524562D460006576A /* AudiotrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiotrackView.swift; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 		415CF36F245057FD008D6E2A = {
 			isa = PBXGroup;
 			children = (
+				41984C1424828C4400A87D86 /* EnumToggle.swift */,
 				41E1F5C82457045500183C7F /* Helper.swift */,
 				415CF37A245057FD008D6E2A /* MusicPractice */,
 				415CF379245057FD008D6E2A /* Products */,
@@ -120,6 +125,7 @@
 				415CF37B245057FD008D6E2A /* AppDelegate.swift */,
 				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
 				415CF382245057FD008D6E2A /* ContentView.swift */,
+				41984C1224828A9E00A87D86 /* MainMenuView.swift */,
 				419F5D112455A4680006576A /* PracticeScaleView.swift */,
 				419F5D032450D76C0006576A /* StopWatch.swift */,
 				41E0B610245D81E000B650D7 /* ButtonStyles.swift */,
@@ -277,6 +283,7 @@
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
 				41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */,
+				41984C1324828AA000A87D86 /* MainMenuView.swift in Sources */,
 				41984C05247E46B800A87D86 /* PracticeSessionView.swift in Sources */,
 				41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */,
 				41984C03247E41C200A87D86 /* CloudTrack.swift in Sources */,
@@ -294,6 +301,7 @@
 				415CF383245057FD008D6E2A /* ContentView.swift in Sources */,
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,
 				415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */,
+				41984C1524828C4400A87D86 /* EnumToggle.swift in Sources */,
 				415CF39E24505DAA008D6E2A /* StopWatchView.swift in Sources */,
 				41984C07247E544600A87D86 /* CloudTrackView.swift in Sources */,
 				41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */,
