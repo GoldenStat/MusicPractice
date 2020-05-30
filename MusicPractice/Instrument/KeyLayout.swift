@@ -118,10 +118,12 @@ extension KeyLayout {
     /// re-calculate key Positions base on frame Size
     func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
         
-
-        let newButtonSize = Bandoneon.markerSize.mapped(from: pictureSize,
-                                                        to: newSize)
+        let originalSize: CGSize = pictureSize
+        let scaleFactor = CGPoint(x: newSize.width / originalSize.width,
+                                  y: newSize.height / originalSize.height)
         
+        let newButtonSize = CGSize(width: Bandoneon.markerSize.width * scaleFactor.x,
+                                   height: Bandoneon.markerSize.height * scaleFactor.y)
         var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
         
         /// searches for notes in `highlightedNotes`that match `octaves` in layout and
@@ -134,7 +136,10 @@ extension KeyLayout {
         func position(forKey key: NoteIndex) -> CGPoint {
             let bandoneonIndex = key.index
 
-            return markerPosition(index: bandoneonIndex)!.mapped(from: pictureSize, to: newSize)
+            let oldPosition = markerPosition(index: bandoneonIndex)!
+            let newPosition = CGPoint(x: oldPosition.x * scaleFactor.x, y: oldPosition.y*scaleFactor.y)
+
+            return newPosition
         }
 
         func highlight(indexKey index: Int) -> some View {
@@ -160,21 +165,21 @@ extension KeyLayout {
 
 }
 
-extension CGSize {
-    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGSize {
-        let ratio = CGSize(width: resultingSize.width / originalSize.width,
-                           height: resultingSize.height / originalSize.height)
-        
-        return CGSize(width: self.width * ratio.width,
-                      height: self.height * ratio.height)
-    }
-}
-
-extension CGPoint {
-    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGPoint {
-        let ratio = CGPoint(x: resultingSize.width / originalSize.width,
-                            y: resultingSize.height / originalSize.height)
-        return CGPoint(x: self.x * ratio.x,
-                       y: self.y * ratio.y)
-    }
-}
+//extension CGSize {
+//    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGSize {
+//        let ratio = CGSize(width: resultingSize.width / originalSize.width,
+//                           height: resultingSize.height / originalSize.height)
+//
+//        return CGSize(width: self.width * ratio.width,
+//                      height: self.height * ratio.height)
+//    }
+//}
+//
+//extension CGPoint {
+//    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGPoint {
+//        let ratio = CGPoint(x: resultingSize.width / originalSize.width,
+//                            y: resultingSize.height / originalSize.height)
+//        return CGPoint(x: self.x * ratio.x,
+//                       y: self.y * ratio.y)
+//    }
+//}
