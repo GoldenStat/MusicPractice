@@ -56,12 +56,10 @@ struct BandoneonView: View {
     /// re-calculate key Positions base on frame Size
     func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
         
-        let originalSize: CGSize = layout.pictureSize
-        let scaleFactor = CGPoint(x: newSize.width / originalSize.width,
-                                  y: newSize.height / originalSize.height)
+        let newButtonSize = Bandoneon.markerSize
+            .mapped(from: layout.pictureSize,
+                    to: newSize)
         
-        let newButtonSize = CGSize(width: Bandoneon.markerSize.width * scaleFactor.x,
-                                   height: Bandoneon.markerSize.height * scaleFactor.y)
         var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
         
         /// searches for notes in `highlightedNotes`that match `octaves` in layout and
@@ -70,21 +68,12 @@ struct BandoneonView: View {
             return layout.orderedIndexSet(for: notes, inOctaves: octaves)
         }
         
-        /// get the Position for the index of a key
-        func position(forKey key: NoteIndex) -> CGPoint {
-            let bandoneonIndex = key.index
-
-            let oldPosition = layout.markerPosition(index: bandoneonIndex)!
-            let newPosition = CGPoint(x: oldPosition.x * scaleFactor.x, y: oldPosition.y*scaleFactor.y)
-
-            return newPosition
-        }
-
-        func highlight(indexKey index: Int) -> some View {
+        func highlight(keyAt index: Int) -> some View {
+            let key = markedKeys[index]
             return Circle()
-                .fill(markedKeys[index].note.color)
+                .fill(key.color)
                 .overlay(
-                    Text(markedKeys[index].note.string)
+                    Text(key.string)
                         .font(.system(size: fontSize))
                         .fixedSize(horizontal: true, vertical: false)
             )
@@ -92,12 +81,12 @@ struct BandoneonView: View {
                     width: newButtonSize.width,
                     height: newButtonSize.height
             )
-                .position(position(forKey: markedKeys[index]))
+                .position(layout.position(forKey: key, with: newSize))
                 .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
         }
         
         return ForEach(0 ..< markedKeys.count) { index in
-            highlight(indexKey: index)
+            highlight(keyAt: index)
         }
     }
 }
@@ -123,7 +112,7 @@ struct MarkedBandoneonView : View {
 
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
-        BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: .open))
+        BandoneonView(layout: Bandoneon.RightKeyLayout(direction: .open))
         .padding()
     }
 }

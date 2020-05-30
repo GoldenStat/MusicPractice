@@ -115,6 +115,14 @@ extension KeyLayout {
         Array(Set(notes.compactMap {$0.note.octave})).sorted()
     }
         
+    /// get the Position for the index of a key
+    func position(forKey key: NoteIndex, with newSize: CGSize) -> CGPoint {
+        let newPosition = markerPosition(index: key.index)!
+            .mapped(from: pictureSize, to: newSize)
+
+        return newPosition
+    }
+
     /// re-calculate key Positions base on frame Size
     func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
         
@@ -162,24 +170,23 @@ extension KeyLayout {
             highlight(indexKey: index)
         }
     }
-
 }
 
-//extension CGSize {
-//    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGSize {
-//        let ratio = CGSize(width: resultingSize.width / originalSize.width,
-//                           height: resultingSize.height / originalSize.height)
-//
-//        return CGSize(width: self.width * ratio.width,
-//                      height: self.height * ratio.height)
-//    }
-//}
-//
-//extension CGPoint {
-//    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGPoint {
-//        let ratio = CGPoint(x: resultingSize.width / originalSize.width,
-//                            y: resultingSize.height / originalSize.height)
-//        return CGPoint(x: self.x * ratio.x,
-//                       y: self.y * ratio.y)
-//    }
-//}
+extension CGSize {
+    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGSize {
+        let ratio = CGSize(width: resultingSize.width / originalSize.width,
+                           height: resultingSize.height / originalSize.height)
+
+        return CGSize(width: self.width * ratio.width,
+                      height: self.height * ratio.height)
+    }
+}
+
+extension CGPoint {
+    func mapped(from originalSize: CGSize, to resultingSize: CGSize) -> CGPoint {
+        let ratio = CGPoint(x: resultingSize.width / originalSize.width,
+                            y: resultingSize.height / originalSize.height)
+        return CGPoint(x: self.x * ratio.x,
+                       y: self.y * ratio.y)
+    }
+}

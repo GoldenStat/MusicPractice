@@ -63,6 +63,7 @@ struct NoteIndex {
     let index: BandoneonKeyIndex
     let note: NoteWithOctave
     var color: Color { note.color }
+    var string: String { note.string }
 }
 
 protocol KeyNotes {
