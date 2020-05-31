@@ -34,26 +34,44 @@ struct ControlButtonsView: View {
         !recorder.isRecording &&
         !isPracticing }
 
+    var statusText : String {
+        if let fileName = recorder.audioURL?.lastPathComponent {
+            return "Recording <\(fileName)>"
+        } else {
+            return "Press Button to start recording"
+        }
+    }
+    
+    @State var fileNames: [String] = []
+    
     var body: some View {
-        HStack {
-            
-            /// timerButton: controls this sessions time start/pause
-            Button(startPauseState.rawValue) {
-                self.pauseResumeStopWatch()
+        VStack {
+            List {
+                ForEach(fileNames, id: \.self) { name in
+                    Text(name)
+                }
             }
-            .buttonStyle(PracticeButtonStyle(state: startPauseState))
-            
-            Button(PracticeState.Store.rawValue) {
-                self.storeRecording()
+            Text(statusText)
+            HStack {
+                
+                /// timerButton: controls this sessions time start/pause
+                Button(startPauseState.rawValue) {
+                    self.pauseResumeStopWatch()
+                }
+                .buttonStyle(PracticeButtonStyle(state: startPauseState))
+                
+                Button(PracticeState.Store.rawValue) {
+                    self.storeRecording()
+                }
+                .buttonStyle(PracticeButtonStyle(state: .Store, isActive: isStoreEnabled))
+                .disabled(!isStoreEnabled)
+                
+                Button(recordingButtonState.rawValue) {
+                    self.toggleRecording()
+                }
+                .buttonStyle(PracticeButtonStyle(state: recordingButtonState, isActive: isRecordingEnabled))
+                .disabled(!isRecordingEnabled)
             }
-            .buttonStyle(PracticeButtonStyle(state: .Store, isActive: isStoreEnabled))
-            .disabled(!isStoreEnabled)
-            
-            Button(recordingButtonState.rawValue) {
-                self.toggleRecording()
-            }
-            .buttonStyle(PracticeButtonStyle(state: recordingButtonState, isActive: isRecordingEnabled))
-            .disabled(!isRecordingEnabled)
         }
     }
     
@@ -61,6 +79,7 @@ struct ControlButtonsView: View {
         stopWatch.toggleStopStart()
         if stopWatch.isPaused {
             storeRecording()
+            fileNames.append(recorder.audioURL?.lastPathComponent ?? "<No audioURL defined>")
         }
     }
 
@@ -74,14 +93,13 @@ struct ControlButtonsView: View {
             recorder.addRecording(to: scale)
             recorder.fetchRecordings()
         }
-//        stopWatch.hasStarted = false
-//        stopWatch.reset()
     }
     
     func toggleRecording() {
         recorder.toggleRecording()
         if !recorder.isRecording {
             recorder.addRecording(to: self.scale)
+            fileNames.append(recorder.audioURL?.lastPathComponent ?? "<No audioURL defined>")
         }
     }
     

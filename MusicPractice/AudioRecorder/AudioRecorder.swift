@@ -42,9 +42,12 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     func toggleRecording() {
-        isRecording ? stop() : start()
+        if isRecording {
+            stop()
+        } else {
+            start()
+        }
     }
-    
     
     /// invalidate the timer and stop the audio Recoder
     func stop() {
@@ -118,8 +121,10 @@ class AudioRecorder: NSObject, ObservableObject {
     }
         
     /// renames the current generic recording to a scale-specific one
+    /// don't call this if not recording should be added
     func addRecording(to scale: Scale?) {
-        let tmpFile = audioURL!.lastPathComponent
+        guard let audioURL = audioURL else { return }
+        let tmpFile = audioURL.lastPathComponent
         let fileName = "\(scale?.dominant.rawValue ?? "")_\(tmpFile)"
 
         let from = documentPath.appendingPathComponent(tmpFile)
@@ -127,7 +132,7 @@ class AudioRecorder: NSObject, ObservableObject {
         
         do {
             try FileManager.default.moveItem(at: from, to: to)
-            audioURL = nil
+            self.audioURL = nil
         } catch {
             print("Failed to add recording to scale \(scale?.dominant.rawValue ?? "N/A")")
         }
