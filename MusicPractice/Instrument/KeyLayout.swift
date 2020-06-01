@@ -34,13 +34,6 @@ protocol KeyLayout {
 extension KeyLayout {
     var image: Image { Image(imageName) }
     var pictureRatio: CGFloat { pictureSize.width / pictureSize.height }
-    func flatten(_ sequence: [[KeyPosition]]) -> [KeyPosition] {
-        var flatList : [KeyPosition] = []
-        for line in sequence {
-            flatList.append(contentsOf: line)
-        }
-        return flatList
-    }
     
     /// - Parameters:
     ///   - row: the graphical row

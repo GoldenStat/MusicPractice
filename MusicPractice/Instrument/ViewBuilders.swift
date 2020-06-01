@@ -47,7 +47,6 @@ struct StaticFrame<Content: View> : View {
                 .stroke(isInvisible ? Color.clear : Color.blue)
                 .overlay(
             content
-                    .padding()
             )
         }
     }

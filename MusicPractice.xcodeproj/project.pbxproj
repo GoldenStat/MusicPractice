@@ -168,8 +168,8 @@
 			isa = PBXGroup;
 			children = (
 				413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */,
-				4193FD87246D92D300542511 /* Bandoneon.swift */,
 				41984C0E247FF3F700A87D86 /* KeyLayout.swift */,
+				4193FD87246D92D300542511 /* Bandoneon.swift */,
 				4193FD85246D918200542511 /* BandoneonView.swift */,
 				413BAEB9248528C0000BDF3C /* BandoneonTecladosView.swift */,
 				413BAEB724851EEA000BDF3C /* ViewBuilders.swift */,
