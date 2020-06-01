@@ -8,26 +8,6 @@
 
 import SwiftUI
 
-struct NavigationStudyView: View {
-    var body: some View {
-        NavigationView {
-            VStack {
-                Text("Pick a scale")
-                    .font(.title)
-                List {
-                    ForEach(Scale.DominantScales.allCases, id: \.self) { dominant in
-                        NavigationLink(destination:
-                            StudyView(scale: Scale(dominant: dominant))
-                        ) {
-                            Text(dominant.rawValue)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 struct StudyView: View {
     var scale: Scale
     
@@ -123,6 +103,6 @@ struct ScaleDescriptionView : View {
 
 struct StudyView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStudyView()
+        StudyView(scale: .C7)
     }
 }

@@ -32,7 +32,7 @@ struct Emphasize<Content: View> : View {
     }
 }
 
-struct StaticFrame<Content: View> : View {
+struct Frame<Content: View> : View {
     var isInvisible: Bool = false
     var content: Content
     
@@ -40,21 +40,30 @@ struct StaticFrame<Content: View> : View {
         self.content = content()
         self.isInvisible = isInvisible
     }
-    
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(isInvisible ? Color.clear : Color.blue)
-                .overlay(
-            content
-            )
-        }
+        content
+            .clipShape(
+                clipShape()
+        )
+            .overlay(
+                clipShape()
+                    .stroke(strokeColor, lineWidth: border)
+        )
+    }
+    
+    var strokeColor: Color { isInvisible ? Color.clear : Color.blue }
+    let radius : CGFloat = 10
+    let border : CGFloat = 4
+
+    func clipShape() -> RoundedRectangle {
+        RoundedRectangle(cornerRadius: radius)
     }
 }
 
+
 struct Emphasize_Previews: PreviewProvider {
     static var previews: some View {
-        Emphasize {
+        Frame {
             BandoneonView(layout:
                 Bandoneon.layout(.left, .open)
             )

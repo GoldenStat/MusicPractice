@@ -11,6 +11,7 @@
 		413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* ViewBuilders.swift */; };
 		413BAEBA248528C0000BDF3C /* BandoneonTecladosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB9248528C0000BDF3C /* BandoneonTecladosView.swift */; };
 		413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */; };
+		413BAEBE2485528E000BDF3C /* NavigationStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */; };
 		415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37B245057FD008D6E2A /* AppDelegate.swift */; };
 		415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37D245057FD008D6E2A /* SceneDelegate.swift */; };
 		415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37F245057FD008D6E2A /* MusicPractice.xcdatamodeld */; };
@@ -54,6 +55,7 @@
 		413BAEB724851EEA000BDF3C /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
 		413BAEB9248528C0000BDF3C /* BandoneonTecladosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonTecladosView.swift; sourceTree = "<group>"; };
 		413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonColors.swift; sourceTree = "<group>"; };
+		413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStudyView.swift; sourceTree = "<group>"; };
 		415CF378245057FD008D6E2A /* MusicPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		415CF37B245057FD008D6E2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		415CF37D245057FD008D6E2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				413BAEB724851EEA000BDF3C /* ViewBuilders.swift */,
 				41984C102481809D00A87D86 /* AllBandoneonViews.swift */,
 				41984C0C247FE9B100A87D86 /* StudyView.swift */,
+				413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */,
 			);
 			path = Instrument;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413BAEBE2485528E000BDF3C /* NavigationStudyView.swift in Sources */,
 				4193FD88246D92D300542511 /* Bandoneon.swift in Sources */,
 				415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */,
 				419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */,

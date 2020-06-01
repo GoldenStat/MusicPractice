@@ -77,6 +77,21 @@ extension Bandoneon {
     }
 }
 
+struct BandoneonLayout {
+    static var layout : [KeyLayout] = [
+        Bandoneon.layout(.left, .open),
+        Bandoneon.layout(.right, .open),
+        Bandoneon.layout(.left, .close),
+        Bandoneon.layout(.right, .close)
+    ]
+    
+    static subscript(index: Int) -> KeyLayout {
+        guard (0 ..< Self.layout.count).contains(index) else { fatalError("BandoneonLayout doesn't have \(index) members")
+        }
+        return Self.layout[index]
+    }
+}
+
 
 struct Bandoneon {
     

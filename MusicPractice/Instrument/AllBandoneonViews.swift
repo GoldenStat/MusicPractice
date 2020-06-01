@@ -8,37 +8,23 @@
 
 import SwiftUI
 
-struct BandoneonLayout {
-    static var layout : [KeyLayout] = [
-        Bandoneon.layout(.left, .open),
-        Bandoneon.layout(.left, .close),
-        Bandoneon.layout(.right, .open),
-        Bandoneon.layout(.right, .close)
-    ]
-    
-    static subscript(index: Int) -> KeyLayout {
-        guard (0 ..< Self.layout.count).contains(index) else { fatalError("BandoneonLayout doesn't have \(index) members")
-        }
-        return Self.layout[index]
-    }
-    
-}
-
 struct AllBandoneonViews: View {
-    @State var index: Int = 0
+    @State var framedBandoneon: Int = 0
     
     var body: some View {
         VStack {
-            BandoneonView(layout: BandoneonLayout[index])
-                .padding()
+            Frame(isInvisible: true) {
+                BandoneonView(layout: BandoneonLayout[framedBandoneon])
+            }
+            .padding()
             VStack {
                 HStack {
-                    FramedBandoneon(initialIndex: 0, boundTo: $index)
-                    FramedBandoneon(initialIndex: 2, boundTo: $index)
+                    FramedBandoneon(initialIndex: 0, boundTo: $framedBandoneon)
+                    FramedBandoneon(initialIndex: 1, boundTo: $framedBandoneon)
                 }
                 HStack {
-                    FramedBandoneon(initialIndex: 1, boundTo: $index)
-                    FramedBandoneon(initialIndex: 3, boundTo: $index)
+                    FramedBandoneon(initialIndex: 2, boundTo: $framedBandoneon)
+                    FramedBandoneon(initialIndex: 3, boundTo: $framedBandoneon)
 
                 }
             }
@@ -52,7 +38,7 @@ struct FramedBandoneon: View {
     @Binding var boundTo: Int
 
     var body: some View {
-        StaticFrame(isInvisible: initialIndex != boundTo) {
+        Frame(isInvisible: initialIndex != boundTo) {
             BandoneonView(layout: BandoneonLayout[initialIndex])
                 .onTapGesture {
                     self.boundTo = self.initialIndex
