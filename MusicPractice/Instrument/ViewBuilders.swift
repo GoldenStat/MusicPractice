@@ -60,6 +60,34 @@ struct Frame<Content: View> : View {
     }
 }
 
+struct Clip<Content: View> : View {
+    var framed: Bool = false
+    var content: Content
+    
+    init(@ViewBuilder content: () -> Content, framed: Bool = false) {
+        self.content = content()
+        self.framed = framed
+    }
+    var body: some View {
+        content
+            .clipShape(
+                clipShape()
+        )
+            .overlay(
+                clipShape()
+                    .stroke(strokeColor, lineWidth: border)
+        )
+    }
+    
+    var strokeColor: Color { framed ? Color.blue : Color.clear }
+    let radius : CGFloat = 10
+    let border : CGFloat = 4
+
+    func clipShape() -> RoundedRectangle {
+        RoundedRectangle(cornerRadius: radius)
+    }
+}
+
 
 struct Emphasize_Previews: PreviewProvider {
     static var previews: some View {

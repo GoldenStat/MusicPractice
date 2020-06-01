@@ -16,11 +16,11 @@ struct BandoneonView: View {
     var body: some View {
         ZStack {
             GeometryReader { geometry in
-            /// Picture of the Bandoneon Image
-            Image(self.layout.imageName)
-                .resizable()
-
-                    /// the labels for the keys
+                /// Picture of the Bandoneon Image
+                Image(self.layout.imageName)
+                    .resizable()
+                
+                /// the labels for the keys
                 self.keyLabels(for: self.notes, mappedTo: geometry.size)
             }
             .aspectRatio(self.layout.pictureRatio, contentMode: .fit)

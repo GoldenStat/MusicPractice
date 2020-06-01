@@ -26,7 +26,8 @@ struct PracticeScaleView: View {
             
             VStack {
                 Emphasize {
-                    BandoneonTecladosView(.open, highlightedScale: currentScale)
+                    BandoneonHSlide(playingDirection: .open,
+                                    hightlightedNotes: currentScale.notes)
                 }
                 /// show a picker which scale to select
                 ScalePicker(selection: $currentScale)
