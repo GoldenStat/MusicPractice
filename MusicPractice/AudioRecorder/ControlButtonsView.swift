@@ -21,17 +21,30 @@ struct ControlButtonsView: View {
     
     var isPracticing: Bool { stopWatch.isRunning }
     var practiceHasStarted: Bool { stopWatch.hasStarted }
-    /// the states for the buttons
+    
+    
+    /// states: (stopwatch, recorder, store) (0: off, 1: on)
+    /// (0,0,0) -> (1,0,0)
+    /// (1,0,0) -> (0,0,0)
+    /// (1,0,0) -> (1,0,1) -> (0,0,0)
+    ///        (1,0,1) -> (1,0,0)
+    ///               (1,0,0) -> (1,1,0)
+    /// start/stop watch | store + stop recordingRec | Rec/Pause
     var startPauseState: PracticeState { isPracticing ? .Pause : .Start }
     
-    var recordingButtonState: PracticeState { !recorder.isRecording ? .REC : .Pause }
+    /// the recording State
+    var recordingButtonState: PracticeState { recorder.isRecordReady ? .REC : .Pause }
     
     /// recording is enabled only when the timer is running
     var isRecordingEnabled: Bool { practiceHasStarted && isPracticing }
-
+    var storeButtonState: PracticeState { isStoreEnabled ? .Store : .Stop }
+    
     /// we can only store a lap while we are practicing and not recording
-    var isStoreEnabled: Bool { practiceHasStarted &&
-        !recorder.isRecording &&
+    /// store a recording state
+    var isStoreEnabled: Bool {
+        // practiceHasStarted &&
+        recorder.state == .stopped &&
+        recorder.audioURL == nil &&
         !isPracticing }
 
     var statusText : String {
@@ -43,13 +56,27 @@ struct ControlButtonsView: View {
     }
     
     @State var fileNames: [String] = []
+    var recordings: [String] { recorder.recordings.map {$0.fileName} }
     
     var body: some View {
         VStack {
-            List {
-                ForEach(fileNames, id: \.self) { name in
-                    Text(name)
+            VStack {
+                VStack {
+                    Text("Files recorded")
+                        .font(.title)
+                    ForEach(fileNames, id: \.self) { name in
+                        Text(name)
+                    }
                 }
+                Spacer()
+                VStack {
+                    Text(recorder.recordingsDirectory.lastPathComponent)
+                        .font(.title)
+                    ForEach(recordings, id: \.self) { name in
+                        Text(name)
+                    }
+                }
+                Spacer()
             }
             Text(statusText)
             HStack {
@@ -60,10 +87,10 @@ struct ControlButtonsView: View {
                 }
                 .buttonStyle(PracticeButtonStyle(state: startPauseState))
                 
-                Button(PracticeState.Store.rawValue) {
+                Button(storeButtonState.rawValue) {
                     self.storeRecording()
                 }
-                .buttonStyle(PracticeButtonStyle(state: .Store, isActive: isStoreEnabled))
+                .buttonStyle(PracticeButtonStyle(state: storeButtonState))
                 .disabled(!isStoreEnabled)
                 
                 Button(recordingButtonState.rawValue) {
@@ -90,15 +117,17 @@ struct ControlButtonsView: View {
         stopWatch.addLap()
 
         if let _ = recorder.audioURL {
-            recorder.addRecording(to: scale)
+            if recorder.state == .stopped {
+                recorder.moveRecording(to: scale)
+            }
             recorder.fetchRecordings()
         }
     }
     
     func toggleRecording() {
-        recorder.toggleRecording()
-        if !recorder.isRecording {
-            recorder.addRecording(to: self.scale)
+        recorder.toggleRecording(soft: true)
+        if recorder.didFinishRecording {
+            recorder.moveRecording(to: self.scale)
             fileNames.append(recorder.audioURL?.lastPathComponent ?? "<No audioURL defined>")
         }
     }

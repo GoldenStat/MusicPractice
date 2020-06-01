@@ -11,12 +11,16 @@ import SwiftUI
 struct NavigationStudyView: View {
     var body: some View {
         NavigationView {
-            List {
-                ForEach(Scale.DominantScales.allCases, id: \.self) { dominant in
-                    NavigationLink(destination:
-                        StudyView(scale: Scale(dominant: dominant))
-                    ) {
-                        Text(dominant.rawValue)
+            VStack {
+                Text("Pick a scale")
+                    .font(.title)
+                List {
+                    ForEach(Scale.DominantScales.allCases, id: \.self) { dominant in
+                        NavigationLink(destination:
+                            StudyView(scale: Scale(dominant: dominant))
+                        ) {
+                            Text(dominant.rawValue)
+                        }
                     }
                 }
             }
@@ -35,19 +39,28 @@ struct StudyView: View {
             ScaleDescriptionView(scale: scale)
             Divider()
             
-            BandoneonHSlide(playingDirection: .open,
-                            hightlightedNotes: scale.notes,
-                            octaves: [])
-            
-            Divider()
-            
-            BandoneonHSlide(playingDirection: .close,
-                            hightlightedNotes: scale.notes,
-                            octaves: [])
-            Spacer()
+            VStack {
+                HStack {
+                    Text(Hand.left.string)
+                    Spacer()
+                    Text(Hand.right.string)
+                }
+                .font(.largeTitle)
+                VStack {
+                    Text(PlayingDirection.open.string)
+                        .fontWeight(.bold)
+                    BandoneonTecladosView(.open, highlightedScale: scale)
+                }
+                VStack {
+                    Text(PlayingDirection.close.string)
+                    .fontWeight(.bold)
+                    BandoneonTecladosView(.close, highlightedScale: scale)
+                }
+            }
         }
     }
 }
+
 
 
 struct BandoneonHSlide: View {
@@ -77,7 +90,7 @@ struct BandoneonHSlide: View {
 struct PlayingStatus: View {
     var hand: Hand
     var playingDirection: PlayingDirection
-        
+    
     var body: some View {
         VStack {
             Text(hand.string)

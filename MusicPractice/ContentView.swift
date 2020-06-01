@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+
     @State var selectedScale = Scale.C7
-    
+
     var body: some View {
         PracticeScaleView(currentScale: Scale(dominant: .C7))
     }

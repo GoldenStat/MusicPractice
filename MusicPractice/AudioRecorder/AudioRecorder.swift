@@ -20,7 +20,6 @@ class AudioRecorder: NSObject, ObservableObject {
     /// *gets repopulated by fetchRecordings*
     var recordings = [Recording]()
     
-    @Published var isRecording: Bool = false
     @Published var soundSamples: [Float]
 
     var timer : Timer?
@@ -41,11 +40,28 @@ class AudioRecorder: NSObject, ObservableObject {
         fetchRecordings()
     }
     
-    func toggleRecording() {
-        if isRecording {
-            stop()
-        } else {
+    /// start -> pause -> continue -> pause -> continue -> stop
+    /// start -> pause -> stop -> start
+    /// start -> stop -> start
+    enum State { case stopped, paused, recording }
+    @Published var state = State.stopped
+    
+    /// recorder is in a state that allows recording
+    var isRecordReady: Bool { state != .recording }
+    var didFinishRecording: Bool { state == .stopped }
+        
+    func toggleRecording(soft: Bool) {
+        switch state {
+        case .stopped:
             start()
+        case .recording:
+            if (soft) {
+                pause()
+            } else {
+                stop()
+            }
+        case .paused:
+            resume()
         }
     }
     
@@ -53,14 +69,16 @@ class AudioRecorder: NSObject, ObservableObject {
     func stop() {
         timer?.invalidate()
         audioRecorder.stop()
-        isRecording = false
-        fetchRecordings()
+        state = .stopped
     }
     
+    
+    /// pauses recording
+    /// recording can be continued
     func pause() {
         timer?.invalidate()
         audioRecorder.pause()
-        isRecording = false
+        state = .paused
     }
     
     func resume() {
@@ -68,15 +86,24 @@ class AudioRecorder: NSObject, ObservableObject {
             self.updateSoundMeters()
         }
         
-        isRecording = true
+        state = .recording
         audioRecorder.record()
     }
+            
+    let recordingsDirectory = Bundle.main.bundleURL.appendingPathComponent("Recordings")
     
-    let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
+    func recordingsDirectoryExists() -> Bool {
+        return (try? FileManager.default.contentsOfDirectory(at: recordingsDirectory, includingPropertiesForKeys: nil)) != nil
+    }
+    
     /// generate a temporary filepath for new recordings
     func generateTemporaryFilePath() -> URL {
-        documentPath.appendingPathComponent("\(Date().toString(dateFormat: "dd-MM-YY_'at'_HH:mm:ss")).m4a")
+        if !recordingsDirectoryExists() {
+            //try to create the recordings directory
+            try? FileManager.default.createDirectory(at: recordingsDirectory, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        return recordingsDirectory.appendingPathComponent("\(Date().toString(dateFormat: "dd-MM-YY_'at'_HH:mm:ss")).m4a")
     }
 
     /// - gets set when a recording starts and is used to
@@ -113,22 +140,25 @@ class AudioRecorder: NSObject, ObservableObject {
             timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
                 self.updateSoundMeters()
             }
-            
-            isRecording = true
+
+            state = .recording
+            soundSamples = []
         } catch {
             print("could not start recording")
         }
     }
         
     /// renames the current generic recording to a scale-specific one
-    /// don't call this if not recording should be added
-    func addRecording(to scale: Scale?) {
+    /// invalidates audioURL of recorder
+    /// only executes if an audioURL is defined and recording is stopped
+    func moveRecording(to scale: Scale?) {
+        guard state == .stopped else { return }
         guard let audioURL = audioURL else { return }
         let tmpFile = audioURL.lastPathComponent
-        let fileName = "\(scale?.dominant.rawValue ?? "")_\(tmpFile)"
+        let fileName = "\(scale?.dominant.rawValue ?? "Any")_\(tmpFile)"
 
-        let from = documentPath.appendingPathComponent(tmpFile)
-        let to = documentPath.appendingPathComponent(fileName)
+        let from = recordingsDirectory.appendingPathComponent(tmpFile)
+        let to = recordingsDirectory.appendingPathComponent(fileName)
         
         do {
             try FileManager.default.moveItem(at: from, to: to)
@@ -144,14 +174,15 @@ class AudioRecorder: NSObject, ObservableObject {
     func fetchRecordings() {
         recordings.removeAll()
         
-        let directoryContents = try! FileManager.default.contentsOfDirectory(at: documentPath, includingPropertiesForKeys: nil)
-        
-        for url in directoryContents {
-            let recording = Recording(fileURL: url, created: FileManager.getCreationDate(for: url))
-            recordings.append(recording)
+        if let directoryContents = try? FileManager.default.contentsOfDirectory(at: recordingsDirectory, includingPropertiesForKeys: nil) {
+            
+            for url in directoryContents {
+                let recording = Recording(fileURL: url, created: FileManager.getCreationDate(for: url))
+                recordings.append(recording)
+            }
+            
+            recordings.sort(by: { $0.created.compare($1.created)  == .orderedAscending } )
         }
-        
-        recordings.sort(by: { $0.created.compare($1.created)  == .orderedAscending } )
         objectWillChange.send()
     }
     

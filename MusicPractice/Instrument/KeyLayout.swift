@@ -32,6 +32,17 @@ protocol KeyLayout {
 }
 
 extension KeyLayout {
+    static func bandoneon(_ hand: Hand, _ direction: PlayingDirection) -> KeyLayout {
+        switch (hand,direction) {
+        case (.left,let direction):
+            return Bandoneon.LeftKeyLayout(direction: direction)
+        case(.right,let direction):
+            return Bandoneon.RightKeyLayout(direction: direction)
+        }
+    }
+}
+
+extension KeyLayout {
     var image: Image { Image(imageName) }
     var pictureRatio: CGFloat { pictureSize.width / pictureSize.height }
     func flatten(_ sequence: [[KeyPosition]]) -> [KeyPosition] {

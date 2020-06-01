@@ -13,18 +13,27 @@ struct AudiotrackView: View {
                 
     @Binding var scale: Scale
     
-    var buttonState: PracticeState { recorder.isRecording ? .Pause : .REC}
-    
+//    var buttonState: PracticeState { recorder.state == .recording ? .Pause : .REC}
+//    var buttonStateWait: PracticeState { recorder.state == .stopped ? .Stop : .Start}
+
     var body: some View {
         VStack {
             RecordingList(recorder: recorder, scale: scale)
             
             AudioTrackVisualizerView(recorder: recorder)
             
-            Button(buttonState.rawValue.uppercased()) {
-                self.recorder.toggleRecording()
-            }
-            .buttonStyle(PracticeButtonStyle(state: buttonState))
+//            Button(buttonState.rawValue.uppercased()) {
+//                self.recorder.toggleRecording(soft: true)
+//            }
+//            .buttonStyle(PracticeButtonStyle(state: buttonState))
+//            Button(buttonState.rawValue.uppercased()) {
+//                self.recorder.toggleRecording(soft: true)
+//            }
+//            .buttonStyle(PracticeButtonStyle(state: buttonState))
+//            Button(buttonStateWait.rawValue.uppercased()) {
+//                self.recorder.toggleRecording(soft: false)
+//            }
+//            .buttonStyle(PracticeButtonStyle(state: buttonState))
         }
     }
     

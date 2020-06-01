@@ -15,7 +15,7 @@ struct RecordingList: View {
     var body: some View {
         VStack {
             ScrollView {
-                ForEach(recorder.recordings(for: scale), id: \.created) {
+                ForEach(recorder.recordings(for: nil), id: \.created) {
                     track in
                     RecordingRow(track: track)
                 }

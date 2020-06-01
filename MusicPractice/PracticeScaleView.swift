@@ -25,12 +25,8 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                ZStack {
-                    EmphasizedImage()
-                    VStack {
-                        Image(PictureNames.bwBandoneonKeysLeft)
-                        Image(PictureNames.bwBandoneonKeysRight)
-                    }
+                Emphasize {
+                    BandoneonTecladosView(.open, highlightedScale: currentScale)
                 }
                 /// show a picker which scale to select
                 ScalePicker(selection: $currentScale)
@@ -93,18 +89,5 @@ struct ScaleDetailRow: View {
             }
         }
         .padding()
-    }
-}
-
-struct EmphasizedImage : View {
-    
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(Color.flatWhite)
-                .blur(radius: 5)
-                .frame(maxHeight: 140)
-                .shadow(color: .black, radius: 10.0, x: 8, y: 8)
-        }
     }
 }
