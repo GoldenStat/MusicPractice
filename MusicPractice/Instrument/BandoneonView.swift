@@ -8,10 +8,10 @@
 
 import SwiftUI
 
-struct BandoneonView: View {
+struct SimpleBandoneonView: View {
     
     let layout : KeyLayout
-    var highlightedNotes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
+    var notes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
     var octaves: [Octave] = [] // if no octave is given, mark all octaves
             
     var body: some View {
@@ -22,7 +22,7 @@ struct BandoneonView: View {
                 .resizable()
 
                     /// the labels for the keys
-                self.keyLabels(for: self.highlightedNotes, mappedTo: geometry.size)
+                self.keyLabels(for: self.notes, mappedTo: geometry.size)
             }
             .aspectRatio(self.layout.pictureRatio, contentMode: .fit)
 
@@ -38,7 +38,7 @@ struct BandoneonView: View {
         
         var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
         
-        /// searches for notes in `highlightedNotes`that match `octaves` in layout and
+        /// searches for notes in `notes`that match `octaves` in layout and
         /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
         var markedKeys: [NoteIndex] {
             return layout.orderedIndexSet(for: notes, inOctaves: octaves)
@@ -68,10 +68,12 @@ struct BandoneonView: View {
 }
 
 
-struct MarkedBandoneonView : View {
-    var marked : Bool
+struct BandoneonView : View {
+    var marked : Bool = false
     var layout: KeyLayout
-    
+    var notes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
+    var octaves: [Octave] = [] // if no octave is given, mark all octaves
+
     var body: some View {
         ZStack {
             if marked {
@@ -81,7 +83,7 @@ struct MarkedBandoneonView : View {
                 Rectangle()
                     .stroke(Color.clear)
             }
-            BandoneonView(layout: layout)
+            SimpleBandoneonView(layout: layout, notes: notes, octaves: octaves)
         }
     }
 }

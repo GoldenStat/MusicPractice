@@ -24,22 +24,22 @@ struct AllBandoneonViews: View {
                 .padding()
             VStack {
                 HStack {
-                    MarkedBandoneonView(marked: index == 0, layout: Self.layout[0])
+                    BandoneonView(marked: index == 0, layout: Self.layout[0])
                         .onTapGesture {
                             self.index = 0
                     }
-                    MarkedBandoneonView(marked: index == 2, layout: Self.layout[2])
+                    BandoneonView(marked: index == 2, layout: Self.layout[2])
                         .onTapGesture {
                             self.index = 2
                     }
                 }
                 HStack {
-                    MarkedBandoneonView(marked: index == 1, layout: Self.layout[1])
+                    BandoneonView(marked: index == 1, layout: Self.layout[1])
                         .onTapGesture {
                             self.index = 1
                     }
 
-                    MarkedBandoneonView(marked: index == 3, layout: Self.layout[3])
+                    BandoneonView(marked: index == 3, layout: Self.layout[3])
                         .onTapGesture {
                             self.index = 3
                     }

@@ -74,13 +74,13 @@ struct BandoneonHSlide: View {
             VStack {
                 PlayingStatus(hand: .left, playingDirection: playingDirection)
                 BandoneonView(layout: Bandoneon.layout(.left, playingDirection),
-                              highlightedNotes: hightlightedNotes,
+                              notes: hightlightedNotes,
                               octaves: octaves)
             }
             VStack {
                 PlayingStatus(hand: .right, playingDirection: playingDirection)
                 BandoneonView(layout: Bandoneon.layout(.right, playingDirection),
-                              highlightedNotes: hightlightedNotes,
+                              notes: hightlightedNotes,
                               octaves: octaves)
             }
         }
