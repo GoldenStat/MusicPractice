@@ -101,6 +101,9 @@ struct Bandoneon {
     static var markerSize = CGSize(width: 100, height: 100)
     static var coverSize = CGSize(width: 172, height: 172)
 
+}
+
+extension Bandoneon {
     /// the layouts for both sides
     struct LeftKeyLayout : KeyLayout  {
         let direction: PlayingDirection
@@ -214,6 +217,10 @@ struct Bandoneon {
         
     }
     
+}
+
+
+extension Bandoneon {
     struct RightKeyLayout : KeyLayout {
         
         let imageName = PictureNames.bandoneonKeysPositionsRight
@@ -242,8 +249,7 @@ struct Bandoneon {
             [(1,8), (2,8), (3,7), (4,6), (5,5), (6,4)],
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
-        var notes : [NoteIndex] { direction == .open ? _notesOpening : _notesClosing }
-        let _notesClosing: [ NoteIndex ] = [
+        private let _notesClosing: [ NoteIndex ] = [
             NoteIndex(index: BandoneonKeyIndex(1,2), note: NoteWithOctave(note: .a, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .ais, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(2,3), note: NoteWithOctave(note: .h, octave: .small)),
@@ -283,7 +289,7 @@ struct Bandoneon {
             NoteIndex(index: BandoneonKeyIndex(6,6), note: NoteWithOctave(note: .gis, octave: .three)),
             NoteIndex(index: BandoneonKeyIndex(5,6), note: NoteWithOctave(note: .a, octave: .three)),
         ]
-        let _notesOpening: [ NoteIndex ] = [
+        private let _notesOpening: [ NoteIndex ] = [
             NoteIndex(index: BandoneonKeyIndex(1,2), note: NoteWithOctave(note: .a, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .ais, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(2,3), note: NoteWithOctave(note: .h, octave: .small)),

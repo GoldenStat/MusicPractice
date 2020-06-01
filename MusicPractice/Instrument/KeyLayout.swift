@@ -28,13 +28,19 @@ protocol KeyLayout {
     /// I chose a notes Dictionary to attribute an index to every note in order to find the key
     /// there will need to be a function to attribute a note to every key
     var notes: [ NoteIndex ] { get }
-        
+
+    var _notesOpening: [NoteIndex] { get }
+    var _notesClosing: [NoteIndex] { get }
+    var direction: PlayingDirection { get }
+
 }
 
 extension KeyLayout {
     var image: Image { Image(imageName) }
     var pictureRatio: CGFloat { pictureSize.width / pictureSize.height }
-    
+
+    var notes : [NoteIndex] { direction == .open ? _notesOpening : _notesClosing }
+
     /// - Parameters:
     ///   - row: the graphical row
     ///   - column: the graphical column
