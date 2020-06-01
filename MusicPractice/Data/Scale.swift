@@ -15,7 +15,7 @@ protocol ScaleProtocol {
     func halfDiminished() -> [Note]
 }
 
-enum ScaleModifier {
+enum ScaleModifier: String, CaseIterable {
     case dominant,diminished, halfdiminished
     var stringModifier : String {
         switch self {
@@ -34,10 +34,10 @@ struct ScaleStruct {
     let notes: [Note]
     let mode: ScaleModifier
     
-    var name: String { key.name + mode.stringModifier }
+    var string: String { key.string + mode.stringModifier }
     
     static func scaleName(for key: ScaleKey, _ mode: ScaleModifier) -> String {
-        return key.name + mode.stringModifier
+        return key.string + mode.stringModifier
     }
 }
 
@@ -51,11 +51,16 @@ struct Scale {
         items.filter { $0.key == key && $0.mode == mode }.first?.notes ?? []
     }
     
+    static func scale(for key: ScaleKey, _ mode: ScaleModifier) -> ScaleStruct {
+        let notes = Self.notes(for: key, mode)
+        return ScaleStruct(key: key, notes: notes, mode: mode)
+    }
+
     static let keys = ScaleKey.allCases
     
     /// a list of scales for all keys with all modifiers
     // NOTE: could be a function with a `switch` to assure completeness
-    static let items : [ ScaleStruct ] = [
+    private static let items : [ ScaleStruct ] = [
         ScaleStruct(key: .C, notes: [ .c, .e, .g, .hes ], mode: .dominant),
         ScaleStruct(key: .C, notes: [ .c, .es, .ges, .hes ], mode: .diminished),
         ScaleStruct(key: .C, notes: [ .c, .es, .ges, .a ], mode: .halfdiminished),
@@ -112,7 +117,7 @@ enum ScaleKey : String, ScaleProtocol, CaseIterable {
 
     case C,Cis,D,Es,E,F,Fis,G,As,A,Bb,B
 
-    var name: String { self.rawValue }
+    var string: String { self.rawValue }
 
     func dominant() -> [Note] {
         switch self {

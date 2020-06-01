@@ -15,7 +15,8 @@ extension Color {
 
 struct PracticeScaleView: View {
         
-    @State var currentScale: Scale
+    @State var scale: ScaleStruct
+        
     let recorder = AudioRecorder()
     
     var body: some View {
@@ -27,21 +28,23 @@ struct PracticeScaleView: View {
             VStack {
                 Emphasize {
                     BandoneonHSlide(playingDirection: .open,
-                                    hightlightedNotes: currentScale.notes)
+                                    hightlightedNotes: scale.notes)
                 }
                 /// show a picker which scale to select
-                ScalePicker(selection: $currentScale)
+                ScalePicker(selection: $scale)
+                ModePicker(selection: $scale)
+                
                 /// show the notes for the current selection
-                ScaleDetailRow(scale: currentScale)
+                ScaleDetailRow(scale: scale)
                 
                 
                 Spacer()
                 
                 Divider()
 
-                RecordingList(recorder: recorder, scale: currentScale)
+                RecordingList(recorder: recorder, scale: scale)
 
-                AudioTrackTimerView(recorder: recorder, scale: $currentScale)
+                AudioTrackTimerView(recorder: recorder, scale: $scale)
             }
         }
         .padding(.horizontal)
@@ -64,8 +67,22 @@ struct PracticeScaleView_Previews: PreviewProvider {
     }
 }
 
+struct ModePicker: View {
+    var selection: Binding<ScaleModifier>
+    
+    var body: some View {
+        Picker("modifier", selection: selection) {
+            ForEach(ScaleModifier.allCases, id: \.self) { modifier in
+                Text(modifier.rawValue)
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+    }
+}
+
 struct ScalePicker: View {
     var selection: Binding<Scale>
+    
     var body: some View {
         Picker("currentScale", selection: selection.dominant) {
             ForEach(Scale.selectableScales, id: \.self) { dominant in
