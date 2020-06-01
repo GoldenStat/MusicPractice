@@ -15,11 +15,11 @@ struct NavigationStudyView: View {
                 Text("Pick a scale")
                     .font(.title)
                 List {
-                    ForEach(Scale.DominantScales.allCases, id: \.self) { dominant in
+                    ForEach(Scale.keys, id: \.self) { scaleKey in
                         NavigationLink(destination:
-                            StudyView(scale: Scale(dominant: dominant))
+                            StudyView(scale: ScaleStruct(key: scaleKey, mood: .dominant))
                         ) {
-                            Text(dominant.rawValue)
+                            Text(Scale.string(for: scaleKey, .dominant))
                         }
                     }
                 }

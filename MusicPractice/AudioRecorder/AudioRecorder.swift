@@ -26,9 +26,9 @@ class AudioRecorder: NSObject, ObservableObject {
     
     /// - Parameter scale: only returns the recordings that match this scale, or all if nil
     /// - Returns: a list of Recordings that match a scale, or all, if Scale is *nil*
-    func recordings(for scale: Scale? = nil) -> [Recording] {
+    func recordings(for scale: ScaleStruct? = nil) -> [Recording] {
         if let scale = scale {
-            return recordings.filter { $0.fileURL.lastPathComponent.starts(with: scale.dominant.rawValue) }
+            return recordings.filter { $0.fileURL.lastPathComponent.starts(with: scale.string) }
         } else {
             return recordings
         }
@@ -151,11 +151,11 @@ class AudioRecorder: NSObject, ObservableObject {
     /// renames the current generic recording to a scale-specific one
     /// invalidates audioURL of recorder
     /// only executes if an audioURL is defined and recording is stopped
-    func moveRecording(to scale: Scale?) {
+    func moveRecording(to scale: ScaleStruct?) {
         guard state == .stopped else { return }
         guard let audioURL = audioURL else { return }
         let tmpFile = audioURL.lastPathComponent
-        let fileName = "\(scale?.dominant.rawValue ?? "Any")_\(tmpFile)"
+        let fileName = "\(scale?.string ?? "Any")_\(tmpFile)"
 
         let from = recordingsDirectory.appendingPathComponent(tmpFile)
         let to = recordingsDirectory.appendingPathComponent(fileName)
@@ -164,7 +164,7 @@ class AudioRecorder: NSObject, ObservableObject {
             try FileManager.default.moveItem(at: from, to: to)
             self.audioURL = nil
         } catch {
-            print("Failed to add recording to scale \(scale?.dominant.rawValue ?? "N/A")")
+            print("Failed to add recording to scale \(scale?.string ?? "N/A")")
         }
         fetchRecordings()
     }

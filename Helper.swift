@@ -11,11 +11,11 @@ import SwiftUI
 
 extension FileManager {
     // creates a directory for a scale if it doesn't exist
-    static func createDir(for scale: Scale) {
+    static func createDir(for scale: ScaleStruct) {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
         let docURL = URL(string: documentsDirectory)!
-        let dataPath = docURL.appendingPathComponent(scale.name)
+        let dataPath = docURL.appendingPathComponent(scale.string)
         if !FileManager.default.fileExists(atPath: dataPath.absoluteString) {
             do {
                 try FileManager.default.createDirectory(atPath: dataPath.absoluteString, withIntermediateDirectories: true, attributes: nil)

@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct ScaleDescriptionView : View {
-    var scale: Scale
+    var scale: ScaleStruct
     var noteNames: [String] { scale.notes.map {$0.rawValue} }
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Scale: \(scale.name)")
+                Text("Scale: \(scale.string)")
                     .font(.largeTitle)
                 Text("Notes: \(noteNames.joined(separator: "-"))")
                     .font(.title)
@@ -55,14 +55,14 @@ struct BandoneonHSlide: View {
 
 
 struct StudyView: View {
-    @State var scale: Scale
+    @State var scale: ScaleStruct
         
     var body: some View {
         
         VStack {
-            Picker("", $scale) {
-                Scale.allCases
-            }
+//            Picker("", $scale) {
+//                ScaleStruct.allCases
+//            }
             
             ScaleDescriptionView(scale: scale)
             
@@ -110,6 +110,6 @@ struct StudyView: View {
 
 struct StudyView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyView(scale: .D7)
+        StudyView(scale: Scale.C7)
     }
 }

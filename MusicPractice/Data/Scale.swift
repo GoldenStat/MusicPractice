@@ -29,14 +29,14 @@ enum ScaleModifier: String, CaseIterable {
     }
 }
 
-struct ScaleStruct {
+struct ScaleStruct : Hashable {
     let key: ScaleKey
     let notes: [Note]
     let mood: ScaleModifier
     
     var string: String { key.string + mood.stringModifier }
     
-    static func scaleName(for key: ScaleKey, _ mood: ScaleModifier) -> String {
+    static func string(for key: ScaleKey, _ mood: ScaleModifier) -> String {
         return key.string + mood.stringModifier
     }
     
@@ -45,7 +45,8 @@ struct ScaleStruct {
         self.mood = mood
         self.notes = notes
     }
-    
+
+    /// copies the notes from a previously created ScaleStruct with the same (key,mood)-tuple
     init(key: ScaleKey, mood: ScaleModifier) {
         let notes = Scale.notes(for: key, mood)
         self.key = key
@@ -69,9 +70,22 @@ struct Scale {
         return ScaleStruct(key: key, notes: notes, mood: mood)
     }
 
+    static func string(for key: ScaleKey, _ mood: ScaleModifier) -> String {
+        ScaleStruct.string(for: key, mood)
+    }
+    /// accessors to the keys and moods
     static let keys = ScaleKey.allCases
+    static let moods = ScaleModifier.allCases
     
+    /// some smample Scales
+    static var C7: ScaleStruct { ScaleStruct(key: .C, mood: .dominant) }
+    static var D7: ScaleStruct { ScaleStruct(key: .D, mood: .dominant) }
+    static var G7: ScaleStruct { ScaleStruct(key: .G, mood: .dominant) }
+    static var D7dim: ScaleStruct { ScaleStruct(key: .D, mood: .diminished) }
+    static var D7b5: ScaleStruct { ScaleStruct(key: .D, mood: .halfdiminished) }
+
     /// a list of scales for all keys with all modifiers
+    /// this struct is being used for all future access to these Scale structs.
     // NOTE: could be a function with a `switch` to assure completeness
     private static let items : [ ScaleStruct ] = [
         ScaleStruct(key: .C, notes: [ .c, .e, .g, .hes ], mood: .dominant),

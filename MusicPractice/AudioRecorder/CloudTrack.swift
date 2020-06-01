@@ -61,7 +61,7 @@ struct CloudTrack {
         
         guard let recordingURL = instance.recordingURL else { return }
 
-        let elementsToSave : [CloudElement] = [CloudElement(key: Keys.scaleName, value:instance.practiceScale.name),
+        let elementsToSave : [CloudElement] = [CloudElement(key: Keys.scaleName, value:instance.practiceScale.string),
                                                CloudElement(key: Keys.comment, value: comment),
                                                CloudElement(key: Keys.recording, value: recordingURL, isAsset: true),
                                                CloudElement(key: Keys.length, value: instance.practiceTime)

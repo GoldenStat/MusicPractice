@@ -19,7 +19,11 @@ struct PracticeInstance : Hashable, Identifiable {
     var date: Date = Date()
     var recordingURL : URL? = nil
     var practiceTime : TimeInterval = 0
-    var practiceScale: Scale
+    var practiceScale: ScaleStruct
+}
+
+func ==(A:PracticeInstance, B:PracticeInstance) -> Bool {
+    A.id == B.id
 }
 
 /// The Data we need for  one practice session
@@ -32,7 +36,7 @@ struct PracticeSession: Hashable {
     var date = Date()
     var instances: [PracticeInstance] = []
     var practiceTime: TimeInterval { instances.reduce(0) {$0 + $1.practiceTime} }
-    var practiceScales: [Scale] { instances.map {$0.practiceScale} }
+    var practiceScales: [ScaleStruct] { instances.map {$0.practiceScale} }
     
     mutating func addInstance(instance: PracticeInstance) {
         instances.append(instance)

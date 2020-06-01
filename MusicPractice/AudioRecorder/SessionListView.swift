@@ -32,6 +32,6 @@ struct SessionListView: View {
 
 struct SessionListView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionListView(scaleName: Scale.C7.name, practiceDuration: "20:00", recordingLength: "00:20", date: "2020-05-14")
+        SessionListView(scaleName: Scale.C7.string, practiceDuration: "20:00", recordingLength: "00:20", date: "2020-05-14")
     }
 }

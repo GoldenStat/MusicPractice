@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RecordingList: View {
     @ObservedObject var recorder: AudioRecorder
-    var scale: Scale
+    var scale: ScaleStruct
     
     var body: some View {
         VStack {
@@ -28,7 +28,7 @@ struct RecordingList: View {
         recorder.deleteRecordings(urlsToDelete: recorder.recordings.map {$0.fileURL})
     }
 
-    func moveRecordingsTo(scale: Scale) {
+    func moveRecordingsTo(scale: ScaleStruct) {
         recorder.fetchRecordings()
     }
 
@@ -82,6 +82,6 @@ struct RecordingRow: View {
 
 struct RecordingList_Previews: PreviewProvider {
     static var previews: some View {
-        RecordingList(recorder: AudioRecorder(), scale: .C7)
+        RecordingList(recorder: AudioRecorder(), scale: Scale.C7)
     }
 }

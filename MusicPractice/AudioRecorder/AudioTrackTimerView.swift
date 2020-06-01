@@ -17,7 +17,7 @@ struct AudioTrackTimerView: View {
     
     var practiceTime: String { stopWatch.counter.longString }
 
-    @Binding var scale: Scale
+    @Binding var scale: ScaleStruct
         
     var body: some View {
         VStack {
@@ -54,7 +54,7 @@ struct RecordingView: View {
 struct AudioTrackTimerView_Previews: PreviewProvider {
     static let recorder = AudioRecorder()
     static let stopWatch = StopWatch()
-    static let scale : Scale = .C7
+    static let scale : ScaleStruct = Scale.C7
     static var previews: some View {
         VStack {
             Spacer()

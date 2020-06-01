@@ -17,7 +17,7 @@ struct ControlButtonsView: View {
     
     @ObservedObject var recorder: AudioRecorder
     @ObservedObject var stopWatch: StopWatch
-    var scale: Scale?
+    var scale: ScaleStruct?
     
     var isPracticing: Bool { stopWatch.isRunning }
     var practiceHasStarted: Bool { stopWatch.hasStarted }

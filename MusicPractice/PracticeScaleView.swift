@@ -56,19 +56,19 @@ struct PracticeScaleView: View {
         
     }
     
-    func load(_ scale: Scale) {
-        print("loading sessions for: ", scale.name)
+    func load(_ scale: ScaleStruct) {
+        print("loading sessions for: ", scale.string)
     }
 }
 
 struct PracticeScaleView_Previews: PreviewProvider {
     static var previews: some View {
-        PracticeScaleView(currentScale: Scale.C7)
+        PracticeScaleView(scale: Scale.C7)
     }
 }
 
 struct ModePicker: View {
-    var selection: Binding<ScaleModifier>
+    var selection: Binding<ScaleStruct>
     
     var body: some View {
         Picker("modifier", selection: selection) {
@@ -81,12 +81,12 @@ struct ModePicker: View {
 }
 
 struct ScalePicker: View {
-    var selection: Binding<Scale>
+    var selection: Binding<ScaleStruct>
     
     var body: some View {
-        Picker("currentScale", selection: selection.dominant) {
-            ForEach(Scale.selectableScales, id: \.self) { dominant in
-                Text(dominant.rawValue)
+        Picker("currentScale", selection: selection) {
+            ForEach(Scale.keys, id: \.self) { key in
+                Text(key.rawValue)
             }
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -94,10 +94,10 @@ struct ScalePicker: View {
 }
 
 struct ScaleDetailRow: View {
-    var scale: Scale
+    var scale: ScaleStruct
     var body: some View {
         VStack {
-            Text("Scale: \(scale.dominant.rawValue)")
+            Text("Scale: \(scale.string)")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             HStack {
