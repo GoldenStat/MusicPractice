@@ -10,10 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @State var selectedScale = Scale.C7
-
+    @State var selectedKey : ScaleKey = Scale.keys[0]
+    @State var selectedModifier : ScaleModifier
+    
     var body: some View {
-        PracticeScaleView(currentScale: Scale(dominant: .C7))
+        PracticeScaleView(currentKey: selectedKey, modifier: .currentModifier))
     }
 }
 

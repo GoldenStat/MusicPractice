@@ -23,6 +23,8 @@ struct ScaleDescriptionView : View {
             }
             Spacer()
         }
+        .transition(.move(edge: .trailing))
+        .animation(.default)
     }
 }
 
@@ -34,15 +36,18 @@ struct BandoneonHSlide: View {
     
     var body: some View {
         HStack {
-            VStack {
-                BandoneonView(layout: Bandoneon.layout(.left, playingDirection),
-                              notes: hightlightedNotes,
-                              octaves: octaves)
-            }
-            VStack {
-                BandoneonView(layout: Bandoneon.layout(.right, playingDirection),
-                              notes: hightlightedNotes,
-                              octaves: octaves)
+            Clip {
+                
+                VStack {
+                    BandoneonView(layout: Bandoneon.layout(.left, playingDirection),
+                                  notes: hightlightedNotes,
+                                  octaves: octaves)
+                }
+                VStack {
+                    BandoneonView(layout: Bandoneon.layout(.right, playingDirection),
+                                  notes: hightlightedNotes,
+                                  octaves: octaves)
+                }
             }
         }
     }
@@ -50,13 +55,14 @@ struct BandoneonHSlide: View {
 
 
 struct StudyView: View {
-    var scale: Scale
-    
-    @State var playingDirection: PlayingDirection = .open
-    
+    @State var scale: Scale
+        
     var body: some View {
         
         VStack {
+            Picker("", $scale) {
+                Scale.allCases
+            }
             
             ScaleDescriptionView(scale: scale)
             

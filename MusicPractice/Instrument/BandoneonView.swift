@@ -30,25 +30,31 @@ struct BandoneonView: View {
     
     /// re-calculate key Positions base on frame Size
     func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
-        
+
         let newButtonSize = Bandoneon.markerSize
             .mapped(from: layout.pictureSize,
                     to: newSize)
         
         var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
-        
+
         /// searches for notes in `notes`that match `octaves` in layout and
         /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
-        var markedKeys: [NoteIndex] {
+        var markedKeyIndexes: [NoteIndex] {
             return layout.orderedIndexSet(for: notes, inOctaves: octaves)
         }
-        
-        func highlight(keyAt index: Int) -> some View {
-            let key = markedKeys[index]
+
+        /// highlight a singleKey
+        /// - Parameter keyAt: index of the key in this View's layout
+        /// - Parameter with: optional text to use instead of the layout's note's name
+        func highlight(keyAt index: Int, with text: String? = nil) -> some View {
+            
+            let key : NoteIndex = markedKeyIndexes[index]
+            let buttonTitle : String = text ?? key.string
+            
             return Circle()
                 .fill(key.color)
                 .overlay(
-                    Text(key.string)
+                    Text(buttonTitle)
                         .font(.system(size: fontSize))
                         .fixedSize(horizontal: true, vertical: false)
             )
@@ -60,7 +66,7 @@ struct BandoneonView: View {
                 .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
         }
         
-        return ForEach(0 ..< markedKeys.count) { index in
+        return ForEach(0 ..< markedKeyIndexes.count) { index in
             highlight(keyAt: index)
         }
     }

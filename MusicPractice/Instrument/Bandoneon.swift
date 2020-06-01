@@ -219,7 +219,6 @@ extension Bandoneon {
     
 }
 
-
 extension Bandoneon {
     struct RightKeyLayout : KeyLayout {
         
@@ -249,7 +248,8 @@ extension Bandoneon {
             [(1,8), (2,8), (3,7), (4,6), (5,5), (6,4)],
             ].map { ($0 as [(Int,Int)]).map{MarkerIndex($0.0,$0.1)} }
         
-        private let _notesClosing: [ NoteIndex ] = [
+        var notes : [NoteIndex] { direction == .open ? _notesOpening : _notesClosing }
+        let _notesClosing: [ NoteIndex ] = [
             NoteIndex(index: BandoneonKeyIndex(1,2), note: NoteWithOctave(note: .a, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .ais, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(2,3), note: NoteWithOctave(note: .h, octave: .small)),
@@ -289,7 +289,7 @@ extension Bandoneon {
             NoteIndex(index: BandoneonKeyIndex(6,6), note: NoteWithOctave(note: .gis, octave: .three)),
             NoteIndex(index: BandoneonKeyIndex(5,6), note: NoteWithOctave(note: .a, octave: .three)),
         ]
-        private let _notesOpening: [ NoteIndex ] = [
+        let _notesOpening: [ NoteIndex ] = [
             NoteIndex(index: BandoneonKeyIndex(1,2), note: NoteWithOctave(note: .a, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(1,1), note: NoteWithOctave(note: .ais, octave: .small)),
             NoteIndex(index: BandoneonKeyIndex(2,3), note: NoteWithOctave(note: .h, octave: .small)),

@@ -9,87 +9,159 @@
 import Foundation
 import SwiftUI
 
-struct Scale : Hashable {
-    static func == (lhs: Scale, rhs: Scale) -> Bool {
-        lhs.notes == rhs.notes && lhs.dominant == rhs.dominant
+protocol ScaleProtocol {
+    func dominant() -> [Note]
+    func diminished() -> [Note]
+    func halfDiminished() -> [Note]
+}
+
+enum ScaleModifier {
+    case dominant,diminished, halfdiminished
+    var stringModifier : String {
+        switch self {
+        case .dominant:
+            return "7"
+        case .halfdiminished:
+            return "m7b5"
+        case .diminished:
+            return "°"
+        }
     }
+}
 
-    typealias id = DominantScales
-
-    var dominant : DominantScales
-    var name: String { dominant.rawValue }
-    var notes : [Note] { return Self.notes(dominant: dominant)}
-
-    static var selectableScales = DominantScales.allCases // subgroup we want to allow for selection
+struct ScaleStruct {
+    let key: ScaleKey
+    let notes: [Note]
+    let mode: ScaleModifier
     
-    static func notes(dominant scale: DominantScales) -> [ Note ] {
-        switch scale {
-        case .C7: return [.c, .e, .g, .hes]
-        case .Cis7: return [.cis, .eis, .gis, .h]
-        case .D7: return [.d, .fis, .a, .c]
-        case .Eb7: return [.es, .g, .hes, .des]
-        case .E7: return [.e, .gis, .h, .d]
-        case .F7: return [.f, .a, .c, .es]
-        case .Fis7: return [.fis, .ais, .cis, .e]
-        case .G7: return [.g, .h, .d, .f]
-        case .Ab7: return [.aes, .c, .es, .ges]
-        case .A7: return [.a, .cis, .e, .g]
-        case .Bb7: return [.hes, .d, .f, .aes, .hes]
-        case .B7: return [.h, .dis, .fis, .a,]
+    var name: String { key.name + mode.stringModifier }
+    
+    static func scaleName(for key: ScaleKey, _ mode: ScaleModifier) -> String {
+        return key.name + mode.stringModifier
+    }
+}
+
+struct Scale {
+
+    /// - Returns: first notes array that matches given scale key and mode, empty List, otherwise
+    /// - Parameters:
+    /// - key: a base key of the music scale
+    /// - mode: an applied modifier
+    static func notes(for key: ScaleKey, _ mode: ScaleModifier) -> [Note] {
+        items.filter { $0.key == key && $0.mode == mode }.first?.notes ?? []
+    }
+    
+    static let keys = ScaleKey.allCases
+    
+    /// a list of scales for all keys with all modifiers
+    // NOTE: could be a function with a `switch` to assure completeness
+    static let items : [ ScaleStruct ] = [
+        ScaleStruct(key: .C, notes: [ .c, .e, .g, .hes ], mode: .dominant),
+        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .hes ], mode: .diminished),
+        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .a ], mode: .halfdiminished),
+
+        ScaleStruct(key: .Cis, notes: [ .cis, .eis, .gis, .h ], mode: .dominant),
+        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .h ], mode: .diminished),
+        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .hes ], mode: .halfdiminished),
+
+        ScaleStruct(key: .D, notes: [ .d, .fis, .a, .c ], mode: .dominant),
+        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .c ], mode: .diminished),
+        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .h ], mode: .halfdiminished),
+
+        ScaleStruct(key: .Es, notes: [ .es, .g, .hes, .des ], mode: .dominant),
+        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .des ], mode: .diminished),
+        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .c ], mode: .halfdiminished),
+
+        ScaleStruct(key: .E, notes: [ .e, .gis, .h, .d ], mode: .dominant),
+        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .d ], mode: .diminished),
+        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .cis ], mode: .halfdiminished),
+        
+        ScaleStruct(key: .F, notes: [ .f, .a, .c, .es ], mode: .dominant),
+        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .es ], mode: .diminished),
+        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .d ], mode: .halfdiminished),
+        
+        ScaleStruct(key: .Fis, notes: [ .fis, .ais, .cis, .e ], mode: .dominant),
+        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .e ], mode: .diminished),
+        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .es ], mode: .halfdiminished),
+        
+        
+        ScaleStruct(key: .G, notes: [ .g, .h, .d, .f ], mode: .dominant),
+        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .f ], mode: .diminished),
+        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .e ], mode: .halfdiminished),
+        
+        ScaleStruct(key: .As, notes: [ .aes, .c, .es, .ges ], mode: .dominant),
+        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .ges ], mode: .halfdiminished),
+        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .f ], mode: .halfdiminished),
+        
+        ScaleStruct(key: .A, notes: [ .a, .cis, .e, .g ], mode: .dominant),
+        ScaleStruct(key: .A, notes: [ .a, .c, .es, .g ], mode: .halfdiminished),
+        ScaleStruct(key: .A, notes: [ .a, .c, .es, .ges ], mode: .halfdiminished),
+        
+        ScaleStruct(key: .Bb, notes: [ .hes, .d, .f, .aes ], mode: .dominant),
+        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .aes ], mode: .halfdiminished),
+        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .g ], mode: .halfdiminished),
+        
+        ScaleStruct(key: .B, notes: [ .h, .dis, .fis, .a ], mode: .dominant),
+        ScaleStruct(key: .B, notes: [ .h, .d, .f, .a ], mode: .halfdiminished),
+        ScaleStruct(key: .B, notes: [ .h, .d, .f, .aes ], mode: .halfdiminished)
+    ]
+}
+
+/// Scale.C.dominant -> [Notes]
+enum ScaleKey : String, ScaleProtocol, CaseIterable {
+
+    case C,Cis,D,Es,E,F,Fis,G,As,A,Bb,B
+
+    var name: String { self.rawValue }
+
+    func dominant() -> [Note] {
+        switch self {
+        case .C: return [.c, .e, .g, .hes]
+        case .Cis: return [.cis, .eis, .gis, .h]
+        case .D: return [.d, .fis, .a, .c]
+        case .Es: return [.es, .g, .hes, .des]
+        case .E: return [.e, .gis, .h, .d]
+        case .F: return [.f, .a, .c, .es]
+        case .Fis: return [.fis, .ais, .cis, .e]
+        case .G: return [.g, .h, .d, .f]
+        case .As: return [.aes, .c, .es, .ges]
+        case .A: return [.a, .cis, .e, .g]
+        case .Bb: return [.hes, .d, .f, .aes]
+        case .B: return [.h, .dis, .fis, .a]
         }
     }
     
-    static func notes(scale: HalfDiminishedScales) -> [ Note ] {
-        switch scale {
-        case .Cm7b5: return [ .c, .es, .ges, .hes]
-        case .Cism7b5: return [ .cis, .e, .g, .h]
-        case .Dm7b5: return [ .d, .f, .aes, .c]
-        case .Ebm7b5: return [ .es, .ges, .a, .des]
-        case .Em7b5: return [ .e, .g, .hes, .d]
-        case .Fm7b5: return [ .f, .aes, .ces, .es ]
-        case .Fism7b5: return [ .fis, .a, .c, .e ]
-        case .Gm7b5: return [ .g, .hes, .des, .f]
-        case .Abm7b5: return [ .aes, .ces, .d, .ges]
-        case .Am7b5: return [ .a, .c, .es, .g]
-        case .Bbm7b5: return [ .hes, .des, .e, .aes]
-        case .Bm7b5: return [ .h, .d, .f, .a]
-        }
-    }
-
-    static func notes(scale: DiminishedScales) -> [ Note ] {
-        switch scale {
-        case .Cdim, .Ebdim, .Gesdim, .Adim: return [ .c, .es, .ges, .a]
-        case .Cisdim, .Edim, .Gdim, .Bbdim: return [ .cis, .e, .g, .hes]
-        case .Ddim, .Fdim, .Abdim, .Bdim: return [ .d, .f, .aes, .h ]
+    func diminished() -> [Note] {
+        switch self {
+        case .C: return [ .c, .es, .ges, .hes]
+        case .Cis: return [ .cis, .e, .g, .h]
+        case .D: return [ .d, .f, .aes, .c]
+        case .Es: return [ .es, .ges, .a, .des]
+        case .E: return [ .e, .g, .hes, .d]
+        case .F: return [ .f, .aes, .ces, .es ]
+        case .Fis: return [ .fis, .a, .c, .e ]
+        case .G: return [ .g, .hes, .des, .f]
+        case .As: return [ .aes, .ces, .d, .ges]
+        case .A: return [ .a, .c, .es, .g]
+        case .Bb: return [ .hes, .des, .e, .aes]
+        case .B: return [ .h, .d, .f, .a]
         }
     }
     
-    static let C7 = Scale(dominant: .C7)
-    static let Cis7 = Scale(dominant: .Cis7)
-    static let D7 = Scale(dominant: .D7)
-    static let Eb7 = Scale(dominant: .Eb7)
-    static let E7 = Scale(dominant: .E7)
-    static let F7 = Scale(dominant: .F7)
+    func halfDiminished() -> [Note] {
+        switch self {
+        case .C, .Es, .Fis, .A: return [ .c, .es, .ges, .a]
+        case .Cis, .E, .G, .Bb: return [ .cis, .e, .g, .hes]
+        case .D, .F, .As, .B: return [ .d, .f, .aes, .h ]
+        }
+    }
+
+    static var selectableScales : [ScaleKey] = [.C,.D,.E] // subgroup we want to allow for selection
     
     enum FlatScales: String, CaseIterable { case F, B, Es, As, Des, Ges }
     enum Flats: String, CaseIterable { case b, es, aes, des, ges }
-
     enum SharpScales: String, CaseIterable { case G, D, A, E, H, Fis }
     enum Sharps: String, CaseIterable { case fis, cis, gis, dis, ais, eis }
-    enum DominantScales: String, CaseIterable {
-        case C7, Cis7, D7, Eb7, E7, F7
-        case Fis7, G7, Ab7, A7, Bb7, B7
-    }
-    enum HalfDiminishedScales: String, CaseIterable {
-        case Cm7b5, Cism7b5, Dm7b5, Ebm7b5, Em7b5, Fm7b5
-        case Fism7b5, Gm7b5, Abm7b5, Am7b5, Bbm7b5, Bm7b5
-    }
-    
-    enum DiminishedScales: String, CaseIterable {
-        case Cdim, Ebdim, Gesdim, Adim
-        case Cisdim, Edim, Gdim, Bbdim
-        case Ddim, Fdim, Abdim, Bdim
-    }
 }
 
 enum Note: String, CaseIterable {
