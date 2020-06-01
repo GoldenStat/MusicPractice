@@ -23,8 +23,8 @@ struct BandoneonTecladosView: View {
     
     var body: some View {
         HStack {
-            BandoneonView(layout: Bandoneon.LeftKeyLayout(direction: direction))
-            BandoneonView(layout: Bandoneon.RightKeyLayout(direction: direction))
+            BandoneonView(layout: Bandoneon.layout(.left, direction))
+            BandoneonView(layout: Bandoneon.layout(.right, direction))
         }
     }
 }

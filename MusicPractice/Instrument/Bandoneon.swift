@@ -66,6 +66,18 @@ struct NoteIndex {
     var string: String { note.string }
 }
 
+extension Bandoneon {
+    static func layout(_ hand: Hand, _ direction: PlayingDirection) -> KeyLayout {
+        switch (hand,direction) {
+        case (.left,let direction):
+            return Bandoneon.LeftKeyLayout(direction: direction)
+        case(.right,let direction):
+            return Bandoneon.RightKeyLayout(direction: direction)
+        }
+    }
+}
+
+
 struct Bandoneon {
     
     enum MarkAction { case mark, cover }
@@ -73,7 +85,7 @@ struct Bandoneon {
     /// these dimensions are relative to the taken keyboard pictures
     static var markerSize = CGSize(width: 100, height: 100)
     static var coverSize = CGSize(width: 172, height: 172)
-    
+
     /// the layouts for both sides
     struct LeftKeyLayout : KeyLayout  {
         let direction: PlayingDirection

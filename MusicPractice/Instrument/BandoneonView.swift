@@ -88,7 +88,7 @@ struct MarkedBandoneonView : View {
 
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
-        BandoneonView(layout: Bandoneon.RightKeyLayout(direction: .open))
+        BandoneonView(layout: Bandoneon.layout(.right, .open))
         .padding()
     }
 }
