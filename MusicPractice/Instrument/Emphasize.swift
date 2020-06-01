@@ -49,8 +49,7 @@ struct Emphasize_Previews: PreviewProvider {
     static var previews: some View {
         Emphasize {
             BandoneonView(layout:
-                Bandoneon
-                    .LeftKeyLayout(direction: .open)
+                Bandoneon.layout(.left, .open)
             )
         }
     }

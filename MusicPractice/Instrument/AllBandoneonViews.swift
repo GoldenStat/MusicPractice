@@ -11,10 +11,11 @@ import SwiftUI
 struct AllBandoneonViews: View {
     @State var index: Int = 0
 
-    static var layout : [KeyLayout] = [ Bandoneon.LeftKeyLayout(direction: .open),
-                    Bandoneon.LeftKeyLayout(direction: .close),
-                    Bandoneon.RightKeyLayout(direction: .open),
-                    Bandoneon.RightKeyLayout(direction: .close)
+    static var layout : [KeyLayout] = [
+        Bandoneon.layout(.left, .open),
+        Bandoneon.layout(.left, .close),
+        Bandoneon.layout(.right, .open),
+        Bandoneon.layout(.right, .close)
     ]
                     
     var body: some View {
