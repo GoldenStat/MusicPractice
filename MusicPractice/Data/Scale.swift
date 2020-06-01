@@ -32,28 +32,41 @@ enum ScaleModifier: String, CaseIterable {
 struct ScaleStruct {
     let key: ScaleKey
     let notes: [Note]
-    let mode: ScaleModifier
+    let mood: ScaleModifier
     
-    var string: String { key.string + mode.stringModifier }
+    var string: String { key.string + mood.stringModifier }
     
-    static func scaleName(for key: ScaleKey, _ mode: ScaleModifier) -> String {
-        return key.string + mode.stringModifier
+    static func scaleName(for key: ScaleKey, _ mood: ScaleModifier) -> String {
+        return key.string + mood.stringModifier
+    }
+    
+    init(key: ScaleKey, notes: [Note], mood: ScaleModifier) {
+        self.key = key
+        self.mood = mood
+        self.notes = notes
+    }
+    
+    init(key: ScaleKey, mood: ScaleModifier) {
+        let notes = Scale.notes(for: key, mood)
+        self.key = key
+        self.mood = mood
+        self.notes = notes
     }
 }
 
 struct Scale {
 
-    /// - Returns: first notes array that matches given scale key and mode, empty List, otherwise
+    /// - Returns: first notes array that matches given scale key and mood, empty List, otherwise
     /// - Parameters:
     /// - key: a base key of the music scale
-    /// - mode: an applied modifier
-    static func notes(for key: ScaleKey, _ mode: ScaleModifier) -> [Note] {
-        items.filter { $0.key == key && $0.mode == mode }.first?.notes ?? []
+    /// - mood: an applied modifier
+    static func notes(for key: ScaleKey, _ mood: ScaleModifier) -> [Note] {
+        items.filter { $0.key == key && $0.mood == mood }.first?.notes ?? []
     }
     
-    static func scale(for key: ScaleKey, _ mode: ScaleModifier) -> ScaleStruct {
-        let notes = Self.notes(for: key, mode)
-        return ScaleStruct(key: key, notes: notes, mode: mode)
+    static func scale(for key: ScaleKey, _ mood: ScaleModifier) -> ScaleStruct {
+        let notes = Self.notes(for: key, mood)
+        return ScaleStruct(key: key, notes: notes, mood: mood)
     }
 
     static let keys = ScaleKey.allCases
@@ -61,54 +74,54 @@ struct Scale {
     /// a list of scales for all keys with all modifiers
     // NOTE: could be a function with a `switch` to assure completeness
     private static let items : [ ScaleStruct ] = [
-        ScaleStruct(key: .C, notes: [ .c, .e, .g, .hes ], mode: .dominant),
-        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .hes ], mode: .diminished),
-        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .a ], mode: .halfdiminished),
+        ScaleStruct(key: .C, notes: [ .c, .e, .g, .hes ], mood: .dominant),
+        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .hes ], mood: .diminished),
+        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .a ], mood: .halfdiminished),
 
-        ScaleStruct(key: .Cis, notes: [ .cis, .eis, .gis, .h ], mode: .dominant),
-        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .h ], mode: .diminished),
-        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .hes ], mode: .halfdiminished),
+        ScaleStruct(key: .Cis, notes: [ .cis, .eis, .gis, .h ], mood: .dominant),
+        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .h ], mood: .diminished),
+        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .hes ], mood: .halfdiminished),
 
-        ScaleStruct(key: .D, notes: [ .d, .fis, .a, .c ], mode: .dominant),
-        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .c ], mode: .diminished),
-        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .h ], mode: .halfdiminished),
+        ScaleStruct(key: .D, notes: [ .d, .fis, .a, .c ], mood: .dominant),
+        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .c ], mood: .diminished),
+        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .h ], mood: .halfdiminished),
 
-        ScaleStruct(key: .Es, notes: [ .es, .g, .hes, .des ], mode: .dominant),
-        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .des ], mode: .diminished),
-        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .c ], mode: .halfdiminished),
+        ScaleStruct(key: .Es, notes: [ .es, .g, .hes, .des ], mood: .dominant),
+        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .des ], mood: .diminished),
+        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .c ], mood: .halfdiminished),
 
-        ScaleStruct(key: .E, notes: [ .e, .gis, .h, .d ], mode: .dominant),
-        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .d ], mode: .diminished),
-        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .cis ], mode: .halfdiminished),
+        ScaleStruct(key: .E, notes: [ .e, .gis, .h, .d ], mood: .dominant),
+        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .d ], mood: .diminished),
+        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .cis ], mood: .halfdiminished),
         
-        ScaleStruct(key: .F, notes: [ .f, .a, .c, .es ], mode: .dominant),
-        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .es ], mode: .diminished),
-        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .d ], mode: .halfdiminished),
+        ScaleStruct(key: .F, notes: [ .f, .a, .c, .es ], mood: .dominant),
+        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .es ], mood: .diminished),
+        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .d ], mood: .halfdiminished),
         
-        ScaleStruct(key: .Fis, notes: [ .fis, .ais, .cis, .e ], mode: .dominant),
-        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .e ], mode: .diminished),
-        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .es ], mode: .halfdiminished),
+        ScaleStruct(key: .Fis, notes: [ .fis, .ais, .cis, .e ], mood: .dominant),
+        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .e ], mood: .diminished),
+        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .es ], mood: .halfdiminished),
         
         
-        ScaleStruct(key: .G, notes: [ .g, .h, .d, .f ], mode: .dominant),
-        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .f ], mode: .diminished),
-        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .e ], mode: .halfdiminished),
+        ScaleStruct(key: .G, notes: [ .g, .h, .d, .f ], mood: .dominant),
+        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .f ], mood: .diminished),
+        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .e ], mood: .halfdiminished),
         
-        ScaleStruct(key: .As, notes: [ .aes, .c, .es, .ges ], mode: .dominant),
-        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .ges ], mode: .halfdiminished),
-        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .f ], mode: .halfdiminished),
+        ScaleStruct(key: .As, notes: [ .aes, .c, .es, .ges ], mood: .dominant),
+        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .ges ], mood: .halfdiminished),
+        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .f ], mood: .halfdiminished),
         
-        ScaleStruct(key: .A, notes: [ .a, .cis, .e, .g ], mode: .dominant),
-        ScaleStruct(key: .A, notes: [ .a, .c, .es, .g ], mode: .halfdiminished),
-        ScaleStruct(key: .A, notes: [ .a, .c, .es, .ges ], mode: .halfdiminished),
+        ScaleStruct(key: .A, notes: [ .a, .cis, .e, .g ], mood: .dominant),
+        ScaleStruct(key: .A, notes: [ .a, .c, .es, .g ], mood: .halfdiminished),
+        ScaleStruct(key: .A, notes: [ .a, .c, .es, .ges ], mood: .halfdiminished),
         
-        ScaleStruct(key: .Bb, notes: [ .hes, .d, .f, .aes ], mode: .dominant),
-        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .aes ], mode: .halfdiminished),
-        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .g ], mode: .halfdiminished),
+        ScaleStruct(key: .Bb, notes: [ .hes, .d, .f, .aes ], mood: .dominant),
+        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .aes ], mood: .halfdiminished),
+        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .g ], mood: .halfdiminished),
         
-        ScaleStruct(key: .B, notes: [ .h, .dis, .fis, .a ], mode: .dominant),
-        ScaleStruct(key: .B, notes: [ .h, .d, .f, .a ], mode: .halfdiminished),
-        ScaleStruct(key: .B, notes: [ .h, .d, .f, .aes ], mode: .halfdiminished)
+        ScaleStruct(key: .B, notes: [ .h, .dis, .fis, .a ], mood: .dominant),
+        ScaleStruct(key: .B, notes: [ .h, .d, .f, .a ], mood: .halfdiminished),
+        ScaleStruct(key: .B, notes: [ .h, .d, .f, .aes ], mood: .halfdiminished)
     ]
 }
 
