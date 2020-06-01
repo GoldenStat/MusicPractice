@@ -32,19 +32,6 @@ struct Emphasize<Content: View> : View {
     }
 }
 
-struct EmphasizedImage : View {
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(Color.flatWhite)
-                .blur(radius: 5)
-                .frame(maxHeight: 140)
-                .shadow(color: .black, radius: 10.0, x: 8, y: 8)
-        }
-    }
-}
-
-
 struct Emphasize_Previews: PreviewProvider {
     static var previews: some View {
         Emphasize {
