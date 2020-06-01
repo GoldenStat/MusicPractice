@@ -28,31 +28,6 @@ struct ScaleDescriptionView : View {
     }
 }
 
-struct BandoneonHSlide: View {
-    
-    var playingDirection: PlayingDirection
-    var hightlightedNotes: [Note]
-    var octaves: [Octave] = []
-    
-    var body: some View {
-        HStack {
-            Clip {
-                
-                VStack {
-                    BandoneonView(layout: Bandoneon.layout(.left, playingDirection),
-                                  notes: hightlightedNotes,
-                                  octaves: octaves)
-                }
-                VStack {
-                    BandoneonView(layout: Bandoneon.layout(.right, playingDirection),
-                                  notes: hightlightedNotes,
-                                  octaves: octaves)
-                }
-            }
-        }
-    }
-}
-
 
 struct StudyView: View {
     @State var scale: ScaleStruct
