@@ -8,8 +8,7 @@
 
 import SwiftUI
 
-struct SimpleBandoneonView: View {
-    
+struct BandoneonView: View {
     let layout : KeyLayout
     var notes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
     var octaves: [Octave] = [] // if no octave is given, mark all octaves
@@ -67,26 +66,6 @@ struct SimpleBandoneonView: View {
     }
 }
 
-
-struct BandoneonView : View {
-    var marked : Bool = false
-    var layout: KeyLayout
-    var notes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
-    var octaves: [Octave] = [] // if no octave is given, mark all octaves
-
-    var body: some View {
-        ZStack {
-            if marked {
-                Rectangle()
-                    .stroke(Color.blue)
-            } else {
-                Rectangle()
-                    .stroke(Color.clear)
-            }
-            SimpleBandoneonView(layout: layout, notes: notes, octaves: octaves)
-        }
-    }
-}
 
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {

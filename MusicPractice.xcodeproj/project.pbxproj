@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		413BAEB4248509AD000BDF3C /* ViewBuilderExperiment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB3248509AD000BDF3C /* ViewBuilderExperiment.swift */; };
-		413BAEB824851EEA000BDF3C /* Emphasize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* Emphasize.swift */; };
+		413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* ViewBuilders.swift */; };
 		413BAEBA248528C0000BDF3C /* BandoneonTecladosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB9248528C0000BDF3C /* BandoneonTecladosView.swift */; };
 		413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */; };
 		415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37B245057FD008D6E2A /* AppDelegate.swift */; };
@@ -51,7 +51,7 @@
 
 /* Begin PBXFileReference section */
 		413BAEB3248509AD000BDF3C /* ViewBuilderExperiment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilderExperiment.swift; sourceTree = "<group>"; };
-		413BAEB724851EEA000BDF3C /* Emphasize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emphasize.swift; sourceTree = "<group>"; };
+		413BAEB724851EEA000BDF3C /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
 		413BAEB9248528C0000BDF3C /* BandoneonTecladosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonTecladosView.swift; sourceTree = "<group>"; };
 		413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonColors.swift; sourceTree = "<group>"; };
 		415CF378245057FD008D6E2A /* MusicPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,8 +172,8 @@
 				41984C0E247FF3F700A87D86 /* KeyLayout.swift */,
 				4193FD85246D918200542511 /* BandoneonView.swift */,
 				413BAEB9248528C0000BDF3C /* BandoneonTecladosView.swift */,
+				413BAEB724851EEA000BDF3C /* ViewBuilders.swift */,
 				41984C102481809D00A87D86 /* AllBandoneonViews.swift */,
-				413BAEB724851EEA000BDF3C /* Emphasize.swift */,
 				41984C0C247FE9B100A87D86 /* StudyView.swift */,
 			);
 			path = Instrument;
@@ -306,7 +306,7 @@
 				4193FD8A246FE04900542511 /* SessionListView.swift in Sources */,
 				41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */,
 				41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */,
-				413BAEB824851EEA000BDF3C /* Emphasize.swift in Sources */,
+				413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,
 				41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */,
 				41984C112481809E00A87D86 /* AllBandoneonViews.swift in Sources */,

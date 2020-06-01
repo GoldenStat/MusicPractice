@@ -32,6 +32,27 @@ struct Emphasize<Content: View> : View {
     }
 }
 
+struct StaticFrame<Content: View> : View {
+    var isInvisible: Bool = false
+    var content: Content
+    
+    init(@ViewBuilder content: () -> Content, isInvisible: Bool = false) {
+        self.content = content()
+        self.isInvisible = isInvisible
+    }
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(isInvisible ? Color.clear : Color.blue)
+                .overlay(
+            content
+                    .padding()
+            )
+        }
+    }
+}
+
 struct Emphasize_Previews: PreviewProvider {
     static var previews: some View {
         Emphasize {
