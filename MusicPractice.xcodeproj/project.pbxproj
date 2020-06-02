@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		413BAEB4248509AD000BDF3C /* ViewBuilderExperiment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB3248509AD000BDF3C /* ViewBuilderExperiment.swift */; };
 		413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* ViewBuilders.swift */; };
 		413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */; };
 		413BAEBE2485528E000BDF3C /* NavigationStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */; };
 		413BAEC02485996F000BDF3C /* BandoneonHSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBF2485996F000BDF3C /* BandoneonHSlide.swift */; };
+		413BAEC424859A65000BDF3C /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEC324859A65000BDF3C /* Notes.swift */; };
 		415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37B245057FD008D6E2A /* AppDelegate.swift */; };
 		415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37D245057FD008D6E2A /* SceneDelegate.swift */; };
 		415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 415CF37F245057FD008D6E2A /* MusicPractice.xcdatamodeld */; };
@@ -51,11 +51,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		413BAEB3248509AD000BDF3C /* ViewBuilderExperiment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilderExperiment.swift; sourceTree = "<group>"; };
 		413BAEB724851EEA000BDF3C /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
 		413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonColors.swift; sourceTree = "<group>"; };
 		413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStudyView.swift; sourceTree = "<group>"; };
 		413BAEBF2485996F000BDF3C /* BandoneonHSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonHSlide.swift; sourceTree = "<group>"; };
+		413BAEC324859A65000BDF3C /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		415CF378245057FD008D6E2A /* MusicPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		415CF37B245057FD008D6E2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		415CF37D245057FD008D6E2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,8 +130,7 @@
 		415CF36F245057FD008D6E2A = {
 			isa = PBXGroup;
 			children = (
-				415CF39624505924008D6E2A /* Data */,
-				413BAEB3248509AD000BDF3C /* ViewBuilderExperiment.swift */,
+				415CF39624505924008D6E2A /* Data and Helper */,
 				415CF37A245057FD008D6E2A /* MusicPractice */,
 				415CF379245057FD008D6E2A /* Products */,
 			);
@@ -174,14 +173,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		415CF39624505924008D6E2A /* Data */ = {
+		415CF39624505924008D6E2A /* Data and Helper */ = {
 			isa = PBXGroup;
 			children = (
 				41984C1424828C4400A87D86 /* EnumToggle.swift */,
 				41E1F5C82457045500183C7F /* Helper.swift */,
 				415CF397245059AF008D6E2A /* Scale.swift */,
+				413BAEC324859A65000BDF3C /* Notes.swift */,
+				413BAEB724851EEA000BDF3C /* ViewBuilders.swift */,
 			);
-			path = Data;
+			path = "Data and Helper";
 			sourceTree = "<group>";
 		};
 		41984C0B247ECF3300A87D86 /* Instrument */ = {
@@ -191,7 +192,6 @@
 				41984C0E247FF3F700A87D86 /* KeyLayout.swift */,
 				4193FD87246D92D300542511 /* Bandoneon.swift */,
 				4193FD85246D918200542511 /* BandoneonView.swift */,
-				413BAEB724851EEA000BDF3C /* ViewBuilders.swift */,
 				413BAEBF2485996F000BDF3C /* BandoneonHSlide.swift */,
 				41984C102481809D00A87D86 /* AllBandoneonViews.swift */,
 				41984C0C247FE9B100A87D86 /* StudyView.swift */,
@@ -309,7 +309,6 @@
 				415CF398245059AF008D6E2A /* Scale.swift in Sources */,
 				4193FD82246D5ADB00542511 /* MusicPlayer.swift in Sources */,
 				4193FD86246D918200542511 /* BandoneonView.swift in Sources */,
-				413BAEB4248509AD000BDF3C /* ViewBuilderExperiment.swift in Sources */,
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
 				41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */,
@@ -328,6 +327,7 @@
 				413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,
 				41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */,
+				413BAEC424859A65000BDF3C /* Notes.swift in Sources */,
 				41984C112481809E00A87D86 /* AllBandoneonViews.swift in Sources */,
 				415CF383245057FD008D6E2A /* ContentView.swift in Sources */,
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,
