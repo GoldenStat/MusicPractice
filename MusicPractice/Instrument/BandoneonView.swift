@@ -75,7 +75,7 @@ struct BandoneonView: View {
 
 struct BandoneonView_Previews: PreviewProvider {
     static var previews: some View {
-        BandoneonView(layout: Bandoneon.layout(.right, .open))
+        BandoneonView(layout: Bandoneon.layout(.left, .close),notes: [ .c, .e, .g])
         .padding()
     }
 }

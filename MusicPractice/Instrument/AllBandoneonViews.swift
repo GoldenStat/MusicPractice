@@ -10,21 +10,25 @@ import SwiftUI
 
 struct AllBandoneonViews: View {
     @State var framedBandoneon: Int = 0
+    var zoom: Bool = false
+    var scale: ScaleStruct?
     
     var body: some View {
         VStack {
-            Frame(isInvisible: true) {
-                BandoneonView(layout: BandoneonLayout[framedBandoneon])
+            if zoom {
+                Frame(isInvisible: true) {
+                    BandoneonView(layout: BandoneonLayout[framedBandoneon])
+                }
+                .padding()
             }
-            .padding()
             VStack {
                 HStack {
-                    FramedBandoneon(initialIndex: 0, boundTo: $framedBandoneon)
-                    FramedBandoneon(initialIndex: 1, boundTo: $framedBandoneon)
+                    FramedBandoneon(initialIndex: 0, boundTo: $framedBandoneon, scale: scale)
+                    FramedBandoneon(initialIndex: 1, boundTo: $framedBandoneon, scale: scale)
                 }
                 HStack {
-                    FramedBandoneon(initialIndex: 2, boundTo: $framedBandoneon)
-                    FramedBandoneon(initialIndex: 3, boundTo: $framedBandoneon)
+                    FramedBandoneon(initialIndex: 2, boundTo: $framedBandoneon, scale: scale)
+                    FramedBandoneon(initialIndex: 3, boundTo: $framedBandoneon, scale: scale)
 
                 }
             }
@@ -34,12 +38,17 @@ struct AllBandoneonViews: View {
 
 struct FramedBandoneon: View {
     
+    var notes: [Note] {
+        scale?.notes ?? []
+    }
     var initialIndex: Int
     @Binding var boundTo: Int
+    var scale: ScaleStruct?
 
     var body: some View {
         Frame(isInvisible: initialIndex != boundTo) {
-            BandoneonView(layout: BandoneonLayout[initialIndex])
+            BandoneonView(layout: BandoneonLayout[initialIndex],
+                          notes: notes)
                 .onTapGesture {
                     self.boundTo = self.initialIndex
             }
@@ -49,6 +58,6 @@ struct FramedBandoneon: View {
 
 struct AllBandoneonView_Previews: PreviewProvider {
     static var previews: some View {
-        AllBandoneonViews()
+        AllBandoneonViews(scale: Scale.C7)
     }
 }

@@ -26,10 +26,6 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Emphasize {
-                    BandoneonHSlide(playingDirection: .open,
-                                    hightlightedNotes: scale.notes)
-                }
                 /// show a picker which scale to select
                 ScalePicker(selection: $scale)
                 ModePicker(selection: $scale)
@@ -37,12 +33,11 @@ struct PracticeScaleView: View {
                 /// show the notes for the current selection
                 ScaleDetailRow(scale: scale)
                 
-                
-                Spacer()
-                
                 Divider()
 
-                RecordingList(recorder: recorder, scale: scale)
+                Emphasize {
+                    AllBandoneonViews(scale: scale)
+                }
 
                 AudioTrackTimerView(recorder: recorder, scale: $scale)
             }
@@ -96,15 +91,20 @@ struct ScalePicker: View {
 struct ScaleDetailRow: View {
     var scale: ScaleStruct
     var body: some View {
-        VStack {
-            Text("Scale: \(scale.string)")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            HStack {
-                ForEach(scale.notes, id: \.self) { note in
-                    Text(note.rawValue)
+        HStack {
+            VStack(alignment: .trailing) {
+                Text("Scale: \(scale.string)")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                HStack {
+                    ForEach(scale.notes, id: \.self) { note in
+                        Text(note.rawValue)
+                    }
+                    .font(.headline)
                 }
             }
+            Spacer()
+            NotesView(scale: scale)
         }
         .padding()
     }

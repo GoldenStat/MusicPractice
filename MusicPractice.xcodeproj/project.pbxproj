@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41100AC1248F997C0009B8E4 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41100AC0248F997C0009B8E4 /* NotesView.swift */; };
 		413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* ViewBuilders.swift */; };
 		413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */; };
 		413BAEBE2485528E000BDF3C /* NavigationStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41100AC0248F997C0009B8E4 /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		413BAEB724851EEA000BDF3C /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
 		413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonColors.swift; sourceTree = "<group>"; };
 		413BAEBD2485528E000BDF3C /* NavigationStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStudyView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */,
+				41100AC0248F997C0009B8E4 /* NotesView.swift */,
 				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
 				415CF39224505895008D6E2A /* PracticeSession.swift */,
 				4193FD89246FE04900542511 /* SessionListView.swift */,
@@ -334,6 +337,7 @@
 				415CF37E245057FD008D6E2A /* SceneDelegate.swift in Sources */,
 				41984C1524828C4400A87D86 /* EnumToggle.swift in Sources */,
 				415CF39E24505DAA008D6E2A /* StopWatchView.swift in Sources */,
+				41100AC1248F997C0009B8E4 /* NotesView.swift in Sources */,
 				41984C07247E544600A87D86 /* CloudTrackView.swift in Sources */,
 				41E1F5D02457361F00183C7F /* AudioTrackVisualizerView.swift in Sources */,
 				413BAEC02485996F000BDF3C /* BandoneonHSlide.swift in Sources */,

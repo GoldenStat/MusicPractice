@@ -21,7 +21,7 @@ struct Emphasize<Content: View> : View {
             Rectangle()
                 .fill(Color.flatWhite)
                 .clipped()
-                .frame(maxHeight: 100)
+//                .frame(maxHeight: 100)
                 .blur(radius: 5)
                 .shadow(color: .black, radius: 10.0, x: 8, y: 8)
                 .overlay(

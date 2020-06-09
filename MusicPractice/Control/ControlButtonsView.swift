@@ -61,24 +61,17 @@ struct ControlButtonsView: View {
     var body: some View {
         VStack {
             VStack {
-                VStack {
-                    Text("Files recorded")
-                        .font(.title)
-                    ForEach(fileNames, id: \.self) { name in
-                        Text(name)
-                    }
+                Text(recorder.recordingsDirectory.lastPathComponent)
+                    .font(.title)
+                ForEach(recordings, id: \.self) { name in
+                    Text(name)
                 }
-                Spacer()
-                VStack {
-                    Text(recorder.recordingsDirectory.lastPathComponent)
-                        .font(.title)
-                    ForEach(recordings, id: \.self) { name in
-                        Text(name)
-                    }
-                }
-                Spacer()
             }
+            
+            Divider()
+            
             Text(statusText)
+            
             HStack {
                 
                 /// timerButton: controls this sessions time start/pause
@@ -99,6 +92,7 @@ struct ControlButtonsView: View {
                 .buttonStyle(PracticeButtonStyle(state: recordingButtonState, isActive: isRecordingEnabled))
                 .disabled(!isRecordingEnabled)
             }
+            .frame(minHeight: 80)
         }
     }
     
@@ -106,7 +100,6 @@ struct ControlButtonsView: View {
         stopWatch.toggleStopStart()
         if stopWatch.isPaused {
             storeRecording()
-            fileNames.append(recorder.audioURL?.lastPathComponent ?? "<No audioURL defined>")
         }
     }
 

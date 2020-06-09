@@ -53,6 +53,10 @@ struct ScaleStruct : Hashable {
         self.mood = mood
         self.notes = notes
     }
+    
+    var image: Image {
+        Image(string)
+    }
 }
 
 struct Scale {
