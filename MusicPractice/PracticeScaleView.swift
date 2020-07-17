@@ -26,20 +26,28 @@ struct PracticeScaleView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                /// show a picker which scale to select
-                ScalePicker(selection: $scale)
-                ModePicker(selection: $scale)
                 
-                /// show the notes for the current selection
-                ScaleDetailRow(scale: scale)
-                
-                Divider()
-
-                Emphasize {
-                    AllBandoneonViews(scale: scale)
+                ScrollView() {
+                    /// show a picker which scale to select
+                    ScalePicker(selection: $scale)
+                    ModePicker(selection: $scale)
+                    
+                    /// show the notes for the current selection
+                    ScaleDetailRow(scale: scale)
+                    
+                    Divider()
+                    
+//                    Emphasize {
+                        AllBandoneonViews(scale: scale)
+//                    }
                 }
-
-                AudioTrackTimerView(recorder: recorder, scale: $scale)
+            }
+            
+            VStack {
+                
+                Spacer()
+                ControlButtonsView(recorder: recorder, stopWatch: StopWatch(), scale: scale)
+//                AudioTrackTimerView(recorder: recorder, scale: $scale)
             }
         }
         .padding(.horizontal)
@@ -56,17 +64,11 @@ struct PracticeScaleView: View {
     }
 }
 
-struct PracticeScaleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PracticeScaleView(scale: Scale.C7)
-    }
-}
-
 struct ModePicker: View {
-    var selection: Binding<ScaleStruct>
+    @Binding var selection: ScaleStruct
     
     var body: some View {
-        Picker("modifier", selection: selection) {
+        Picker("modifier", selection: $selection) {
             ForEach(ScaleModifier.allCases, id: \.self) { modifier in
                 Text(modifier.rawValue)
             }
@@ -76,10 +78,10 @@ struct ModePicker: View {
 }
 
 struct ScalePicker: View {
-    var selection: Binding<ScaleStruct>
+    @Binding var selection: ScaleStruct
     
     var body: some View {
-        Picker("currentScale", selection: selection) {
+        Picker("currentScale", selection: $selection) {
             ForEach(Scale.keys, id: \.self) { key in
                 Text(key.rawValue)
             }
@@ -91,6 +93,7 @@ struct ScalePicker: View {
 struct ScaleDetailRow: View {
     var scale: ScaleStruct
     var body: some View {
+        
         HStack {
             VStack(alignment: .trailing) {
                 Text("Scale: \(scale.string)")
@@ -107,5 +110,13 @@ struct ScaleDetailRow: View {
             NotesView(scale: scale)
         }
         .padding()
+    }
+}
+
+
+
+struct PracticeScaleView_Previews: PreviewProvider {
+    static var previews: some View {
+        PracticeScaleView(scale: Scale.C7)
     }
 }

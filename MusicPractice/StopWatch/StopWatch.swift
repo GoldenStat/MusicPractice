@@ -11,18 +11,19 @@ import Combine
 import SwiftUI
 
 class StopWatch : ObservableObject {
-//    var didChange = PassthroughSubject<Void, Never>()
 
-    private let queue = DispatchQueue(label: "stopwatch.timer")
-
-    @Published var counter : TimeInterval = 0.0
-    var elapsed: String { counter.longString }
-    
+    @Published var counter : TimeInterval
     @Published var hasStarted = false
     @Published var isPaused = false
-    @Published var isStopped = true
-        { didSet { if isStopped { isPaused = false } } }
+    @Published var isStopped = true { didSet { if isStopped { isPaused = false } } }
     @Published var laps = [Lap]()
+
+    var elapsed: String { counter.longString }
+    
+    init() {
+        counter = 0.0
+    }
+    
     var totalLap : Lap {
         Lap(date: Date(),
             from: laps.first?.from ?? 0,
@@ -31,6 +32,7 @@ class StopWatch : ObservableObject {
 
     public var isRunning : Bool { !(isPaused || isStopped) }
 
+    private let queue = DispatchQueue(label: "stopwatch.timer")
     private var sourceTimer: DispatchSourceTimer?
     private var started : TimeInterval = 0.0
 
@@ -62,10 +64,6 @@ class StopWatch : ObservableObject {
     }
 
     func reset() {
-//        sourceTimer = nil
-//        hasStarted = false
-//        isPaused = false
-//        isStopped = true
         started = 0.0
         counter = 0.0
         laps = []
@@ -97,12 +95,12 @@ class StopWatch : ObservableObject {
          
          // give our timer an event to execute
          sourceTimer?.setEventHandler {
-             self.counter += 1
+             self.counter += 100
          }
          
          // program the timer
          sourceTimer?.schedule(deadline: .now(),
-                               repeating: 0.01)
+                               repeating: 1.0)
 
          // start it
          sourceTimer?.resume()
@@ -114,10 +112,4 @@ class StopWatch : ObservableObject {
         hasStarted = false
     }
     
-}
-
-struct StopWatch_Previews: PreviewProvider {
-    static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
-    }
 }
