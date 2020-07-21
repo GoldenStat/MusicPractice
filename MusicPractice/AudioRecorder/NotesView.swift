@@ -15,6 +15,8 @@ struct NotesView: View {
     var body: some View {
         VStack(alignment: .leading) {
             scale.image
+                .resizable()
+                .scaledToFit()
         }
     }
 }

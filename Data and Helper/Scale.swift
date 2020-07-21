@@ -17,7 +17,7 @@ protocol ScaleProtocol {
 
 enum ScaleModifier: String, CaseIterable {
     case dominant, diminished, halfdiminished
-    case major, minor
+//    case major, minor
     
     var description : String {
         switch self {
@@ -27,10 +27,10 @@ enum ScaleModifier: String, CaseIterable {
             return "m7♭5"
         case .diminished:
             return "°"
-        case .minor:
-            return "m?"
-        case .major:
-            return "?"
+//        case .minor:
+//            return "m?"
+//        case .major:
+//            return "?"
         }
     }
 }
@@ -104,10 +104,10 @@ enum ScaleKey : String, ScaleProtocol, CaseIterable {
             return dominant()
         case .halfdiminished:
             return halfDiminished()
-        case .major:
-            return major()
-        case .minor:
-            return minor()
+//        case .major:
+//            return major()
+//        case .minor:
+//            return minor()
         }
     }
     

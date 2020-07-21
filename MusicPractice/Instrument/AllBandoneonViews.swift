@@ -12,6 +12,7 @@ struct AllBandoneonViews: View {
     @State var framedBandoneon: Int = 0
     var zoom: Bool = false
     var scale: ScaleStruct?
+    var disabled: Bool = false
     
     var body: some View {
         VStack {
@@ -23,13 +24,13 @@ struct AllBandoneonViews: View {
             }
             VStack {
                 HStack {
-                    FramedBandoneon(initialIndex: 0, boundTo: $framedBandoneon, scale: scale)
-                    FramedBandoneon(initialIndex: 1, boundTo: $framedBandoneon, scale: scale)
+                    FramedBandoneon(initialIndex: 0, boundTo: $framedBandoneon, scale: scale, disabled: disabled)
+                    FramedBandoneon(initialIndex: 1, boundTo: $framedBandoneon, scale: scale, disabled: disabled)
                 }
                 HStack {
-                    FramedBandoneon(initialIndex: 2, boundTo: $framedBandoneon, scale: scale)
-                    FramedBandoneon(initialIndex: 3, boundTo: $framedBandoneon, scale: scale)
-
+                    FramedBandoneon(initialIndex: 2, boundTo: $framedBandoneon, scale: scale, disabled: disabled)
+                    FramedBandoneon(initialIndex: 3, boundTo: $framedBandoneon, scale: scale, disabled: disabled)
+                    
                 }
             }
         }
@@ -44,13 +45,19 @@ struct FramedBandoneon: View {
     var initialIndex: Int
     @Binding var boundTo: Int
     var scale: ScaleStruct?
+    var disabled = false
 
-    var body: some View {
-        Frame(isInvisible: initialIndex != boundTo) {
+    @ViewBuilder var body: some View {
+        if disabled {
             BandoneonView(layout: BandoneonLayout[initialIndex],
                           notes: notes)
-                .onTapGesture {
-                    self.boundTo = self.initialIndex
+        } else {
+            Frame(isInvisible: initialIndex != boundTo && !disabled) {
+                BandoneonView(layout: BandoneonLayout[initialIndex],
+                              notes: notes)
+                    .onTapGesture {
+                        self.boundTo = self.initialIndex
+                    }
             }
         }
     }

@@ -38,7 +38,7 @@ struct PracticeScaleView: View {
                     Divider()
                     
 //                    Emphasize {
-                        AllBandoneonViews(scale: scale)
+                    AllBandoneonViews(scale: scale, disabled: true)
 //                    }
                 }
             }
@@ -47,7 +47,7 @@ struct PracticeScaleView: View {
                 
                 Spacer()
                 ControlButtonsView(recorder: recorder, stopWatch: StopWatch(), scale: scale)
-//                AudioTrackTimerView(recorder: recorder, scale: $scale)
+                //                AudioTrackTimerView(recorder: recorder, scale: $scale)
             }
         }
         .padding(.horizontal)
@@ -91,25 +91,45 @@ struct KeyPicker: View {
 }
 
 struct ScaleDetailRow: View {
+    
     var scale: ScaleStruct
-    var body: some View {
-        
-        HStack {
-            VStack(alignment: .trailing) {
-                Text("Scale: \(scale.description)")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                HStack {
-                    ForEach(scale.notes, id: \.self) { note in
-                        Text(note.rawValue)
+    
+    @ViewBuilder var body: some View {
+        if UIDevice.current.orientation.isLandscape {
+            HStack {
+                VStack(alignment: .trailing) {
+                    Text("Scale: \(scale.description)")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    HStack {
+                        ForEach(scale.notes, id: \.self) { note in
+                            Text(note.rawValue)
+                        }
+                        .font(.headline)
                     }
-                    .font(.headline)
                 }
+                Spacer()
+                NotesView(scale: scale)
             }
-            Spacer()
-            NotesView(scale: scale)
+            .padding()
+        } else {
+            VStack {
+                HStack(alignment: .bottom) {
+                    Text("Scale: \(scale.description)")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Spacer()
+                    HStack {
+                        ForEach(scale.notes, id: \.self) { note in
+                            Text(note.rawValue)
+                        }
+                        .font(.headline)
+                    }
+                }
+                NotesView(scale: scale)
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
