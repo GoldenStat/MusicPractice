@@ -17,6 +17,7 @@ protocol ScaleProtocol {
 
 enum ScaleModifier: String, CaseIterable {
     case dominant, diminished, halfdiminished
+    case major, minor
     
     var description : String {
         switch self {
@@ -26,6 +27,10 @@ enum ScaleModifier: String, CaseIterable {
             return "m7♭5"
         case .diminished:
             return "°"
+        case .minor:
+            return "m?"
+        case .major:
+            return "?"
         }
     }
 }
@@ -99,10 +104,48 @@ enum ScaleKey : String, ScaleProtocol, CaseIterable {
             return dominant()
         case .halfdiminished:
             return halfDiminished()
+        case .major:
+            return major()
+        case .minor:
+            return minor()
         }
     }
     
     // MARK: one function for each mood - returns all the notes that are part of the 'mood' (scale type)
+    
+    func major() -> [ Note ] {
+        switch self {
+        case .C: return [.c, .e, .g, .h]
+        case .Cis: return [.cis, .eis, .gis, .c]
+        case .D: return [.d, .fis, .a, .cis]
+        case .Es: return [.es, .g, .hes, .d]
+        case .E: return [.e, .gis, .h, .dis]
+        case .F: return [.f, .a, .c, .e]
+        case .Fis: return [.fis, .ais, .cis, .eis]
+        case .G: return [.g, .h, .d, .fis]
+        case .As: return [.aes, .c, .es, .g]
+        case .A: return [.a, .cis, .e, .gis]
+        case .Bb: return [.hes, .d, .f, .a]
+        case .B: return [.h, .dis, .fis, .ais]
+        }
+    }
+    
+    func minor() -> [ Note ] {
+        switch self {
+        case .C: return [.c, .es, .g, .h]
+        case .Cis: return [.cis, .e, .gis, .c]
+        case .D: return [.d, .f, .a, .cis]
+        case .Es: return [.es, .fis, .hes, .d]
+        case .E: return [.e, .g, .h, .dis]
+        case .F: return [.f, .gis, .c, .e]
+        case .Fis: return [.fis, .a, .cis, .eis]
+        case .G: return [.g, .ais, .d, .fis]
+        case .As: return [.aes, .h, .es, .g]
+        case .A: return [.a, .c, .e, .gis]
+        case .Bb: return [.hes, .des, .f, .a]
+        case .B: return [.h, .d, .fis, .ais]
+        }
+    }
     
     func dominant() -> [Note] {
         switch self {

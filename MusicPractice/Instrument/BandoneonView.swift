@@ -21,7 +21,7 @@ struct BandoneonView: View {
                     .resizable()
                 
                 /// the labels for the keys
-                self.keyLabels(for: self.notes, mappedTo: geometry.size)
+//                self.keyLabels(for: self.notes, mappedTo: geometry.size)
             }
             .aspectRatio(self.layout.pictureRatio, contentMode: .fit)
 
