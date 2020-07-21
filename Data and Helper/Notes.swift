@@ -92,7 +92,7 @@ enum Octave: String, CaseIterable, Comparable {
         return !notSmaller.contains(rhs)
     }
         
-    func string(with string: String) -> String {
+    func description(with string: String) -> String {
         let modifiedString: String
         switch self {
         case .subcontra:

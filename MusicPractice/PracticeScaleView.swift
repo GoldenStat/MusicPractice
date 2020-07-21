@@ -60,7 +60,7 @@ struct PracticeScaleView: View {
     }
     
     func load(_ scale: ScaleStruct) {
-        print("loading sessions for: ", scale.string)
+        print("loading sessions for: ", scale.description)
     }
 }
 
@@ -96,7 +96,7 @@ struct ScaleDetailRow: View {
         
         HStack {
             VStack(alignment: .trailing) {
-                Text("Scale: \(scale.string)")
+                Text("Scale: \(scale.description)")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 HStack {

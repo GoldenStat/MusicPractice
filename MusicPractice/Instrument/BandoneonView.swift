@@ -47,9 +47,13 @@ struct BandoneonView: View {
         /// - Parameter keyAt: index of the key in this View's layout
         /// - Parameter with: optional text to use instead of the layout's note's name
         func highlight(keyAt index: Int, with text: String? = nil) -> some View {
+            print("highlight \((markedKeyIndexes.map {$0.description}).joined(separator: "-"))")
             
             let key : NoteIndex = markedKeyIndexes[index]
-            let buttonTitle : String = text ?? key.string
+            
+            let buttonTitle : String = text ?? key.description
+            
+            let keyPosition = layout.position(forKey: key, with: newSize)
             
             return Circle()
                 .fill(key.color)
@@ -62,7 +66,7 @@ struct BandoneonView: View {
                     width: newButtonSize.width,
                     height: newButtonSize.height
             )
-                .position(layout.position(forKey: key, with: newSize))
+                .position(keyPosition)
                 .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
         }
         

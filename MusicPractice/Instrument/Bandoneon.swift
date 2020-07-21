@@ -54,7 +54,7 @@ struct MarkerIndex : KeyIndex {
 struct NoteWithOctave {
     let note: Note
     let octave: Octave?
-    var string: String { octave?.string(with: note.rawValue) ?? note.rawValue }
+    var description: String { octave?.description(with: note.rawValue) ?? note.rawValue }
     /// determine the color for a key based on its pitch and if the key had an octave assigned
     var color: Color { octave?.color ?? .inactive }
 }
@@ -63,7 +63,7 @@ struct NoteIndex {
     let index: BandoneonKeyIndex
     let note: NoteWithOctave
     var color: Color { note.color }
-    var string: String { note.string }
+    var description: String { note.description }
 }
 
 extension Bandoneon {

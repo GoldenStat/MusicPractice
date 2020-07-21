@@ -28,7 +28,7 @@ class AudioRecorder: NSObject, ObservableObject {
     /// - Returns: a list of Recordings that match a scale, or all, if Scale is *nil*
     func recordings(for scale: ScaleStruct? = nil) -> [Recording] {
         if let scale = scale {
-            return recordings.filter { $0.fileURL.lastPathComponent.starts(with: scale.string) }
+            return recordings.filter { $0.fileURL.lastPathComponent.starts(with: scale.description) }
         } else {
             return recordings
         }
@@ -155,7 +155,7 @@ class AudioRecorder: NSObject, ObservableObject {
         guard state == .stopped else { return }
         guard let audioURL = audioURL else { return }
         let tmpFile = audioURL.lastPathComponent
-        let fileName = "\(scale?.string ?? "Any")_\(tmpFile)"
+        let fileName = "\(scale?.description ?? "Any")_\(tmpFile)"
 
         let from = recordingsDirectory.appendingPathComponent(tmpFile)
         let to = recordingsDirectory.appendingPathComponent(fileName)
@@ -164,7 +164,7 @@ class AudioRecorder: NSObject, ObservableObject {
             try FileManager.default.moveItem(at: from, to: to)
             self.audioURL = nil
         } catch {
-            print("Failed to add recording to scale \(scale?.string ?? "N/A")")
+            print("Failed to add recording to scale \(scale?.description ?? "N/A")")
         }
         fetchRecordings()
     }

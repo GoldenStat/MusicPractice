@@ -144,7 +144,7 @@ extension KeyLayout {
             let bandoneonIndex = key.index
 
             let oldPosition = markerPosition(index: bandoneonIndex)!
-            let newPosition = CGPoint(x: oldPosition.x * scaleFactor.x, y: oldPosition.y*scaleFactor.y)
+            let newPosition = CGPoint(x: oldPosition.x * scaleFactor.x, y: oldPosition.y * scaleFactor.y)
 
             return newPosition
         }
@@ -153,7 +153,7 @@ extension KeyLayout {
             return Circle()
                 .fill(markedKeys[index].note.color)
                 .overlay(
-                    Text(markedKeys[index].note.string)
+                    Text(markedKeys[index].note.description)
                         .font(.system(size: fontSize))
                         .fixedSize(horizontal: true, vertical: false)
             )

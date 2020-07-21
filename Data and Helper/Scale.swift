@@ -16,8 +16,9 @@ protocol ScaleProtocol {
 }
 
 enum ScaleModifier: String, CaseIterable {
-    case dominant,diminished, halfdiminished
-    var stringModifier : String {
+    case dominant, diminished, halfdiminished
+    
+    var description : String {
         switch self {
         case .dominant:
             return "7"
@@ -32,30 +33,24 @@ enum ScaleModifier: String, CaseIterable {
 struct ScaleStruct : Hashable {
     var key: ScaleKey
     var mood: ScaleModifier
-    let notes: [Note]
+    var notes: [Note] { key.notes(for: mood) }
     
-    var string: String { key.string + mood.stringModifier }
-    
-    static func string(for key: ScaleKey, _ mood: ScaleModifier) -> String {
-        return key.string + mood.stringModifier
-    }
-    
+    var description: String { key.description + mood.description }
+            
     init(key: ScaleKey, notes: [Note], mood: ScaleModifier) {
         self.key = key
         self.mood = mood
-        self.notes = notes
     }
 
     /// copies the notes from a previously created ScaleStruct with the same (key,mood)-tuple
     init(key: ScaleKey, mood: ScaleModifier) {
-        let notes = Scale.notes(for: key, mood)
         self.key = key
         self.mood = mood
-        self.notes = notes
     }
     
+    /// the assets catalog needs one image for every scale that must be named like it's description
     var image: Image {
-        Image(string)
+        Image(description)
     }
 }
 
@@ -66,16 +61,15 @@ struct Scale {
     /// - key: a base key of the music scale
     /// - mood: an applied modifier
     static func notes(for key: ScaleKey, _ mood: ScaleModifier) -> [Note] {
-        items.filter { $0.key == key && $0.mood == mood }.first?.notes ?? []
+        key.notes(for: mood)
     }
     
     static func scale(for key: ScaleKey, _ mood: ScaleModifier) -> ScaleStruct {
-        let notes = Self.notes(for: key, mood)
-        return ScaleStruct(key: key, notes: notes, mood: mood)
+        return ScaleStruct(key: key, mood: mood)
     }
 
     static func string(for key: ScaleKey, _ mood: ScaleModifier) -> String {
-        ScaleStruct.string(for: key, mood)
+        ScaleStruct(key: key, mood: mood).description
     }
     /// accessors to the keys and moods
     static let keys = ScaleKey.allCases
@@ -88,70 +82,28 @@ struct Scale {
     static var D7dim: ScaleStruct { ScaleStruct(key: .D, mood: .diminished) }
     static var D7b5: ScaleStruct { ScaleStruct(key: .D, mood: .halfdiminished) }
 
-    /// a list of scales for all keys with all modifiers
-    /// this struct is being used for all future access to these Scale structs.
-    // NOTE: could be a function with a `switch` to assure completeness
-    private static let items : [ ScaleStruct ] = [
-        ScaleStruct(key: .C, notes: [ .c, .e, .g, .hes ], mood: .dominant),
-        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .hes ], mood: .diminished),
-        ScaleStruct(key: .C, notes: [ .c, .es, .ges, .a ], mood: .halfdiminished),
-
-        ScaleStruct(key: .Cis, notes: [ .cis, .eis, .gis, .h ], mood: .dominant),
-        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .h ], mood: .diminished),
-        ScaleStruct(key: .Cis, notes: [ .cis, .e, .g, .hes ], mood: .halfdiminished),
-
-        ScaleStruct(key: .D, notes: [ .d, .fis, .a, .c ], mood: .dominant),
-        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .c ], mood: .diminished),
-        ScaleStruct(key: .D, notes: [ .d, .f, .aes, .h ], mood: .halfdiminished),
-
-        ScaleStruct(key: .Es, notes: [ .es, .g, .hes, .des ], mood: .dominant),
-        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .des ], mood: .diminished),
-        ScaleStruct(key: .Es, notes: [ .es, .ges, .a, .c ], mood: .halfdiminished),
-
-        ScaleStruct(key: .E, notes: [ .e, .gis, .h, .d ], mood: .dominant),
-        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .d ], mood: .diminished),
-        ScaleStruct(key: .E, notes: [ .e, .g, .hes, .cis ], mood: .halfdiminished),
-        
-        ScaleStruct(key: .F, notes: [ .f, .a, .c, .es ], mood: .dominant),
-        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .es ], mood: .diminished),
-        ScaleStruct(key: .F, notes: [ .f, .aes, .ces, .d ], mood: .halfdiminished),
-        
-        ScaleStruct(key: .Fis, notes: [ .fis, .ais, .cis, .e ], mood: .dominant),
-        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .e ], mood: .diminished),
-        ScaleStruct(key: .Fis, notes: [ .fis, .a , .c, .es ], mood: .halfdiminished),
-        
-        
-        ScaleStruct(key: .G, notes: [ .g, .h, .d, .f ], mood: .dominant),
-        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .f ], mood: .diminished),
-        ScaleStruct(key: .G, notes: [ .g, .hes, .cis, .e ], mood: .halfdiminished),
-        
-        ScaleStruct(key: .As, notes: [ .aes, .c, .es, .ges ], mood: .dominant),
-        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .ges ], mood: .halfdiminished),
-        ScaleStruct(key: .As, notes: [ .aes, .h, .d, .f ], mood: .halfdiminished),
-        
-        ScaleStruct(key: .A, notes: [ .a, .cis, .e, .g ], mood: .dominant),
-        ScaleStruct(key: .A, notes: [ .a, .c, .es, .g ], mood: .halfdiminished),
-        ScaleStruct(key: .A, notes: [ .a, .c, .es, .ges ], mood: .halfdiminished),
-        
-        ScaleStruct(key: .Bb, notes: [ .hes, .d, .f, .aes ], mood: .dominant),
-        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .aes ], mood: .halfdiminished),
-        ScaleStruct(key: .Bb, notes: [ .hes, .cis, .e, .g ], mood: .halfdiminished),
-        
-        ScaleStruct(key: .B, notes: [ .h, .dis, .fis, .a ], mood: .dominant),
-        ScaleStruct(key: .B, notes: [ .h, .d, .f, .a ], mood: .halfdiminished),
-        ScaleStruct(key: .B, notes: [ .h, .d, .f, .aes ], mood: .halfdiminished)
-    ]
 }
 
-/// Scale.C.dominant -> [Notes]
-// NOTE: might be deleteable or at least simplifiable
+/// a collection of all Scales
 enum ScaleKey : String, ScaleProtocol, CaseIterable {
 
     case C,Cis="C♯",D,Es="E♭",E,F,Fis="F♯",G,As="A♭",A,Bb="B♭",B
-//    ♭♯
 
-    var string: String { self.rawValue }
+    var description: String { self.rawValue }
 
+    func notes(for mood: ScaleModifier) -> [Note] {
+        switch mood {
+        case .diminished:
+            return diminished()
+        case .dominant:
+            return dominant()
+        case .halfdiminished:
+            return halfDiminished()
+        }
+    }
+    
+    // MARK: one function for each mood - returns all the notes that are part of the 'mood' (scale type)
+    
     func dominant() -> [Note] {
         switch self {
         case .C: return [.c, .e, .g, .hes]
@@ -194,10 +146,10 @@ enum ScaleKey : String, ScaleProtocol, CaseIterable {
         }
     }
 
-    static var selectableScales : [ScaleKey] = [.C,.D,.E] // subgroup we want to allow for selection
-    
+    // MARK: - scale and note collections (e.g. pentonic circle)
     enum FlatScales: String, CaseIterable { case F, B, Es, As, Des, Ges }
     enum Flats: String, CaseIterable { case b, es, aes, des, ges }
+    
     enum SharpScales: String, CaseIterable { case G, D, A, E, H, Fis }
     enum Sharps: String, CaseIterable { case fis, cis, gis, dis, ais, eis }
 }

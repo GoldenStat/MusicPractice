@@ -15,7 +15,7 @@ struct ScaleDescriptionView : View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Scale: \(scale.string)")
+                Text("Scale: \(scale.description)")
                     .font(.largeTitle)
                 Text("Notes: \(noteNames.joined(separator: "-"))")
                     .font(.title)

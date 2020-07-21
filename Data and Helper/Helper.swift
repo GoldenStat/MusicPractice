@@ -15,7 +15,7 @@ extension FileManager {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
         let docURL = URL(string: documentsDirectory)!
-        let dataPath = docURL.appendingPathComponent(scale.string)
+        let dataPath = docURL.appendingPathComponent(scale.description)
         if !FileManager.default.fileExists(atPath: dataPath.absoluteString) {
             do {
                 try FileManager.default.createDirectory(atPath: dataPath.absoluteString, withIntermediateDirectories: true, attributes: nil)
