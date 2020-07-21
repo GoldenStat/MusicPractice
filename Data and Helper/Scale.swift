@@ -22,7 +22,7 @@ enum ScaleModifier: String, CaseIterable {
         case .dominant:
             return "7"
         case .halfdiminished:
-            return "m7b5"
+            return "m7♭5"
         case .diminished:
             return "°"
         }
@@ -30,9 +30,9 @@ enum ScaleModifier: String, CaseIterable {
 }
 
 struct ScaleStruct : Hashable {
-    let key: ScaleKey
+    var key: ScaleKey
+    var mood: ScaleModifier
     let notes: [Note]
-    let mood: ScaleModifier
     
     var string: String { key.string + mood.stringModifier }
     
@@ -147,7 +147,8 @@ struct Scale {
 // NOTE: might be deleteable or at least simplifiable
 enum ScaleKey : String, ScaleProtocol, CaseIterable {
 
-    case C,Cis,D,Es,E,F,Fis,G,As,A,Bb,B
+    case C,Cis="C♯",D,Es="E♭",E,F,Fis="F♯",G,As="A♭",A,Bb="B♭",B
+//    ♭♯
 
     var string: String { self.rawValue }
 

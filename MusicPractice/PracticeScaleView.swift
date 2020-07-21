@@ -29,8 +29,8 @@ struct PracticeScaleView: View {
                 
                 ScrollView() {
                     /// show a picker which scale to select
-                    ScalePicker(selection: $scale)
-                    ModePicker(selection: $scale)
+                    KeyPicker(key: $scale.key)
+                    MoodPicker(mood: $scale.mood)
                     
                     /// show the notes for the current selection
                     ScaleDetailRow(scale: scale)
@@ -64,11 +64,11 @@ struct PracticeScaleView: View {
     }
 }
 
-struct ModePicker: View {
-    @Binding var selection: ScaleStruct
+struct MoodPicker: View {
+    @Binding var mood: ScaleModifier
     
     var body: some View {
-        Picker("modifier", selection: $selection) {
+        Picker("modifier", selection: $mood) {
             ForEach(ScaleModifier.allCases, id: \.self) { modifier in
                 Text(modifier.rawValue)
             }
@@ -77,11 +77,11 @@ struct ModePicker: View {
     }
 }
 
-struct ScalePicker: View {
-    @Binding var selection: ScaleStruct
+struct KeyPicker: View {
+    @Binding var key: ScaleKey
     
     var body: some View {
-        Picker("currentScale", selection: $selection) {
+        Picker("currentScale", selection: $key) {
             ForEach(Scale.keys, id: \.self) { key in
                 Text(key.rawValue)
             }
