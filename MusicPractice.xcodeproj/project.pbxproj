@@ -38,6 +38,11 @@
 		419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D112455A4680006576A /* PracticeScaleView.swift */; };
 		419F5D1624562D460006576A /* AudiotrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D1524562D460006576A /* AudiotrackView.swift */; };
 		419F5D18245630820006576A /* RecordingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F5D17245630820006576A /* RecordingList.swift */; };
+		41BDB47624C764C4006AF893 /* StopWatchButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47524C764C4006AF893 /* StopWatchButtonExtension.swift */; };
+		41BDB47824C764D7006AF893 /* AVRecorderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */; };
+		41BDB47D24C764F9006AF893 /* StopWatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47A24C764F9006AF893 /* StopWatchModel.swift */; };
+		41BDB47E24C764F9006AF893 /* AVRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47B24C764F9006AF893 /* AVRecording.swift */; };
+		41BDB47F24C764F9006AF893 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47C24C764F9006AF893 /* StopWatch.swift */; };
 		41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B60E245D770900B650D7 /* LapsListView.swift */; };
 		41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B610245D81E000B650D7 /* ButtonStyles.swift */; };
 		41E0B613245EC76500B650D7 /* Laps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B612245EC76500B650D7 /* Laps.swift */; };
@@ -85,6 +90,11 @@
 		419F5D112455A4680006576A /* PracticeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeScaleView.swift; sourceTree = "<group>"; };
 		419F5D1524562D460006576A /* AudiotrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiotrackView.swift; sourceTree = "<group>"; };
 		419F5D17245630820006576A /* RecordingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingList.swift; sourceTree = "<group>"; };
+		41BDB47524C764C4006AF893 /* StopWatchButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWatchButtonExtension.swift; sourceTree = "<group>"; };
+		41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVRecorderExtension.swift; sourceTree = "<group>"; };
+		41BDB47A24C764F9006AF893 /* StopWatchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWatchModel.swift; sourceTree = "<group>"; };
+		41BDB47B24C764F9006AF893 /* AVRecording.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVRecording.swift; sourceTree = "<group>"; };
+		41BDB47C24C764F9006AF893 /* StopWatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		41E0B60E245D770900B650D7 /* LapsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapsListView.swift; sourceTree = "<group>"; };
 		41E0B610245D81E000B650D7 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		41E0B612245EC76500B650D7 /* Laps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Laps.swift; sourceTree = "<group>"; };
@@ -155,6 +165,7 @@
 				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
 				415CF382245057FD008D6E2A /* ContentView.swift */,
 				419F5D112455A4680006576A /* PracticeScaleView.swift */,
+				41BDB47924C764DF006AF893 /* New Group */,
 				413BAEC124859998000BDF3C /* StopWatch */,
 				413BAEC2248599AD000BDF3C /* Control */,
 				41E1F5CC245730B400183C7F /* AudioRecorder */,
@@ -201,6 +212,18 @@
 				41100AC0248F997C0009B8E4 /* NotesView.swift */,
 			);
 			path = Instrument;
+			sourceTree = "<group>";
+		};
+		41BDB47924C764DF006AF893 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				41BDB47B24C764F9006AF893 /* AVRecording.swift */,
+				41BDB47C24C764F9006AF893 /* StopWatch.swift */,
+				41BDB47A24C764F9006AF893 /* StopWatchModel.swift */,
+				41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */,
+				41BDB47524C764C4006AF893 /* StopWatchButtonExtension.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		41E1F5CC245730B400183C7F /* AudioRecorder */ = {
@@ -309,8 +332,10 @@
 				41984C0D247FE9B100A87D86 /* StudyView.swift in Sources */,
 				41E1F5D224573A9E00183C7F /* SoundBarView.swift in Sources */,
 				415CF398245059AF008D6E2A /* Scale.swift in Sources */,
+				41BDB47624C764C4006AF893 /* StopWatchButtonExtension.swift in Sources */,
 				4193FD82246D5ADB00542511 /* MusicPlayer.swift in Sources */,
 				4193FD86246D918200542511 /* BandoneonView.swift in Sources */,
+				41BDB47824C764D7006AF893 /* AVRecorderExtension.swift in Sources */,
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
 				4127296124C752C500EF972E /* ScaleDetailRow.swift in Sources */,
@@ -323,14 +348,17 @@
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
 				41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */,
 				41E1F5C72457024200183C7F /* Recording.swift in Sources */,
+				41BDB47F24C764F9006AF893 /* StopWatch.swift in Sources */,
 				413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */,
 				4193FD8A246FE04900542511 /* SessionListView.swift in Sources */,
 				41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */,
 				41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */,
 				413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,
+				41BDB47D24C764F9006AF893 /* StopWatchModel.swift in Sources */,
 				41E1F5CB245714FC00183C7F /* AudioPlayer.swift in Sources */,
 				413BAEC424859A65000BDF3C /* Notes.swift in Sources */,
+				41BDB47E24C764F9006AF893 /* AVRecording.swift in Sources */,
 				41984C112481809E00A87D86 /* AllBandoneonViews.swift in Sources */,
 				415CF383245057FD008D6E2A /* ContentView.swift in Sources */,
 				415CF39324505895008D6E2A /* PracticeSession.swift in Sources */,

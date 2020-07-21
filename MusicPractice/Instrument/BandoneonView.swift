@@ -36,14 +36,20 @@ struct BandoneonView: View {
         let buttonSize = Bandoneon.markerSize.mapped(from: layout.pictureSize,
                                                         to: size)
         
-        var fontSize : CGFloat { min(buttonSize.height, buttonSize.width)/2 }
-
+        let fontSize : CGFloat = min(buttonSize.height, buttonSize.width)/2
+        let offset : CGSize = CGSize(width: buttonSize.width / 2, height: buttonSize.height / 2)
+        
         return ZStack {
             ForEach(noteIndexes) { noteIndex in
+                
+                let color = noteIndex.color
+                let text = noteIndex.description
+                let position = layout.position(forKey: noteIndex, with: size)
+                
                 Circle()
-                    .fill(noteIndex.color)
+                    .fill(color)
                     .overlay(
-                        Text(noteIndex.description)
+                        Text(text)
                             .font(.system(size: fontSize))
                             .fixedSize(horizontal: true, vertical: false)
                 )
@@ -51,8 +57,8 @@ struct BandoneonView: View {
                         width: buttonSize.width,
                         height: buttonSize.height
                 )
-                    .position(layout.position(forKey: noteIndex, with: size))
-                    .offset(x: buttonSize.width/2, y: buttonSize.height/2)
+                    .position(position)
+                    .offset(offset)
             }
         }
     }

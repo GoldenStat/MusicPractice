@@ -28,7 +28,7 @@ struct ScaleDetailRow: View {
                     .animation(nil)
                 }
                 Spacer()
-                NotesView(scale: scale)
+                NotesView(musicScale: scale)
             }
             .padding()
         } else {
@@ -46,7 +46,7 @@ struct ScaleDetailRow: View {
                     }
                     .animation(nil)
                 }
-                NotesView(scale: scale)
+                NotesView(musicScale: scale)
             }
             .padding()
         }
