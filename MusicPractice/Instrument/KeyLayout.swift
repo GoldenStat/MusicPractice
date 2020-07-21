@@ -36,6 +36,7 @@ protocol KeyLayout {
 }
 
 extension KeyLayout {
+    
     var image: Image { Image(imageName) }
     var pictureRatio: CGFloat { pictureSize.width / pictureSize.height }
 
@@ -72,7 +73,6 @@ extension KeyLayout {
         isValidKey(index: index, forSequence: keySequence)
     }
     
-    
     /// - Parameters:
     ///   - index: the position of the key
     /// - Returns: whether the graphical row / column are a valid key position for this KeyLayout
@@ -93,20 +93,23 @@ extension KeyLayout {
     }
     
     /// return all indexes that match note and octave
-    /// filter all corresponding indexes if `octaves` is empty or `notes` is empty
-    func orderedIndexSet(for notes: [Note], inOctaves octaves: [Octave]) -> [NoteIndex] {
-        let allOctavesInLayout = self.octaves
-        let matchOctaves = octaves.isEmpty ? allOctavesInLayout : octaves
-        let matchNotes = notes.isEmpty ? Note.allCases : notes
+    /// filter all corresponding indexes if `octaves` is nil or `notes` is nil
+    func noteIndexes(for notes: [Note]?, inOctaves octaves: [Octave]?) -> [NoteIndex] {
+
+        let matchOctaves = octaves ?? self.octaves
+        let matchNotes = notes ?? Note.allCases
         
-        let indexSet = self.notes.filter { matchOctaves.contains($0.note.octave!) && matchNotes.contains($0.note.note) }
+        let indexSet = self.notes.filter {
+            matchOctaves.contains($0.note.octave!) &&
+            matchNotes.contains($0.note.note)
+        }
         
         return indexSet
     }
     
-    func orderedIndexSet(for notes: [Note], inOctaves octaves: [Octave]) -> [BandoneonKeyIndex] {
+    func bandoneonKeyIndexes(for notes: [Note], inOctaves octaves: [Octave]) -> [BandoneonKeyIndex] {
         // extract keypositions
-        return orderedIndexSet(for: notes, inOctaves: octaves).map {$0.index}
+        return noteIndexes(for: notes, inOctaves: octaves).map {$0.index}
     }
     
     /// the octaves this layout comprises
@@ -124,19 +127,19 @@ extension KeyLayout {
 
     /// re-calculate key Positions base on frame Size
     func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
-        
-        let originalSize: CGSize = pictureSize
-        let scaleFactor = CGPoint(x: newSize.width / originalSize.width,
-                                  y: newSize.height / originalSize.height)
+                
+        let scaleFactor = CGPoint(x: newSize.width / pictureSize.width,
+                                  y: newSize.height / pictureSize.height)
         
         let newButtonSize = CGSize(width: Bandoneon.markerSize.width * scaleFactor.x,
                                    height: Bandoneon.markerSize.height * scaleFactor.y)
+        
         var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
         
         /// searches for notes in `highlightedNotes`that match `octaves` in layout and
         /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
         var markedKeys: [NoteIndex] {
-            return orderedIndexSet(for: notes, inOctaves: octaves)
+            return noteIndexes(for: notes, inOctaves: octaves)
         }
         
         /// get the Position for the index of a key
@@ -150,6 +153,9 @@ extension KeyLayout {
         }
 
         func highlight(indexKey index: Int) -> some View {
+            
+            let newPosition = position(forKey: markedKeys[index])
+            
             return Circle()
                 .fill(markedKeys[index].note.color)
                 .overlay(
@@ -161,7 +167,7 @@ extension KeyLayout {
                     width: newButtonSize.width,
                     height: newButtonSize.height
             )
-                .position(position(forKey: markedKeys[index]))
+                .position(newPosition)
                 .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
         }
         

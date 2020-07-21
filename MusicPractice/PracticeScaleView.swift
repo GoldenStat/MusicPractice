@@ -14,46 +14,40 @@ extension Color {
 }
 
 struct PracticeScaleView: View {
-        
+    
     @State var scale: ScaleStruct
-        
+    
     let recorder = AudioRecorder()
     
     var body: some View {
         ZStack {
-            
-            Color.flatWhite
-                .edgesIgnoringSafeArea(.all)
-            
             VStack {
                 
+                /// show the notes for the current selection
+                ScaleDetailRow(scale: scale)
+                
+                /// show a picker which scale to select
+                KeyPicker(key: $scale.key)
+                MoodPicker(mood: $scale.mood)
+                
+                Divider()
+                
                 ScrollView() {
-                    /// show a picker which scale to select
-                    KeyPicker(key: $scale.key)
-                    MoodPicker(mood: $scale.mood)
-                    
-                    /// show the notes for the current selection
-                    ScaleDetailRow(scale: scale)
-                    
-                    Divider()
-                    
-//                    Emphasize {
                     AllBandoneonViews(scale: scale, disabled: true)
-//                    }
+                        .animation(nil)
                 }
             }
             
             VStack {
                 
                 Spacer()
+//                AudioTrackTimerView(recorder: recorder, scale: $scale)
                 ControlButtonsView(recorder: recorder, stopWatch: StopWatch(), scale: scale)
-                //                AudioTrackTimerView(recorder: recorder, scale: $scale)
             }
         }
         .padding(.horizontal)
-        .statusBar(hidden: true)
+        .animation(.default)
     }
-    
     
     func recordLaps() {
         
@@ -90,48 +84,6 @@ struct KeyPicker: View {
     }
 }
 
-struct ScaleDetailRow: View {
-    
-    var scale: ScaleStruct
-    
-    @ViewBuilder var body: some View {
-        if UIDevice.current.orientation.isLandscape {
-            HStack {
-                VStack(alignment: .trailing) {
-                    Text("Scale: \(scale.description)")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    HStack {
-                        ForEach(scale.notes, id: \.self) { note in
-                            Text(note.rawValue)
-                        }
-                        .font(.headline)
-                    }
-                }
-                Spacer()
-                NotesView(scale: scale)
-            }
-            .padding()
-        } else {
-            VStack {
-                HStack(alignment: .bottom) {
-                    Text("Scale: \(scale.description)")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    Spacer()
-                    HStack {
-                        ForEach(scale.notes, id: \.self) { note in
-                            Text(note.rawValue)
-                        }
-                        .font(.headline)
-                    }
-                }
-                NotesView(scale: scale)
-            }
-            .padding()
-        }
-    }
-}
 
 
 

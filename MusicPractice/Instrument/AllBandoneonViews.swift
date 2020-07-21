@@ -30,7 +30,6 @@ struct AllBandoneonViews: View {
                 HStack {
                     FramedBandoneon(initialIndex: 2, boundTo: $framedBandoneon, scale: scale, disabled: disabled)
                     FramedBandoneon(initialIndex: 3, boundTo: $framedBandoneon, scale: scale, disabled: disabled)
-                    
                 }
             }
         }
@@ -46,11 +45,12 @@ struct FramedBandoneon: View {
     @Binding var boundTo: Int
     var scale: ScaleStruct?
     var disabled = false
-
+    
     @ViewBuilder var body: some View {
         if disabled {
             BandoneonView(layout: BandoneonLayout[initialIndex],
                           notes: notes)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
         } else {
             Frame(isInvisible: initialIndex != boundTo && !disabled) {
                 BandoneonView(layout: BandoneonLayout[initialIndex],

@@ -14,7 +14,17 @@ struct ContentView: View {
         ScaleStruct(key: .C, mood: .dominant)
     
     var body: some View {
-        PracticeScaleView(scale: selectedKey)
+        ZStack {
+            Background()
+            PracticeScaleView(scale: selectedKey)
+        }
+    }
+}
+
+struct Background: View {
+    var body: some View {
+        Color.flatWhite
+            .edgesIgnoringSafeArea(.all)
     }
 }
 

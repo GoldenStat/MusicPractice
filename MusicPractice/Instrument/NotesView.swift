@@ -17,12 +17,14 @@ struct NotesView: View {
             scale.image
                 .resizable()
                 .scaledToFit()
+                .frame(maxWidth: 310.0)
         }
     }
 }
 
 struct NotesView_Previews: PreviewProvider {
     static var previews: some View {
-        NotesView(scale: Scale.C7)
+        PracticeScaleView(scale: Scale.C7)
+//        NotesView(scale: Scale.C7)
     }
 }

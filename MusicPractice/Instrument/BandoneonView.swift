@@ -10,8 +10,8 @@ import SwiftUI
 
 struct BandoneonView: View {
     let layout : KeyLayout
-    var notes: [Note] = [] // parameter with keys that should be highlighted, no key means no key is highlighted
-    var octaves: [Octave] = [] // if no octave is given, mark all octaves
+    var notes: [Note]? // parameter with keys that should be highlighted, no key means no key is highlighted
+    var octaves: [Octave]? // if no octave is given, mark all octaves
             
     var body: some View {
         ZStack {
@@ -21,59 +21,42 @@ struct BandoneonView: View {
                     .resizable()
                 
                 /// the labels for the keys
-//                self.keyLabels(for: self.notes, mappedTo: geometry.size)
+                labels(mappedTo: geometry.size)
             }
             .aspectRatio(self.layout.pictureRatio, contentMode: .fit)
 
         }
     }
     
-    /// re-calculate key Positions base on frame Size
-    func keyLabels(for notes: [Note], mappedTo newSize: CGSize) -> some View {
-
-        let newButtonSize = Bandoneon.markerSize
-            .mapped(from: layout.pictureSize,
-                    to: newSize)
+    func labels(mappedTo size: CGSize) -> some View {
         
-        var fontSize : CGFloat { min(newButtonSize.height, newButtonSize.width)/2 }
-
-        /// searches for notes in `notes`that match `octaves` in layout and
-        /// returns their `NoteIndex`es. If `octaves` is empty, `NoteIndex`es for all matching `notes` are returned
-        var markedKeyIndexes: [NoteIndex] {
-            return layout.orderedIndexSet(for: notes, inOctaves: octaves)
-        }
-
-        /// highlight a singleKey
-        /// - Parameter keyAt: index of the key in this View's layout
-        /// - Parameter with: optional text to use instead of the layout's note's name
-        func highlight(keyAt index: Int, with text: String? = nil) -> some View {
-            print("highlight \((markedKeyIndexes.map {$0.description}).joined(separator: "-"))")
-            
-            let key : NoteIndex = markedKeyIndexes[index]
-            
-            let buttonTitle : String = text ?? key.description
-            
-            let keyPosition = layout.position(forKey: key, with: newSize)
-            
-            return Circle()
-                .fill(key.color)
-                .overlay(
-                    Text(buttonTitle)
-                        .font(.system(size: fontSize))
-                        .fixedSize(horizontal: true, vertical: false)
-            )
-                .frame(
-                    width: newButtonSize.width,
-                    height: newButtonSize.height
-            )
-                .position(keyPosition)
-                .offset(x: newButtonSize.width/2, y: newButtonSize.height/2)
-        }
+        let noteIndexes: [NoteIndex] = layout.noteIndexes(for: notes ?? Note.allCases,
+                                                          inOctaves: octaves ?? layout.octaves)
+ 
+        let buttonSize = Bandoneon.markerSize.mapped(from: layout.pictureSize,
+                                                        to: size)
         
-        return ForEach(0 ..< markedKeyIndexes.count) { index in
-            highlight(keyAt: index)
+        var fontSize : CGFloat { min(buttonSize.height, buttonSize.width)/2 }
+
+        return ZStack {
+            ForEach(noteIndexes) { noteIndex in
+                Circle()
+                    .fill(noteIndex.color)
+                    .overlay(
+                        Text(noteIndex.description)
+                            .font(.system(size: fontSize))
+                            .fixedSize(horizontal: true, vertical: false)
+                )
+                    .frame(
+                        width: buttonSize.width,
+                        height: buttonSize.height
+                )
+                    .position(layout.position(forKey: noteIndex, with: size))
+                    .offset(x: buttonSize.width/2, y: buttonSize.height/2)
+            }
         }
     }
+
 }
 
 

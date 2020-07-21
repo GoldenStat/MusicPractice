@@ -34,11 +34,7 @@ struct StudyView: View {
         
     var body: some View {
         
-        VStack {
-//            Picker("", $scale) {
-//                ScaleStruct.allCases
-//            }
-            
+        VStack {            
             ScaleDescriptionView(scale: scale)
             
             Divider()

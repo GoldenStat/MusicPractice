@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		41100AC1248F997C0009B8E4 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41100AC0248F997C0009B8E4 /* NotesView.swift */; };
+		4127296124C752C500EF972E /* ScaleDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4127296024C752C500EF972E /* ScaleDetailRow.swift */; };
 		413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* ViewBuilders.swift */; };
 		413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */; };
 		413BAEC02485996F000BDF3C /* BandoneonHSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEBF2485996F000BDF3C /* BandoneonHSlide.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		41100AC0248F997C0009B8E4 /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
+		4127296024C752C500EF972E /* ScaleDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleDetailRow.swift; sourceTree = "<group>"; };
 		413BAEB724851EEA000BDF3C /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
 		413BAEBB24852A9C000BDF3C /* BandoneonColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonColors.swift; sourceTree = "<group>"; };
 		413BAEBF2485996F000BDF3C /* BandoneonHSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonHSlide.swift; sourceTree = "<group>"; };
@@ -148,10 +150,10 @@
 			isa = PBXGroup;
 			children = (
 				41984C0B247ECF3300A87D86 /* Instrument */,
+				41984C1224828A9E00A87D86 /* MainMenuView.swift */,
 				415CF37B245057FD008D6E2A /* AppDelegate.swift */,
 				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
 				415CF382245057FD008D6E2A /* ContentView.swift */,
-				41984C1224828A9E00A87D86 /* MainMenuView.swift */,
 				419F5D112455A4680006576A /* PracticeScaleView.swift */,
 				413BAEC124859998000BDF3C /* StopWatch */,
 				413BAEC2248599AD000BDF3C /* Control */,
@@ -195,6 +197,8 @@
 				413BAEBF2485996F000BDF3C /* BandoneonHSlide.swift */,
 				41984C102481809D00A87D86 /* AllBandoneonViews.swift */,
 				41984C0C247FE9B100A87D86 /* StudyView.swift */,
+				4127296024C752C500EF972E /* ScaleDetailRow.swift */,
+				41100AC0248F997C0009B8E4 /* NotesView.swift */,
 			);
 			path = Instrument;
 			sourceTree = "<group>";
@@ -203,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				41E657B3245A16680066AD76 /* AudioTrackTimerView.swift */,
-				41100AC0248F997C0009B8E4 /* NotesView.swift */,
 				41E1F5CF2457361F00183C7F /* AudioTrackVisualizerView.swift */,
 				415CF39224505895008D6E2A /* PracticeSession.swift */,
 				4193FD89246FE04900542511 /* SessionListView.swift */,
@@ -310,6 +313,7 @@
 				4193FD86246D918200542511 /* BandoneonView.swift in Sources */,
 				41E0B613245EC76500B650D7 /* Laps.swift in Sources */,
 				419F5D042450D76C0006576A /* StopWatch.swift in Sources */,
+				4127296124C752C500EF972E /* ScaleDetailRow.swift in Sources */,
 				41984C0F247FF3F700A87D86 /* KeyLayout.swift in Sources */,
 				41984C1324828AA000A87D86 /* MainMenuView.swift in Sources */,
 				41E657B4245A16680066AD76 /* AudioTrackTimerView.swift in Sources */,

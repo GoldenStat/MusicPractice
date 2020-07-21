@@ -59,7 +59,9 @@ struct NoteWithOctave {
     var color: Color { octave?.color ?? .inactive }
 }
 
-struct NoteIndex {
+struct NoteIndex: Identifiable {
+    // MARK: - find out how to make conform to Indentifiable using BandoneonKeyIndex
+    var id = UUID() // each index must be unique, that should be enough to satisfy Identifiable
     let index: BandoneonKeyIndex
     let note: NoteWithOctave
     var color: Color { note.color }
