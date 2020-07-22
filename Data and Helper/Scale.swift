@@ -15,7 +15,7 @@ protocol ScaleProtocol {
     func halfDiminished() -> [Note]
 }
 
-enum ScaleModifier: String, CaseIterable {
+enum ScaleModifier: String, CaseIterable, Codable {
     case dominant, diminished, halfdiminished
 //    case major, minor
     
@@ -35,7 +35,7 @@ enum ScaleModifier: String, CaseIterable {
     }
 }
 
-struct ScaleStruct : Hashable {
+struct ScaleStruct : Hashable, Codable {
     var key: ScaleKey
     var mood: ScaleModifier
     var notes: [Note] { key.notes(for: mood) }
@@ -90,7 +90,7 @@ struct Scale {
 }
 
 /// a collection of all Scales
-enum ScaleKey : String, ScaleProtocol, CaseIterable {
+enum ScaleKey : String, ScaleProtocol, CaseIterable, Codable {
 
     case C,Cis="C♯",D,Es="E♭",E,F,Fis="F♯",G,As="A♭",A,Bb="B♭",B
 

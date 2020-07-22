@@ -14,11 +14,24 @@ import Foundation
 /// * duration: how much time did you invest
 /// - result: what was the outcome of the practice (optional)
 /// - name: what was practiced
-struct TaskRecord {
-    var name: String // the task description, so to speak
-    var date: Date
-    var duration: TimeInterval
+struct TaskRecord : Codable, Identifiable {
+    var id = UUID()
+    var name: String { scale.description }
+    var date: Date = Date()
+    var duration: TimeInterval = TimeInterval(Int.random(in: minDuration ... maxDuration))
     var result: ResultRecord?
+    var scale: ScaleStruct
+    
+    static let minDuration = 43
+    static let maxDuration = 234
+    
+    static var samples = [
+        TaskRecord(scale: ScaleStruct(key: .C, mood: .dominant)),
+        TaskRecord(scale: ScaleStruct(key: .D, mood: .dominant)),
+        TaskRecord(scale: ScaleStruct(key: .E, mood: .dominant)),
+        TaskRecord(scale: ScaleStruct(key: .F, mood: .dominant)),
+        TaskRecord(scale: ScaleStruct(key: .G, mood: .dominant)),
+    ]
 }
 
 /// the outcome of a tasks practiced, i.e. the performance after practicing, e.g. a recording
@@ -27,7 +40,9 @@ struct TaskRecord {
 /// - date: should be the same as the task's date
 /// - duration: mesaure the performance in time (speed) it requires to perform the task in a good quality
 /// - quality: an Integer to measure how happy I am with the performance (cutting corners / clean recording)
-struct ResultRecord {
+///
+/// a result record is assigned to a task when the practice has it's desired outcomt (record after practice)
+struct ResultRecord : Codable {
     var filename: String { url.lastPathComponent }
     var date: Date
     var url: URL
@@ -37,9 +52,9 @@ struct ResultRecord {
 
 /// a practiceSession is an accumulation of practiced tasks
 /// overallQuality: an attempt to give an overall value to the session
-struct PracticeSessionRecord {
+struct PracticeSessionRecord : Codable {
     var practiceRecords: [TaskRecord] = []
-    var date: Date
+    var date: Date = Date()
     
     var overallQuality: Double {
         let samplesThatHaveRecordings = practiceRecords.compactMap { $0.result?.quality }
@@ -48,4 +63,6 @@ struct PracticeSessionRecord {
         let sum = samples.reduce(0) { $0 + $1 }
         return Double(sum / samples.count)
     }
+    
+    static let sample = PracticeSessionRecord()
 }

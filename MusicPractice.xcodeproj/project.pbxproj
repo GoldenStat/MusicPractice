@@ -23,6 +23,9 @@
 		415CF39324505895008D6E2A /* PracticeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF39224505895008D6E2A /* PracticeSession.swift */; };
 		415CF398245059AF008D6E2A /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF397245059AF008D6E2A /* Scale.swift */; };
 		415CF39E24505DAA008D6E2A /* StopWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415CF39D24505DAA008D6E2A /* StopWatchView.swift */; };
+		4188946524C823A30053AFA6 /* PracticeSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188946424C823A30053AFA6 /* PracticeSessionView.swift */; };
+		4188946724C823C30053AFA6 /* PracticeSessionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188946624C823C30053AFA6 /* PracticeSessionSheet.swift */; };
+		4188946924C836B40053AFA6 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188946824C836B40053AFA6 /* SessionDetailView.swift */; };
 		4193FD82246D5ADB00542511 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193FD81246D5ADB00542511 /* MusicPlayer.swift */; };
 		4193FD86246D918200542511 /* BandoneonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193FD85246D918200542511 /* BandoneonView.swift */; };
 		4193FD88246D92D300542511 /* Bandoneon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193FD87246D92D300542511 /* Bandoneon.swift */; };
@@ -76,6 +79,9 @@
 		415CF39224505895008D6E2A /* PracticeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSession.swift; sourceTree = "<group>"; };
 		415CF397245059AF008D6E2A /* Scale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scale.swift; sourceTree = "<group>"; };
 		415CF39D24505DAA008D6E2A /* StopWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchView.swift; sourceTree = "<group>"; };
+		4188946424C823A30053AFA6 /* PracticeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionView.swift; sourceTree = "<group>"; };
+		4188946624C823C30053AFA6 /* PracticeSessionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionSheet.swift; sourceTree = "<group>"; };
+		4188946824C836B40053AFA6 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		4193FD81246D5ADB00542511 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		4193FD85246D918200542511 /* BandoneonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandoneonView.swift; sourceTree = "<group>"; };
 		4193FD87246D92D300542511 /* Bandoneon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bandoneon.swift; sourceTree = "<group>"; };
@@ -220,6 +226,9 @@
 			isa = PBXGroup;
 			children = (
 				41BDB48024C81035006AF893 /* MusicRecord.swift */,
+				4188946424C823A30053AFA6 /* PracticeSessionView.swift */,
+				4188946824C836B40053AFA6 /* SessionDetailView.swift */,
+				4188946624C823C30053AFA6 /* PracticeSessionSheet.swift */,
 				41BDB47B24C764F9006AF893 /* AVRecording.swift */,
 				41BDB47C24C764F9006AF893 /* StopWatch.swift */,
 				41BDB47A24C764F9006AF893 /* StopWatchModel.swift */,
@@ -332,6 +341,7 @@
 				415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */,
 				419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */,
 				41E1F5C92457045500183C7F /* Helper.swift in Sources */,
+				4188946924C836B40053AFA6 /* SessionDetailView.swift in Sources */,
 				41984C0D247FE9B100A87D86 /* StudyView.swift in Sources */,
 				41E1F5D224573A9E00183C7F /* SoundBarView.swift in Sources */,
 				415CF398245059AF008D6E2A /* Scale.swift in Sources */,
@@ -352,10 +362,12 @@
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
 				41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */,
 				41E1F5C72457024200183C7F /* Recording.swift in Sources */,
+				4188946724C823C30053AFA6 /* PracticeSessionSheet.swift in Sources */,
 				41BDB47F24C764F9006AF893 /* StopWatch.swift in Sources */,
 				413BAEBC24852A9C000BDF3C /* BandoneonColors.swift in Sources */,
 				4193FD8A246FE04900542511 /* SessionListView.swift in Sources */,
 				41E1F5CE2457311E00183C7F /* AudioRecorder.swift in Sources */,
+				4188946524C823A30053AFA6 /* PracticeSessionView.swift in Sources */,
 				41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */,
 				413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */,
 				415CF37C245057FD008D6E2A /* AppDelegate.swift in Sources */,
@@ -441,7 +453,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -496,7 +508,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
