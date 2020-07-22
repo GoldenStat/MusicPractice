@@ -194,7 +194,6 @@
 				41984C1424828C4400A87D86 /* EnumToggle.swift */,
 				41E1F5C82457045500183C7F /* Helper.swift */,
 				415CF397245059AF008D6E2A /* Scale.swift */,
-				41BDB48024C81035006AF893 /* MusicRecord.swift */,
 				413BAEC324859A65000BDF3C /* Notes.swift */,
 				413BAEB724851EEA000BDF3C /* ViewBuilders.swift */,
 			);
@@ -220,6 +219,7 @@
 		41BDB47924C764DF006AF893 /* New Group */ = {
 			isa = PBXGroup;
 			children = (
+				41BDB48024C81035006AF893 /* MusicRecord.swift */,
 				41BDB47B24C764F9006AF893 /* AVRecording.swift */,
 				41BDB47C24C764F9006AF893 /* StopWatch.swift */,
 				41BDB47A24C764F9006AF893 /* StopWatchModel.swift */,

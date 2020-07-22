@@ -57,19 +57,6 @@ extension TimeInterval {
     }
 }
 
-extension Date
-{
-    // simplify displaying a date as string in a given format
-    func toString( dateFormat format  : String ) -> String
-    {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        return dateFormatter.string(from: self)
-    }
-
-}
-
-
 extension Array {
     func isValid(index: Int) -> Bool {
         index >= 0 && index < self.count

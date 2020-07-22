@@ -15,7 +15,7 @@ import Foundation
 /// - result: what was the outcome of the practice (optional)
 /// - name: what was practiced
 struct TaskRecord {
-    var name: String // the taskdescription, so to speak
+    var name: String // the task description, so to speak
     var date: Date
     var duration: TimeInterval
     var result: ResultRecord?
@@ -24,10 +24,12 @@ struct TaskRecord {
 /// the outcome of a tasks practiced, i.e. the performance after practicing, e.g. a recording
 /// how is the performance after having practiced a task (proof of exitus)
 /// - url: where is the result stored (proof of quality)
+/// - date: should be the same as the task's date
 /// - duration: mesaure the performance in time (speed) it requires to perform the task in a good quality
 /// - quality: an Integer to measure how happy I am with the performance (cutting corners / clean recording)
 struct ResultRecord {
     var filename: String { url.lastPathComponent }
+    var date: Date
     var url: URL
     var duration: TimeInterval // a unit of measuring the achieved
     var quality: Int? // give this a rating

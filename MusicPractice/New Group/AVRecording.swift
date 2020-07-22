@@ -9,11 +9,6 @@
 import SwiftUI
 import AVKit
 
-struct Recording {
-    let fileURL: URL
-    let createdAt: Date
-}
-
 // MARK: - Recorder Model
 class AVRecorder: NSObject, AVAudioRecorderDelegate {
     
@@ -112,7 +107,7 @@ class AVRecorderViewModel: ObservableObject {
     @Published var isRecording : Bool = false { didSet { fetchRecordings() } }
     @Published var isPlaying : Bool = false
     
-    var recordings: [Recording] = []
+    var recordings: [ResultRecord] = []
     var currentTitle: String?
     
     var recorder = AVRecorder()
@@ -147,11 +142,11 @@ class AVRecorderViewModel: ObservableObject {
         
         for url in FileManager.audioURLs() {
             let date = getCreationDate(for: url)
-            let recording = Recording(fileURL: url, createdAt: date)
+            let recording = ResultRecord(date: date, url: url, duration: 0)
             recordings.append(recording)
         }
         
-        recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
+//        recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
     }
         
     func getCreationDate(for file: URL) -> Date {
@@ -244,11 +239,11 @@ struct AVRecordingView: View {
         VStack {
             // list of recordings in Filesystem / iCloud / CoreData?
             List {
-                ForEach(avRecorder.recordings, id: \.createdAt) { recording in
+                ForEach(avRecorder.recordings, id: \.date) { recording in
                     HStack {
-                        Text(recording.fileURL.lastPathComponent)
+                        Text(recording.url.lastPathComponent)
                         Spacer()
-                        PlaybackButton(url: recording.fileURL)
+                        PlaybackButton(url: recording.url)
                     }
                 }
                 .onDelete(perform: delete)
@@ -265,7 +260,7 @@ struct AVRecordingView: View {
     func delete(at offsets: IndexSet) {
         var urlsToDelete = [URL]()
         for index in offsets {
-            urlsToDelete.append(avRecorder.recordings[index].fileURL)
+            urlsToDelete.append(avRecorder.recordings[index].url)
         }
         avRecorder.deleteRecordings(urls: urlsToDelete)
     }
