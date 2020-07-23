@@ -9,6 +9,16 @@
 import Foundation
 import SwiftUI
 
+enum Scale {
+    /// some sample Scales
+    static let C7 = ScaleStruct(key: .C, mood: .dominant)
+    static let D7 = ScaleStruct(key: .D, mood: .dominant)
+    static let G7 = ScaleStruct(key: .G, mood: .dominant)
+    static let D7dim = ScaleStruct(key: .D, mood: .diminished)
+    static let D7b5 = ScaleStruct(key: .D, mood: .halfdiminished)
+
+}
+
 protocol ScaleProtocol {
     func dominant() -> [Note]
     func diminished() -> [Note]
@@ -36,12 +46,13 @@ enum ScaleModifier: String, CaseIterable, Codable {
 }
 
 struct ScaleStruct : Hashable, Codable {
+        
     var key: ScaleKey
     var mood: ScaleModifier
     var notes: [Note] { key.notes(for: mood) }
     
     var description: String { key.description + mood.description }
-            
+    
     init(key: ScaleKey, notes: [Note], mood: ScaleModifier) {
         self.key = key
         self.mood = mood
@@ -57,36 +68,6 @@ struct ScaleStruct : Hashable, Codable {
     var image: Image {
         Image(description)
     }
-}
-
-struct Scale {
-
-    /// - Returns: first notes array that matches given scale key and mood, empty List, otherwise
-    /// - Parameters:
-    /// - key: a base key of the music scale
-    /// - mood: an applied modifier
-    static func notes(for key: ScaleKey, _ mood: ScaleModifier) -> [Note] {
-        key.notes(for: mood)
-    }
-    
-    static func scale(for key: ScaleKey, _ mood: ScaleModifier) -> ScaleStruct {
-        return ScaleStruct(key: key, mood: mood)
-    }
-
-    static func string(for key: ScaleKey, _ mood: ScaleModifier) -> String {
-        ScaleStruct(key: key, mood: mood).description
-    }
-    /// accessors to the keys and moods
-    static let keys = ScaleKey.allCases
-    static let moods = ScaleModifier.allCases
-    
-    /// some smample Scales
-    static var C7: ScaleStruct { ScaleStruct(key: .C, mood: .dominant) }
-    static var D7: ScaleStruct { ScaleStruct(key: .D, mood: .dominant) }
-    static var G7: ScaleStruct { ScaleStruct(key: .G, mood: .dominant) }
-    static var D7dim: ScaleStruct { ScaleStruct(key: .D, mood: .diminished) }
-    static var D7b5: ScaleStruct { ScaleStruct(key: .D, mood: .halfdiminished) }
-
 }
 
 /// a collection of all Scales

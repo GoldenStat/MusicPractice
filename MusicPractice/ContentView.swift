@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct ContentView: View {
-//    var selectedKey : ScaleStruct =
-//        ScaleStruct(key: .C, mood: .dominant)
-//
+
     var body: some View {
-        ZStack {
-            Background()
-            PracticeSessionView()
-//            PracticeScaleView(scale: selectedKey)
+        NavigationView {
+            ZStack {
+                Background()
+                PracticeSessionView()
+            }
         }
     }
 }

@@ -15,8 +15,7 @@ struct MainMenuView: View {
                 Text("Menu")
                 
                 List {
-                    NavigationLink("Practice", destination: PracticeScaleView(scale: Scale.C7)
-                    )
+                    NavigationLink("Practice", destination: PracticeScaleView(scale: Scale.C7))
                     NavigationLink("Show Notes", destination: AllBandoneonViews())
                 }
             }

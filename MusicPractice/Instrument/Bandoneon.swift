@@ -80,20 +80,19 @@ extension Bandoneon {
 }
 
 struct BandoneonLayout {
-    static var layout : [KeyLayout] = [
-        Bandoneon.layout(.left, .open),
-        Bandoneon.layout(.right, .open),
-        Bandoneon.layout(.left, .close),
-        Bandoneon.layout(.right, .close)
-    ]
-    
-    static subscript(index: Int) -> KeyLayout {
-        guard (0 ..< Self.layout.count).contains(index) else { fatalError("BandoneonLayout doesn't have \(index) members")
-        }
-        return Self.layout[index]
-    }
+    static var leftOpening = Bandoneon.layout(.left, .open)
+    static var rightOpening = Bandoneon.layout(.right, .open)
+    static var leftClosing = Bandoneon.layout(.left, .close)
+    static var rightClosing = Bandoneon.layout(.right, .close)
+//    //    static var layout : [KeyLayout] = [
+////    ]
+//    
+//    static subscript(index: Int) -> KeyLayout {
+//        guard (0 ..< Self.layout.count).contains(index) else { fatalError("BandoneonLayout doesn't have \(index) members")
+//        }
+//        return Self.layout[index]
+//    }
 }
-
 
 struct Bandoneon {
     

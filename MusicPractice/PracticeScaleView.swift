@@ -16,7 +16,7 @@ extension Color {
 struct PracticeScaleView: View {
     
     @State var scale: ScaleStruct
-    
+
     let recorder = AudioRecorder()
     
     var body: some View {
@@ -76,7 +76,7 @@ struct KeyPicker: View {
     
     var body: some View {
         Picker("currentScale", selection: $key) {
-            ForEach(Scale.keys, id: \.self) { key in
+            ForEach(ScaleKey.allCases, id: \.self) { key in
                 Text(key.rawValue)
             }
         }

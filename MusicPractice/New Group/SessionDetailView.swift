@@ -11,25 +11,23 @@ import SwiftUI
 struct SessionDetailView: View {
     
     @State var session: PracticeSessionRecord
-    
+
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(session.practiceRecords) { record in
-                    NavigationLink(destination: PracticeScaleView(scale: record.scale)) {
-                        PracticeSessionListDetail(record: record)
-                    }
+        List {
+            ForEach(session.practiceRecords) { record in
+                NavigationLink(destination: PracticeScaleView(scale: record.scale)) {
+                    PracticeSessionListDetail(record: record)
                 }
-                .onDelete { deleteRecord(at: $0) }
             }
-            .navigationBarTitle("Session from \(session.date.toString(dateFormat: "YYYY-MM-DD"))")
-            .navigationBarItems(
-                trailing: HStack {
-                    EditButton()
-                    addRecordButton
-                })
-            .animation(.default)
+            .onDelete { deleteRecord(at: $0) }
         }
+        .navigationBarTitle("Session from \(session.date.toString(dateFormat: "YYYY-MM-DD"))")
+        .navigationBarItems(
+            trailing: HStack {
+                EditButton()
+                addRecordButton
+            })
+        .animation(.default)
     }
     
     var addRecordButton: some View {
@@ -37,7 +35,6 @@ struct SessionDetailView: View {
             .onTapGesture {
                 addNewRandomRecord()
             }
-        
     }
     
     func addNewRandomRecord() {
@@ -69,7 +66,6 @@ struct PracticeSessionListDetail: View {
             }
             Text(record.result?.filename ?? "Not recorded")
                 .font(.body)
-            // duration? recording?
         }
     }
 }

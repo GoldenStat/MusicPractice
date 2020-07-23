@@ -14,11 +14,16 @@ struct AllBandoneonViews: View {
     var scale: ScaleStruct?
     var disabled: Bool = false
     
+    let layouts : [KeyLayout] = [ BandoneonLayout.leftOpening,
+                                  BandoneonLayout.rightOpening,
+                                  BandoneonLayout.leftClosing,
+                                  BandoneonLayout.rightClosing ]
+
     var body: some View {
         VStack {
             if zoom {
                 Frame(isInvisible: true) {
-                    BandoneonView(layout: BandoneonLayout[framedBandoneon])
+                    BandoneonView(layout: layouts[framedBandoneon])
                 }
                 .padding()
             }
@@ -46,14 +51,19 @@ struct FramedBandoneon: View {
     var scale: ScaleStruct?
     var disabled = false
     
+    let layouts : [KeyLayout] = [ BandoneonLayout.leftOpening,
+                                  BandoneonLayout.rightOpening,
+                                  BandoneonLayout.leftClosing,
+                                  BandoneonLayout.rightClosing ]
+
     @ViewBuilder var body: some View {
         if disabled {
-            BandoneonView(layout: BandoneonLayout[initialIndex],
+            BandoneonView(layout: layouts[initialIndex],
                           notes: notes)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
         } else {
             Frame(isInvisible: initialIndex != boundTo && !disabled) {
-                BandoneonView(layout: BandoneonLayout[initialIndex],
+                BandoneonView(layout: layouts[initialIndex],
                               notes: notes)
                     .onTapGesture {
                         self.boundTo = self.initialIndex
