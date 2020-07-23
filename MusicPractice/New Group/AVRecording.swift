@@ -31,11 +31,9 @@ class AVRecorder: NSObject, AVAudioRecorderDelegate {
             recordingSession.requestRecordPermission() { allowed in
                 DispatchQueue.main.async {
                     if allowed {
-                        // continue
-                        print("Recording is allowed on this device")
+                       // MARK: - put some visual feedback here
                     } else {
-                        // failed to record! - didn't get permission
-                        print("Permission to record audion denied - won't be able to use recorder")
+                        // MARK: - put some visual feedback here
                     }
                 }
             }
@@ -47,7 +45,6 @@ class AVRecorder: NSObject, AVAudioRecorderDelegate {
     
     func finishRecording(success: Bool) {
         audioRecorder?.stop()
-        success ? print("finished recording") : print("recording was interrupted")
     }
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
@@ -74,7 +71,6 @@ class AVPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
     var audioPlayer: AVAudioPlayer!
     @Published var isPlaying = false
     
-    
     func setup() {
         
     }
@@ -85,7 +81,6 @@ class AVPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
             audioPlayer.play()
-            isPlaying = true
         } catch {
             print("Playback failed.")
         }
@@ -104,10 +99,11 @@ class AVPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
 
 // MARK: - ViewModel
 class AVRecorderViewModel: ObservableObject {
+    
     @Published var isRecording : Bool = false { didSet { fetchRecordings() } }
     @Published var isPlaying : Bool = false
-    
-    var recordings: [ResultRecord] = []
+    @Published var recordings: [ResultRecord] = []
+
     var currentTitle: String?
     
     var recorder = AVRecorder()
@@ -146,7 +142,6 @@ class AVRecorderViewModel: ObservableObject {
             recordings.append(recording)
         }
         
-//        recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
     }
         
     func getCreationDate(for file: URL) -> Date {
@@ -165,7 +160,6 @@ class AVRecorderViewModel: ObservableObject {
         // create a title and start the recorder
         let title = Date().toString(dateFormat: "dd-MM-YY_'at'_HH:mm:ss")
         let audioFilename = FileManager.audioURL(named: title)
-        
         recorder.startRecording(to: audioFilename)
         isRecording = true
         
@@ -188,28 +182,32 @@ class AVRecorderViewModel: ObservableObject {
                 print("File could not be deleted!")
             }
         }
-        
         fetchRecordings()
     }
-
 }
 
 // MARK: - Controls
 struct RecordingButton: View {
     @EnvironmentObject var avRecorder : AVRecorderViewModel
+    var isDisabled = false
     
-    var image : String { avRecorder.isRecording ? "stop.fill" : "circle.fill" }
-    var color: Color { avRecorder.isRecording ? .red : .blue }
+    var color: Color { isDisabled ? Color.gray :
+        avRecorder.isRecording ? .red : .blue
+    }
     
     var body: some View {
         Button() {
             avRecorder.toggleRecording()
         } label: {
-            Image(systemName: image)
+            Image(systemName: buttonImageName)
                 .font(.title)
+                .foregroundColor(Color.red)
         }
         .stopWatchStyle(color: color)
+        .disabled(isDisabled)
     }
+    
+    let buttonImageName = "circle.fill"
 }
 
 struct PlaybackButton: View {
@@ -225,6 +223,7 @@ struct PlaybackButton: View {
                 avRecorder.startPlayback(of: url)
         } label: {
             Image(systemName: image)
+                .imageScale(.small)
         }
         .stopWatchStyle(color: color)
     }
@@ -246,7 +245,9 @@ struct AVRecordingView: View {
                         PlaybackButton(url: recording.url)
                     }
                 }
-                .onDelete(perform: delete)
+                .onDelete() { offsets in
+                    avRecorder.deleteRecordings(urls: offsets.map {avRecorder.recordings[$0].url})
+                }
             }
             Spacer()
             // Recording button
@@ -258,11 +259,6 @@ struct AVRecordingView: View {
     }
     
     func delete(at offsets: IndexSet) {
-        var urlsToDelete = [URL]()
-        for index in offsets {
-            urlsToDelete.append(avRecorder.recordings[index].url)
-        }
-        avRecorder.deleteRecordings(urls: urlsToDelete)
     }
 }
 

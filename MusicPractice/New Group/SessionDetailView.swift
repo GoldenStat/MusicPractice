@@ -64,7 +64,7 @@ struct PracticeSessionListDetail: View {
                 Text(record.duration.description)
                     .font(.subheadline)
             }
-            Text(record.result?.filename ?? "Not recorded")
+            Text(record.result?.fileName ?? "Not recorded")
                 .font(.body)
         }
     }

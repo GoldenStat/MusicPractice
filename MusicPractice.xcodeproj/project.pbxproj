@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41055BEC24C9E97A00757687 /* TaskControlBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41055BEB24C9E97A00757687 /* TaskControlBar.swift */; };
 		41100AC1248F997C0009B8E4 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41100AC0248F997C0009B8E4 /* NotesView.swift */; };
 		4127296124C752C500EF972E /* ScaleDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4127296024C752C500EF972E /* ScaleDetailRow.swift */; };
 		413BAEB824851EEA000BDF3C /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BAEB724851EEA000BDF3C /* ViewBuilders.swift */; };
@@ -62,6 +63,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41055BEB24C9E97A00757687 /* TaskControlBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskControlBar.swift; sourceTree = "<group>"; };
 		41100AC0248F997C0009B8E4 /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		4127296024C752C500EF972E /* ScaleDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleDetailRow.swift; sourceTree = "<group>"; };
 		413BAEB724851EEA000BDF3C /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */,
+				41055BEB24C9E97A00757687 /* TaskControlBar.swift */,
 			);
 			path = Control;
 			sourceTree = "<group>";
@@ -233,9 +236,9 @@
 				41AA723D24C862DB0018EF20 /* PracticeView.swift */,
 				4188946624C823C30053AFA6 /* PracticeSessionSheet.swift */,
 				41BDB47B24C764F9006AF893 /* AVRecording.swift */,
+				41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */,
 				41BDB47C24C764F9006AF893 /* StopWatch.swift */,
 				41BDB47A24C764F9006AF893 /* StopWatchModel.swift */,
-				41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */,
 				41BDB47524C764C4006AF893 /* StopWatchButtonExtension.swift */,
 			);
 			path = "New Group";
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4193FD88246D92D300542511 /* Bandoneon.swift in Sources */,
+				41055BEC24C9E97A00757687 /* TaskControlBar.swift in Sources */,
 				415CF381245057FD008D6E2A /* MusicPractice.xcdatamodeld in Sources */,
 				419F5D122455A4680006576A /* PracticeScaleView.swift in Sources */,
 				41E1F5C92457045500183C7F /* Helper.swift in Sources */,

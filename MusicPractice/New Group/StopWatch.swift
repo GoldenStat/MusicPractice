@@ -11,7 +11,7 @@ import SwiftUI
 // MARK: - buttons
 struct StartStopButton: View {
     @EnvironmentObject var stopWatch : StopWatchViewModel
-    
+
     var text : String { stopWatch.isRunning ? "Stop" : stopWatch.laps.count > 0 ? "Resume" : "Start" }
     var color: Color { stopWatch.isRunning ? .red : .green }
     

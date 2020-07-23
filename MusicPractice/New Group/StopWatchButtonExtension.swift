@@ -33,7 +33,7 @@ struct StopWatchButtonStyle: ButtonStyle {
                     .foregroundColor(.white)
                     .padding(4)
         )
-            .shadow(color: .white, radius: 15, x: -10, y: -10)
+            .shadow(color: .noon, radius: 10, x: -10, y: -10)
             .shadow(radius: 25.0, x: 20, y: 20)
             .overlay(configuration.label
                 .foregroundColor(.white)

@@ -223,8 +223,3 @@ struct ControlButtonsView: View {
     
 }
 
-struct ControlButtonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ControlButtonsView(recorder: AudioRecorder(), stopWatch: StopWatch())
-    }
-}

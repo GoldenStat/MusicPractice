@@ -42,8 +42,9 @@ struct TaskRecord : Codable, Identifiable {
 /// - quality: an Integer to measure how happy I am with the performance (cutting corners / clean recording)
 ///
 /// a result record is assigned to a task when the practice has it's desired outcomt (record after practice)
-struct ResultRecord : Codable {
-    var filename: String { url.lastPathComponent }
+struct ResultRecord : Codable, Identifiable {
+    var id = UUID()
+    var fileName: String { url.lastPathComponent }
     var date: Date
     var url: URL
     var duration: TimeInterval // a unit of measuring the achieved
