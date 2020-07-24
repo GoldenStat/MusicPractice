@@ -14,11 +14,7 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 Background()
-                TaskControlBar(taskName: Scale.C7.description,
-                               controls: .init(showRecordings: true,
-                                               showLaps: true,
-                                               showTimer: true))
-                //                PracticeSessionView()
+                PracticeScaleView(scale: Scale.C7)
             }
         }
     }

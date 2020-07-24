@@ -49,6 +49,7 @@
 		41BDB47E24C764F9006AF893 /* AVRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47B24C764F9006AF893 /* AVRecording.swift */; };
 		41BDB47F24C764F9006AF893 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB47C24C764F9006AF893 /* StopWatch.swift */; };
 		41BDB48124C81035006AF893 /* MusicRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BDB48024C81035006AF893 /* MusicRecord.swift */; };
+		41CF825E24CACE6E00CCBF42 /* ScalePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CF825D24CACE6D00CCBF42 /* ScalePicker.swift */; };
 		41E0B60F245D770900B650D7 /* LapsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B60E245D770900B650D7 /* LapsListView.swift */; };
 		41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B610245D81E000B650D7 /* ButtonStyles.swift */; };
 		41E0B613245EC76500B650D7 /* Laps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E0B612245EC76500B650D7 /* Laps.swift */; };
@@ -107,6 +108,7 @@
 		41BDB47B24C764F9006AF893 /* AVRecording.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVRecording.swift; sourceTree = "<group>"; };
 		41BDB47C24C764F9006AF893 /* StopWatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		41BDB48024C81035006AF893 /* MusicRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRecord.swift; sourceTree = "<group>"; };
+		41CF825D24CACE6D00CCBF42 /* ScalePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalePicker.swift; sourceTree = "<group>"; };
 		41E0B60E245D770900B650D7 /* LapsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapsListView.swift; sourceTree = "<group>"; };
 		41E0B610245D81E000B650D7 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		41E0B612245EC76500B650D7 /* Laps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Laps.swift; sourceTree = "<group>"; };
@@ -147,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				41F2E3CC246C45CC005E58F2 /* ControlButtonsView.swift */,
-				41055BEB24C9E97A00757687 /* TaskControlBar.swift */,
 			);
 			path = Control;
 			sourceTree = "<group>";
@@ -155,7 +156,6 @@
 		415CF36F245057FD008D6E2A = {
 			isa = PBXGroup;
 			children = (
-				415CF39624505924008D6E2A /* Data and Helper */,
 				415CF37A245057FD008D6E2A /* MusicPractice */,
 				415CF379245057FD008D6E2A /* Products */,
 			);
@@ -172,17 +172,18 @@
 		415CF37A245057FD008D6E2A /* MusicPractice */ = {
 			isa = PBXGroup;
 			children = (
-				41BDB48024C81035006AF893 /* MusicRecord.swift */,
-				41BDB47924C764DF006AF893 /* New Group */,
+				415CF39624505924008D6E2A /* Data and Helper */,
+				41BDB47924C764DF006AF893 /* Views */,
 				41984C0B247ECF3300A87D86 /* Instrument */,
 				41984C1224828A9E00A87D86 /* MainMenuView.swift */,
-				415CF37B245057FD008D6E2A /* AppDelegate.swift */,
-				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
 				415CF382245057FD008D6E2A /* ContentView.swift */,
 				419F5D112455A4680006576A /* PracticeScaleView.swift */,
+				41CF825D24CACE6D00CCBF42 /* ScalePicker.swift */,
 				413BAEC124859998000BDF3C /* StopWatch */,
 				413BAEC2248599AD000BDF3C /* Control */,
 				41E1F5CC245730B400183C7F /* AudioRecorder */,
+				415CF37B245057FD008D6E2A /* AppDelegate.swift */,
+				415CF37D245057FD008D6E2A /* SceneDelegate.swift */,
 				415CF38424505809008D6E2A /* Assets.xcassets */,
 				415CF38924505809008D6E2A /* LaunchScreen.storyboard */,
 				415CF38C24505809008D6E2A /* Info.plist */,
@@ -203,6 +204,12 @@
 		415CF39624505924008D6E2A /* Data and Helper */ = {
 			isa = PBXGroup;
 			children = (
+				41BDB47B24C764F9006AF893 /* AVRecording.swift */,
+				41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */,
+				41BDB47C24C764F9006AF893 /* StopWatch.swift */,
+				41BDB47A24C764F9006AF893 /* StopWatchModel.swift */,
+				41BDB47524C764C4006AF893 /* StopWatchButtonExtension.swift */,
+				41BDB48024C81035006AF893 /* MusicRecord.swift */,
 				41984C1424828C4400A87D86 /* EnumToggle.swift */,
 				41E1F5C82457045500183C7F /* Helper.swift */,
 				415CF397245059AF008D6E2A /* Scale.swift */,
@@ -228,20 +235,16 @@
 			path = Instrument;
 			sourceTree = "<group>";
 		};
-		41BDB47924C764DF006AF893 /* New Group */ = {
+		41BDB47924C764DF006AF893 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				4188946424C823A30053AFA6 /* PracticeSessionView.swift */,
 				4188946824C836B40053AFA6 /* SessionDetailView.swift */,
 				41AA723D24C862DB0018EF20 /* PracticeView.swift */,
 				4188946624C823C30053AFA6 /* PracticeSessionSheet.swift */,
-				41BDB47B24C764F9006AF893 /* AVRecording.swift */,
-				41BDB47724C764D7006AF893 /* AVRecorderExtension.swift */,
-				41BDB47C24C764F9006AF893 /* StopWatch.swift */,
-				41BDB47A24C764F9006AF893 /* StopWatchModel.swift */,
-				41BDB47524C764C4006AF893 /* StopWatchButtonExtension.swift */,
+				41055BEB24C9E97A00757687 /* TaskControlBar.swift */,
 			);
-			path = "New Group";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		41E1F5CC245730B400183C7F /* AudioRecorder */ = {
@@ -366,6 +369,7 @@
 				41F2E3CD246C45CC005E58F2 /* ControlButtonsView.swift in Sources */,
 				419F5D18245630820006576A /* RecordingList.swift in Sources */,
 				41BDB48124C81035006AF893 /* MusicRecord.swift in Sources */,
+				41CF825E24CACE6E00CCBF42 /* ScalePicker.swift in Sources */,
 				419F5D1624562D460006576A /* AudiotrackView.swift in Sources */,
 				41E0B611245D81E000B650D7 /* ButtonStyles.swift in Sources */,
 				41E1F5C72457024200183C7F /* Recording.swift in Sources */,
